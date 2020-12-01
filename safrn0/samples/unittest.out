@@ -1,0 +1,278 @@
+{
+  "success": "true",
+  "analysis": "freq",
+  "data": [
+    1803
+  ]
+}
+{
+  "success": "true",
+  "analysis": "freq",
+  "iv": [
+    "School"
+  ],
+  "data": [
+    ["Gryffindor", 245],
+    ["Ravenclaw", 424],
+    ["Hufflepuff", 229],
+    ["Slytherin", 102],
+    ["*", 1000]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "freq",
+  "iv": [
+    "School",
+    "Degree"
+  ],
+  "data": [
+    ["Gryffindor", "None", 134],
+    ["Gryffindor", "Associate", 23],
+    ["Gryffindor", "Bachelor", 69],
+    ["Gryffindor", "Graduate", 5],
+    ["Gryffindor", "Other", 14],
+    ["Gryffindor", "*", 245],
+    ["Ravenclaw", "None", 231],
+    ["Ravenclaw", "Associate", 44],
+    ["Ravenclaw", "Bachelor", 117],
+    ["Ravenclaw", "Graduate", 17],
+    ["Ravenclaw", "Other", 15],
+    ["Ravenclaw", "*", 424],
+    ["Hufflepuff", "None", 137],
+    ["Hufflepuff", "Associate", 21],
+    ["Hufflepuff", "Bachelor", 56],
+    ["Hufflepuff", "Graduate", 5],
+    ["Hufflepuff", "Other", 10],
+    ["Hufflepuff", "*", 229],
+    ["Slytherin", "None", 18],
+    ["Slytherin", "Associate", 8],
+    ["Slytherin", "Bachelor", 64],
+    ["Slytherin", "Graduate", 9],
+    ["Slytherin", "Other", 3],
+    ["Slytherin", "*", 102],
+    ["*", "None", 520],
+    ["*", "Associate", 96],
+    ["*", "Bachelor", 306],
+    ["*", "Graduate", 36],
+    ["*", "Other", 42],
+    ["*", "*", 1000]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "freq",
+  "iv": [
+    "School"
+  ],
+  "data": [
+    ["Gryffindor", 245],
+    ["Ravenclaw", 424],
+    ["Hufflepuff", 229],
+    ["Slytherin", 102],
+    ["*", 1000]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "mean",
+  "iv": [
+    "School"
+  ],
+  "dv": [
+    "Max_Loan"
+  ],
+  "data": [
+    ["Gryffindor", 7873.563265306122],
+    ["Ravenclaw", 7824.438679245283],
+    ["Hufflepuff", 8534.139737991267],
+    ["Slytherin", 59092.58823529412],
+    ["*", 13228.347]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "freq",
+  "iv": [
+    "School",
+    "Degree"
+  ],
+  "data": [
+    ["Gryffindor", "None", 134],
+    ["Gryffindor", "Associate", 23],
+    ["Gryffindor", "Bachelor", 69],
+    ["Gryffindor", "Graduate", 5],
+    ["Gryffindor", "Other", 14],
+    ["Gryffindor", "*", 245],
+    ["Ravenclaw", "None", 231],
+    ["Ravenclaw", "Associate", 44],
+    ["Ravenclaw", "Bachelor", 117],
+    ["Ravenclaw", "Graduate", 17],
+    ["Ravenclaw", "Other", 15],
+    ["Ravenclaw", "*", 424],
+    ["Hufflepuff", "None", 137],
+    ["Hufflepuff", "Associate", 21],
+    ["Hufflepuff", "Bachelor", 56],
+    ["Hufflepuff", "Graduate", 5],
+    ["Hufflepuff", "Other", 10],
+    ["Hufflepuff", "*", 229],
+    ["Slytherin", "None", 18],
+    ["Slytherin", "Associate", 8],
+    ["Slytherin", "Bachelor", 64],
+    ["Slytherin", "Graduate", 9],
+    ["Slytherin", "Other", 3],
+    ["Slytherin", "*", 102],
+    ["*", "None", 520],
+    ["*", "Associate", 96],
+    ["*", "Bachelor", 306],
+    ["*", "Graduate", 36],
+    ["*", "Other", 42],
+    ["*", "*", 1000]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "mean",
+  "iv": [
+    "School",
+    "Degree"
+  ],
+  "dv": [
+    "Income10"
+  ],
+  "data": [
+    ["Gryffindor", "None", 122.0],
+    ["Gryffindor", "Associate", 20.0],
+    ["Gryffindor", "Bachelor", 58.0],
+    ["Gryffindor", "Graduate", 3.0],
+    ["Gryffindor", "Other", 12.0],
+    ["Gryffindor", "*", 215.0],
+    ["Ravenclaw", "None", 201.0],
+    ["Ravenclaw", "Associate", 42.0],
+    ["Ravenclaw", "Bachelor", 108.0],
+    ["Ravenclaw", "Graduate", 17.0],
+    ["Ravenclaw", "Other", 14.0],
+    ["Ravenclaw", "*", 382.0],
+    ["Hufflepuff", "None", 121.0],
+    ["Hufflepuff", "Associate", 17.0],
+    ["Hufflepuff", "Bachelor", 53.0],
+    ["Hufflepuff", "Graduate", 4.0],
+    ["Hufflepuff", "Other", 7.0],
+    ["Hufflepuff", "*", 202.0],
+    ["Slytherin", "None", 17.0],
+    ["Slytherin", "Associate", 8.0],
+    ["Slytherin", "Bachelor", 59.0],
+    ["Slytherin", "Graduate", 9.0],
+    ["Slytherin", "Other", 2.0],
+    ["Slytherin", "*", 95.0],
+    ["*", "None", 461.0],
+    ["*", "Associate", 87.0],
+    ["*", "Bachelor", 278.0],
+    ["*", "Graduate", 33.0],
+    ["*", "Other", 35.0],
+    ["*", "*", 894.0]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "mean",
+  "iv": [
+    "School"
+  ],
+  "dv": [
+    "Max_Loan"
+  ],
+  "data": [
+    ["Gryffindor", 7873.563265306122],
+    ["Ravenclaw", 7824.438679245283],
+    ["Hufflepuff", 8534.139737991267],
+    ["Slytherin", 59092.58823529412],
+    ["*", 13228.347]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "mean",
+  "iv": [
+    "School",
+    "Degree"
+  ],
+  "dv": [
+    "Max_Loan"
+  ],
+  "data": [
+    ["Gryffindor", "None", 134.0],
+    ["Gryffindor", "Associate", 23.0],
+    ["Gryffindor", "Bachelor", 69.0],
+    ["Gryffindor", "Graduate", 5.0],
+    ["Gryffindor", "Other", 14.0],
+    ["Gryffindor", "*", 245.0],
+    ["Ravenclaw", "None", 231.0],
+    ["Ravenclaw", "Associate", 44.0],
+    ["Ravenclaw", "Bachelor", 117.0],
+    ["Ravenclaw", "Graduate", 17.0],
+    ["Ravenclaw", "Other", 15.0],
+    ["Ravenclaw", "*", 424.0],
+    ["Hufflepuff", "None", 137.0],
+    ["Hufflepuff", "Associate", 21.0],
+    ["Hufflepuff", "Bachelor", 56.0],
+    ["Hufflepuff", "Graduate", 5.0],
+    ["Hufflepuff", "Other", 10.0],
+    ["Hufflepuff", "*", 229.0],
+    ["Slytherin", "None", 18.0],
+    ["Slytherin", "Associate", 8.0],
+    ["Slytherin", "Bachelor", 64.0],
+    ["Slytherin", "Graduate", 9.0],
+    ["Slytherin", "Other", 3.0],
+    ["Slytherin", "*", 102.0],
+    ["*", "None", 520.0],
+    ["*", "Associate", 96.0],
+    ["*", "Bachelor", 306.0],
+    ["*", "Graduate", 36.0],
+    ["*", "Other", 42.0],
+    ["*", "*", 1000.0]
+  ]
+}
+{
+  "success": "true",
+  "analysis": "mean",
+  "iv": [
+    "School",
+    "Degree"
+  ],
+  "dv": [
+    "Max_Loan"
+  ],
+  "data": [
+    ["Gryffindor", "None", [5154.9029850746265 , 134.0]],
+    ["Gryffindor", "Associate", [5800.304347826087 , 23.0]],
+    ["Gryffindor", "Bachelor", [14637.565217391304 , 69.0]],
+    ["Gryffindor", "Graduate", [12169.4 , 5.0]],
+    ["Gryffindor", "Other", [2430.0 , 14.0]],
+    ["Gryffindor", "*", [7873.563265306122 , 245.0]],
+    ["Ravenclaw", "None", [4248.177489177489 , 231.0]],
+    ["Ravenclaw", "Associate", [5849.181818181818 , 44.0]],
+    ["Ravenclaw", "Bachelor", [15342.649572649572 , 117.0]],
+    ["Ravenclaw", "Graduate", [12749.176470588236 , 17.0]],
+    ["Ravenclaw", "Other", [4469.533333333334 , 15.0]],
+    ["Ravenclaw", "*", [7824.438679245283 , 424.0]],
+    ["Hufflepuff", "None", [5214.116788321168 , 137.0]],
+    ["Hufflepuff", "Associate", [9568.047619047618 , 21.0]],
+    ["Hufflepuff", "Bachelor", [13803.82142857143 , 56.0]],
+    ["Hufflepuff", "Graduate", [40469.2 , 5.0]],
+    ["Hufflepuff", "Other", [6369.5 , 10.0]],
+    ["Hufflepuff", "*", [8534.139737991267 , 229.0]],
+    ["Slytherin", "None", [8981.5 , 18.0]],
+    ["Slytherin", "Associate", [29444.875 , 8.0]],
+    ["Slytherin", "Bachelor", [61948.765625 , 64.0]],
+    ["Slytherin", "Graduate", [154631.11111111112 , 9.0]],
+    ["Slytherin", "Other", [91272.33333333333 , 3.0]],
+    ["Slytherin", "*", [59092.58823529412 , 102.0]],
+    ["*", "None", [4900.167307692308 , 520.0]],
+    ["*", "Associate", [8617.28125 , 96.0]],
+    ["*", "Bachelor", [24649.728758169935 , 306.0]],
+    ["*", "Graduate", [51989.13888888889 , 36.0]],
+    ["*", "Other", [10442.261904761905 , 42.0]],
+    ["*", "*", [13228.347 , 1000.0]]
+  ]
+}

@@ -1,0 +1,9 @@
+#
+# When end-of-line normalization is enabled, Git subtly adjusts line
+# endings as files are checked in and out. This can be a problem and
+# should generally be disabled, but some flavors of Git enable it by
+# default. The following line ensures that it is disabled. For more
+# information, see the gitattributes documentation.
+#
+
+* -text

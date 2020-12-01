@@ -1,0 +1,235 @@
+\documentclass[12pt]{article}
+\usepackage{listings}
+
+\usepackage{amsmath, amsfonts}
+\usepackage{hyperref}
+
+\begin{document}
+\lstset{language=sh}
+\lstset{language=sql}
+\lstset{language=xml}
+
+
+\title{SAFRN setup}
+
+
+\section{Install MySQL}
+
+This is all cribbed from steps 1 and 2 in \url{https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en}.
+
+
+\begin{lstlisting}[language=sh]
+  sudo apt-get install mysql-server
+  sudo mysql_secure_installation
+\end{lstlisting}
+
+\subsection{Annoying problem with sudo}
+
+I followed the steps outlined in
+\url{https://stackoverflow.com/questions/39281594/error-1698-28000-access-denied-for-user-rootlocalhost}
+so that I didn't need to keep typing $sudo$ with every MySql
+execution.
+
+\begin{enumerate}
+\item Start a MySql shell:
+\begin{lstlisting}[language=sh]
+sudo mysql -u root -p
+\end{lstlisting}
+
+\item Run these sql commands to change the plugin for $root$.
+\begin{lstlisting}[language=sql]
+USE mysql;
+UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+FLUSH PRIVILEGES;
+exit;
+\end{lstlisting}
+
+\item Restart the service
+\begin{lstlisting}[language=sh]
+service mysql restart
+\end{lstlisting}
+\end{enumerate}
+
+After that you can run MySQL without $sudo$.
+
+\section{loading sample data}
+
+\begin{enumerate}
+
+
+
+
+\item Download the sample data from Google. We will denote the
+  downloaded directory by the environment variable $SAFRN_DATA$.
+\item Prepare the neccessary sql scripts:
+  \begin{lstlisting}[language=sh]
+
+bash ${SAFRN_DATA}/create_sql_group.bash 1 ${SAFRN_DATA}/files/1K/MPC_Test5_1K_School1.csv \
+> ${SAFRN_DATA}/files/group1/safrngroup1.sql
+
+bash ${SAFRN_DATA}/create_sql_group.bash 2 ${SAFRN_DATA}/files/1K/MPC_Test5_1K_School2.csv \
+> ${SAFRN_DATA}/files/group1/safrngroup2.sql
+
+bash ${SAFRN_DATA}/create_sql_group.bash 3 ${SAFRN_DATA}/files/1K/MPC_Test5_1K_School3.csv \
+> ${SAFRN_DATA}/files/group1/safrngroup3.sql
+
+bash ${SAFRN_DATA}/create_sql_group.bash 4 ${SAFRN_DATA}/files/1K/MPC_Test5_1K_School4.csv \
+> ${SAFRN_DATA}/files/group1/safrngroup4.sql
+
+bash ${SAFRN_DATA}/create_sql_income.bash ${SAFRN_DATA}/files/1K/MPC_Test5_1K_income.csv \
+> ${SAFRN_DATA}/files/income/safrnincome.sql
+
+bash ${SAFRN_DATA}/create_sql_loans.bash ${SAFRN_DATA}/files/1K/MPC_Test5_1K_loans.csv \
+> ${SAFRN_DATA}/files/loans/safrnloans.sql
+
+\end{lstlisting}
+
+\item Run those scripts:
+  \begin{lstlisting}[language=sh]
+    mysql -u root < $SAFRN_DATA/files/group1/safrngroup1.sql
+    mysql -u root < $SAFRN_DATA/files/group2/safrngroup2.sql
+    mysql -u root < $SAFRN_DATA/files/group3/safrngroup3.sql
+    mysql -u root < $SAFRN_DATA/files/group4/safrngroup4.sql
+    mysql -u root < $SAFRN_DATA/files/income/safrnincome.sql
+    mysql -u root < $SAFRN_DATA/files/loans/safrnloans.sql
+  \end{lstlisting}
+
+\end{enumerate}
+Running these scripts will create the tables $SAFRN2Group1.GroupTbl$,
+$SAFRN2Group2.GroupTbl$, $SAFRN2Group3.GroupTbl$,
+$SAFRN2Group4.GroupTbl$, $SAFRN2Income.IncomeTbl$,
+$SAFRN2Loans.LoansTbl$, and insert the data from the csvs into those
+tables.
+
+
+\section{Fetching Docker image}
+
+\begin{enumerate}
+\item Get an account on \url{https://gitlab.stealthsoftwareinc.com}
+\item Create a personal access token: \url{https://gitlab.stealthsoftwareinc.com/profile/personal_access_tokens}
+
+\item \begin{lstlisting}[language=sh]
+  docker login registry.stealthsoftwareinc.com
+  docker pull registry.stealthsoftwareinc.com/stealthcommercial/safrn
+\end{lstlisting}
+\end{enumerate}
+
+You can verify the image has been added by running the
+command
+
+\begin{lstlisting}[language=sh]
+  docker image ls
+\end{lstlisting}
+
+
+\section{Running the docker image}
+
+Open six terminals and execute the following six commands, one in each
+terminal( Recall the environment variable $SAFRN\_DATA$ is the location
+of the sample data and config files downloaded from Google docs).
+% SAFRN_DATA=/home/mblunk/Desktop/safrn-data
+
+\begin{lstlisting}[language=sh]
+
+docker run -i --network=host --rm \
+       --mount type=bind,source=${SAFRN_DATA}/files,target=/data \
+       registry.stealthsoftwareinc.com/stealthcommercial/safrn safrn_front_server \
+       --config /data/analyst/precommon.cfg \
+       --config /data/analyst/common-income.cfg \
+       --config /data/analyst/analyst-income.cfg
+\end{lstlisting}
+
+\begin{lstlisting}[language=sh]
+docker run -i --network=host --rm \
+       --mount type=bind,source=${SAFRN_DATA}/files,target=/data \
+       registry.stealthsoftwareinc.com/stealthcommercial/safrn safrn_back_server \
+       --config /data/analyst/precommon.cfg \
+       --config /data/analyst/common-income.cfg \
+       --config /data/income/income.cfg
+\end{lstlisting}
+\begin{lstlisting}[language=sh]
+docker run -i --network=host --rm \
+       --mount type=bind,source=${SAFRN_DATA}/files,target=/data \
+       registry.stealthsoftwareinc.com/stealthcommercial/safrn safrn_back_server \
+       --config /data/analyst/precommon.cfg \
+       --config /data/analyst/common-income.cfg \
+       --config /data/group1/group1-income.cfg
+\end{lstlisting}
+
+\begin{lstlisting}[language=sh]
+docker run -i --network=host --rm \
+       --mount type=bind,source=${SAFRN_DATA}/files,target=/data \
+       registry.stealthsoftwareinc.com/stealthcommercial/safrn safrn_back_server \
+       --config /data/analyst/precommon.cfg \
+       --config /data/analyst/common-income.cfg \
+       --config /data/group2/group2-income.cfg
+\end{lstlisting}
+
+\begin{lstlisting}[language=sh]
+docker run -i --network=host --rm \
+       --mount type=bind,source=${SAFRN_DATA}/files,target=/data \
+       registry.stealthsoftwareinc.com/stealthcommercial/safrn safrn_back_server \
+       --config /data/analyst/precommon.cfg \
+       --config /data/analyst/common-income.cfg \
+       --config /data/group3/group3-income.cfg
+\end{lstlisting}
+\begin{lstlisting}[language=sh]
+docker run -i --network=host --rm \
+       --mount type=bind,source=${SAFRN_DATA}/files,target=/data \
+       registry.stealthsoftwareinc.com/stealthcommercial/safrn safrn_back_server \
+       --config /data/analyst/precommon.cfg \
+       --config /data/analyst/common-income.cfg \
+       --config /data/group4/group4-income.cfg
+\end{lstlisting}
+
+\section{Front End}
+
+The front-end code can be found here
+\url{https://github.com/ICPSR/safrn}
+
+To build it you will need to install the JVM build tool Maven
+\url{https://maven.apache.org/install.html}.
+
+You can build the artifact by using the war (Web Application Resource)
+plugin \url{https://maven.apache.org/plugins/maven-war-plugin}
+
+\begin{lstlisting}[language=sh]
+mvn clean war:war
+\end{lstlisting}
+
+This will create a file $./target/safrn.war$. Next we use the maven
+plugin tomcat \url{https://tomcat.apache.org/maven-plugin.html} to run
+the web app locally. Add the necessary plugin dependency to the
+$./pom.xml$ file:
+\begin{lstlisting}[language=xml]
+
+  <build>
+...
+  <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
+        <configuration>
+          <port>8080</port>   //Configure port number
+          <path>/safrn-demo</path>   //Configure application root URL
+        </configuration>
+      </plugin>
+    </plugins>
+...
+</build>
+
+\end{lstlisting}
+
+Then start the webapp with:
+
+\begin{lstlisting}[language=sh]
+mvn clean tomcat7:run
+\end{lstlisting}
+
+You should be able to see the app running at
+\url{http://localhost:8080/safrn-demo/} (Note that the port 8080 and
+the path safrn-demo are both configurable).
+
+
+\end{document}

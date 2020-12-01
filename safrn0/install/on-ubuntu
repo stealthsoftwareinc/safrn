@@ -1,0 +1,37 @@
+#! /bin/sh -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+
+#
+# We're certainly not in the root of the project if src/install/on-x
+# does not exist for us to forward to. More extensive checks will be
+# performed by src/install/on-x itself.
+#
+
+if test -f src/install/on-x; then
+  :
+else
+  cat >&2 <<'EOF'
+You must run this script from the root of the project.
+EOF
+  exit 1
+fi
+
+#
+# The GNU Autoconf manual suggests avoiding "$@" when $# is zero to be
+# as portable as possible. This is probably never a problem these days,
+# but let's do it anyway.
+#
+
+case $# in
+  0)
+    src/install/on-x "$0"
+    exit $?
+  ;;
+  *)
+    src/install/on-x "$0" "$@"
+    exit $?
+  ;;
+esac

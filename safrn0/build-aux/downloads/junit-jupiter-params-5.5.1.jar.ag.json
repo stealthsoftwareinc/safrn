@@ -1,0 +1,18 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "28884d4e534a64f8fcf0b89891e55041",
+    "sha1": "4c78cda2d8f9353290f178de6b4929cc8c14dac9",
+    "sha224": "36e7d30376127ffcf3d2c8970963756ffba65d572b3403066ec12da8",
+    "sha256": "1c5425a08ee3b785c15b55b2181ca3b12547490639e3d5003bc3aa56fe243f11",
+    "sha384": "f2bbda28216a2ebf9c7e7ab8fb45cfbdfdc5f42f6cb4d47568ac512762babe1dc2ec129d8959704cd839e6b4fff32e95",
+    "sha512": "64911064569b7256759df9bf9065153cee6804c640ff38973a48990c93402a3e400b04c17cb6fa65bec854f6ad4142e6bb2ec1acc3f0b2c267c9e0af8ec9772b"
+  },
+  "urls": [
+    "https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-params/5.5.1/junit-jupiter-params-5.5.1.jar",
+    "https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-params/5.5.1/junit-jupiter-params-5.5.1.jar",
+    "https://repo.jfrog.org/artifactory/repo1/org/junit/jupiter/junit-jupiter-params/5.5.1/junit-jupiter-params-5.5.1.jar",
+    "https://repo.jenkins-ci.org/repo1/org/junit/jupiter/junit-jupiter-params/5.5.1/junit-jupiter-params-5.5.1.jar"
+  ]
+}

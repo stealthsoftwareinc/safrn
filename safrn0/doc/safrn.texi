@@ -1,0 +1,101 @@
+\input texinfo
+@setfilename safrn.info
+
+@ifxml
+@c
+@c This file is from the SAFRN package.
+@c
+@c The following copyright notice is generally applicable:
+@c
+@c      Copyright (C)
+@c         Stealth Software Technologies Commercial, Inc.
+@c
+@c The full copyright information depends on the distribution
+@c of the package. For more information, see the COPYING file.
+@c However, depending on the context in which you are viewing
+@c this file, the COPYING file may not be available.
+@c
+@end ifxml
+
+@ifclear insertascii
+@documentencoding UTF-8
+@end ifclear
+
+@documentlanguage en
+
+@include PACKAGEVERSION.texi
+
+@settitle SAFRN @value{PACKAGEVERSION} Manual
+
+@include PACKAGEDATE.texi
+@include copying-block.texi
+@include math.texi
+
+@set fullmanual
+
+@defindex id
+
+@dircategory Stealth Software Technologies Commercial
+@direntry
+* SAFRN: (safrn).               SAFRN.
+@end direntry
+
+@ifplaintext
+@chapheading SAFRN@tie{}@w{@value{PACKAGEVERSION}} Manual
+@end ifplaintext
+
+@titlepage
+@title SAFRN@tie{}@w{@value{PACKAGEVERSION}} Manual
+@subtitle @w{@value{PACKAGEDATE}}
+@author Stealth Software Technologies Commercial, Inc.@:
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@include bothcontents.texi
+
+@ifnottex
+@node Top
+@top SAFRN@tie{}@w{@value{PACKAGEVERSION}} Manual
+
+This manual is for
+SAFRN@tie{}@w{@value{PACKAGEVERSION}},
+which was released
+on@tie{}@w{@value{PACKAGEDATE}}@.
+@ifplaintext
+
+@insertcopying
+@end ifplaintext
+
+@menu
+* Copyright Information::
+* Introduction::
+* Building and Installation::
+* Configuration Variables::
+* Release Notes::
+* Concept Index::
+* Identifier Index::
+@end menu
+@end ifnottex
+
+@include safrn/Copyright-Information.texi
+
+@include safrn/Introduction.texi
+
+@include safrn/Building-and-Installation.texi
+
+@include safrn/Configuration-Variables.texi
+
+@include safrn/Release-Notes.texi
+
+@node Concept Index
+@unnumbered Concept Index
+
+@printindex cp
+
+@node Identifier Index
+@unnumbered Identifier Index
+
+@printindex id
+@bye

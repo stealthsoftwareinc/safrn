@@ -1,0 +1,240 @@
+#! /bin/sh -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+
+#
+# This script is carefully written to work on a wide variety of shells.
+# It should not use any features specific to any particular shell. See
+# the "Portable Shell Programming" section of the GNU Autoconf manual
+# for more information on this style of shell scripting.
+#
+# Once this script calls the next script, a particular platform is
+# assumed, and a much stronger shell is usually available for that
+# script to use.
+#
+
+#
+# Ideally we'd like each install/* file to be a symbolic link to this
+# script, but in environments that don't support symbolic links, this
+# can cause confusing errors.
+#
+# For example, in such an environment, git clone might silently adjust
+# each symbolic link to a text file that contains the link path. So, if
+# install/on-ubuntu were a symbolic link, it would be adjusted to a text
+# file that contains ../src/install/on-x, and running it would fail with
+# an error like the following:
+#
+#       ../src/install/on-x: No such file or directory
+#
+# This is because install/on-ubuntu would be executed as a shell script
+# that would try to run ../src/install/on-x, which is the wrong path.
+#
+# The solution is to instead make each install/* file be a small script
+# that forwards to this script. There's no portable way to set $0 for
+# this script when doing this, so we instead pass it as $1.
+#
+# This script then checks whether symbolic links seem to be working by
+# checking whether a known symbolic link is indeed a symbolic link. If
+# it isn't, we can output a helpful error message. However, this check
+# is only performed when installing from a repository, as distribution
+# archives flatten symbolic links, which avoids any problems.
+#
+# Technically we could avoid symbolic links entirely by keeping them
+# flattened in the repository, but this would cause some difficulties
+# regarding keeping the copies in sync. It seems like a poor tradeoff.
+# It's better to just refrain from doing development work in strange
+# environments.
+#
+
+argv0=$1
+case $argv0 in
+  '' | */ | *'
+')
+    cat >&2 <<'EOF'
+argv0 is insane.
+EOF
+    exit 1
+  ;;
+  /*)
+  ;;
+  *)
+    argv0=./$argv0
+  ;;
+esac
+readonly argv0
+shift
+
+on_x=`basename "$argv0"` || exit $?
+readonly on_x
+export on_x
+
+while :; do
+  if test -f "install/$on_x"; then
+    nonce=`date +%Y%m%dT%H%M%S- 2>/dev/null` || nonce=
+    nonce=$nonce$$
+    if mkdir "install/$on_x.$nonce"; then
+      if test -d "$argv0.$nonce"; then
+        rmdir "install/$on_x.$nonce"
+        break
+      fi
+      rmdir "install/$on_x.$nonce"
+    fi
+  fi
+  cat >&2 <<'EOF'
+You must run this script from the root of the project.
+EOF
+  exit 1
+done
+
+if test -f config.status; then
+  echo You must run this script from a fresh copy of the project. >&2
+  exit 1
+fi
+>config.status
+
+if test -f configure; then
+
+  readonly from_w=from-dist
+
+  #
+  # In some cases, the timestamps from a distribution archive will have
+  # been lost, which can cause make to mistakenly try to rebuild things
+  # that the user generally can't rebuild because of missing development
+  # tools. This can happen if the content of the distribution archive is
+  # stored in a Git repository, for example. We can resolve this problem
+  # by always generating new timestamps that guarantee the same behavior
+  # as the original timestamps.
+  #
+  # First touch everything to ensure that nothing is future dated, which
+  # sometimes happens when working with virtual machines. Then touch the
+  # tricky files in the right order.
+  #
+
+  find -exec touch {} \; || exit
+  find -name aclocal.m4 -exec touch {} \; || exit
+  find -name configure -exec touch {} \; || exit
+  find -name \*.in -exec touch {} \; || exit
+
+elif git rev-parse >/dev/null 2>&1; then
+
+  readonly from_w=from-repo
+
+  if ! test -h src/install/on-x-symbolic-link-test; then
+    cat >&2 <<EOF
+Symbolic links don't seem to be working.
+Are you sharing files across filesystems?
+EOF
+    exit 1
+  fi
+
+else
+
+  d=.
+  while :; do
+    if test -d $d/.git; then
+      readonly from_w=from-repo
+      break
+    fi
+    d_pwd=`cd $d && pwd` || exit
+    case $d_pwd in
+      /)
+        echo You cannot run this script from a source archive. >&2
+        exit 1
+      ;;
+    esac
+    d=$d/..
+  done
+
+fi
+
+export from_w
+
+next=`find -type d -name $from_w`/$on_x || exit
+readonly next
+
+readonly nl="
+"
+
+case $next in
+  /$on_x)
+    echo Directory not found: $from_w >&2
+    exit 1
+  ;;
+  *$nl*)
+    echo Ambiguous directory: $from_w >&2
+    exit 1
+  ;;
+esac
+
+#-----------------------------------------------------------------------
+# Parse --with-build-groups
+#-----------------------------------------------------------------------
+
+if test -r src/sh/fragments/with_build_groups.sh; then
+
+  with_build_groups=yes
+
+  for arg; do
+    case $arg in
+      --)
+        break
+      ;;
+      --with-build-groups)
+        with_build_groups=yes
+      ;;
+      --without-build-groups)
+        with_build_groups=no
+      ;;
+      --with-build-groups=*)
+        s="
+          s/'/'\\\\''/g
+          1s/^--with-build-groups=/with_build_groups='/
+          \$s/\$/'/
+        "
+        with_build_groups=`sed "$s" <<EOF
+$arg
+EOF
+        ` || exit $?
+        eval "$with_build_groups"
+      ;;
+    esac
+  done
+
+  . src/sh/fragments/with_build_groups.sh
+  case $with_build_groups_error in
+    sed_failed)
+      exit $with_build_groups_error_sed_status
+    ;;
+    invalid_entry)
+      printf \
+        'unknown --with-build-groups entry: %s\n' \
+        "$with_build_groups_error_invalid_entry" \
+        >&2 \
+      ;
+      exit 1
+    ;;
+    ?*)
+      exit 1
+    ;;
+  esac
+
+fi
+
+#-----------------------------------------------------------------------
+
+#
+# The GNU Autoconf manual suggests avoiding "$@" when $# is zero to be
+# as portable as possible. This is probably never a problem these days,
+# but let's do it anyway.
+#
+
+case $# in
+  0)
+    $next
+  ;;
+  *)
+    $next "$@"
+  ;;
+esac

@@ -1,0 +1,16 @@
+{
+  "autogen_handler": "autogen_java_jars",
+
+  "dst": "lib/safrn.jar",
+  "jardeps": [
+    "build-aux/downloads/mariadb-java-client-2.5.1.jar",
+    "build-aux/downloads/netty-all-4.1.39.Final.jar",
+    "build-aux/downloads/ojdbc8-12.2.0.1.jar",
+    "build-aux/downloads/picocli-4.0.2.jar",
+    "build-aux/downloads/postgresql-42.2.8.jre7.jar",
+    "sst.jar"
+  ],
+  "package": "com.stealthsoftwareinc.commercial.safrn",
+  "sourcepath": "src/main/java",
+  "shadowpath": "src/shadow"
+}

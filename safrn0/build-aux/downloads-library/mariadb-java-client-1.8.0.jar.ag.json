@@ -1,0 +1,19 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "c5db8410b55d0276dfc3520fa2a61f4b",
+    "sha1": "d24912575eca070d85416f1c72da2eed164306c1",
+    "sha224": "de00add86c803d974c056949a48ced8cd0896e3daa3548ef8a077e6f",
+    "sha256": "3edf1d57f4cf347c251feb8df24f328bae659fca668708da2dabfa1f215e53fe",
+    "sha384": "06a79141308491ed9f002a1d61546ea004040392d981fe10237f8689a6900355dda9415fde9d3d855ae6ecb451342f4f",
+    "sha512": "b57825aa46b6f67267051ecfd33fd0607235b0cddbc4614dee60af7dfa801d2b4e95c7a21f0c944d42f841658b78dfa56dd106d34cda0b60c35ad76c51f8bc7d"
+  },
+  "urls": [
+    "https://downloads.mariadb.com/Connectors/java/connector-java-1.8.0/mariadb-java-client-1.8.0.jar",
+    "https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/1.8.0/mariadb-java-client-1.8.0.jar",
+    "https://repo.maven.apache.org/maven2/org/mariadb/jdbc/mariadb-java-client/1.8.0/mariadb-java-client-1.8.0.jar",
+    "https://repo.jfrog.org/artifactory/repo1/org/mariadb/jdbc/mariadb-java-client/1.8.0/mariadb-java-client-1.8.0.jar",
+    "https://repo.jenkins-ci.org/repo1/org/mariadb/jdbc/mariadb-java-client/1.8.0/mariadb-java-client-1.8.0.jar"
+  ]
+}

@@ -1,0 +1,31 @@
+dnl
+dnl For the copyright information for this file, please search up the
+dnl directory tree for the first COPYING file.
+dnl
+
+[
+
+]m4_include([build-aux/gatbps.ac])[
+
+#
+# In some cases, the file timestamps from a distribution archive will
+# have been altered, which can cause make to mistakenly try to rebuild
+# distributed targets that the user can't generally rebuild because of
+# missing developer tools. For example, this can happen if the content
+# of a distribution archive is stored in a Git repository, as Git does
+# not store timestamps. We can work around this problem by making the
+# first run of ./configure give all files the same timestamp.
+#
+
+if test -f config.status; then
+  :
+else
+  ]GATBPS_MSG_NOTICE([normalizing timestamps])[
+  x=`date +%Y%m%d%H%M.%S` || exit $?
+  find -exec touch -t $x {} \; -name .git -prune || exit $?
+fi
+
+]m4_define([SOFT_REQUIRE], [m4_ifdef([$1], [AC_REQUIRE([$1])])])[
+]m4_define([SOFT_VAR_DEP], [m4_ifdef([DEFINE_$1], [[$1]])])[
+
+]

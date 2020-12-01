@@ -1,0 +1,70 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+. src/bash/preludes/standard.bash || exit
+
+if ! command -v sudo >/dev/null; then
+  echo "Installing sudo with yum..."
+  su -c "yum -y install sudo" root
+fi
+
+echo "Installing various packages with yum..."
+sudo sh -c '
+  yum install -y epel-release
+  yum install -y --skip-broken \
+    autoconf \
+    automake \
+    java-1.8.0-openjdk-headless \
+    java-1.8.0-openjdk-devel \
+    gcc \
+    gcc-c++ \
+    git \
+    libtool \
+    m4 \
+    make \
+    openssl \
+    sshpass \
+    texinfo \
+    wget \
+    maven \
+  ;
+'
+
+safrn_urls=
+case ${CI_REPOSITORY_URL+is_set} in
+  ?*)
+    safrn_urls='safrn_urls="\$(abs_srcdir) $CI_REPOSITORY_URL"'
+  ;;
+esac
+readonly safrn_urls
+
+eval ./configure \
+  "$safrn_urls" \
+;
+
+make build-aux/gitbundles/sst.gitbundle
+git clone build-aux/gitbundles/sst.gitbundle sst
+cd sst
+install/on-centos
+cd ..
+
+make install-java-jardeps-targets
+echo "Installing Java libraries..."
+sudo make install-java-jardeps
+
+make_j
+
+make maven-prep
+mvn install
+
+echo "Installing..."
+sudo sh -c '
+  make install
+'
+
+if command -v docker >/dev/null; then
+  make docker/safrn-docker.tar
+fi

@@ -1,0 +1,14 @@
+Checks: '
+cppcoreguidelines-*, 
+modernize-*, 
+readability-*,
+bugprone-*,
+misc-unused-parameters,
+misc-unused-using-decls,
+-cppcoreguidelines-pro-type-cstyle-cast,
+-cppcoreguidelines-non-private-member-variables-in-classes,
+-readability-avoid-const-params-in-decls,
+-readability-else-after-return,
+-modernize-use-trailing-return-type,
+-modernize-use-using,
+-modernize-make-unique'

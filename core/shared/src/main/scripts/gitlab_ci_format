@@ -1,0 +1,21 @@
+#! /bin/bash
+
+# Copyright 2019 Stealth Software Technologies Inc
+
+set -e
+. src/bash/preludes/gitlab-ci.bash
+
+cd core/
+
+make format
+if git diff --quiet
+then
+  echo "success"
+  ret_status=0
+else
+  echo "fail"
+  ret_status=1
+  git status -s -uno
+fi
+
+exit $ret_status

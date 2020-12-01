@@ -1,0 +1,11 @@
+input.form-control {
+    display: inline;
+    width: calc(100% - 50px);
+}
+
+button.fa-lock,
+button.fa-unlock {
+    margin-top: 0!important;
+    height: 38px;
+    width: 38px;
+}

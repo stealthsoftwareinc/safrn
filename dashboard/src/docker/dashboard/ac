@@ -1,0 +1,38 @@
+dnl
+dnl For the copyright information for this file, please search up the
+dnl directory tree for the first README file.
+dnl
+
+[
+
+]dnl begin_targets
+[
+
+]GATBPS_CP(
+  [src/docker/dashboard/safrn.tar.gz],
+  [$(distdir).tar.gz])[
+
+]GATBPS_DOCKER_BUILD(
+  [src/docker/dashboard.tar],
+  [src/docker/dashboard],
+  [
+    [safrn-dashboard:]AC_PACKAGE_VERSION_DOCKER,
+    [safrn-dashboard:latest],
+  ],
+  [
+    [src/docker/dashboard/Dockerfile],
+    [src/docker/dashboard/build],
+    [src/docker/dashboard/dashboard],
+    [src/docker/dashboard/http.conf],
+    [src/docker/dashboard/https.conf],
+    [src/docker/dashboard/safrn.tar.gz],
+  ])[
+
+]GATBPS_XZ(
+  [src/docker/dashboard.tar.xz],
+  [src/docker/dashboard.tar])[
+
+]dnl end_targets
+[
+
+]

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">>
+
+<head lang="en" th:include="fragments/header :: header">
+</head>
+
+<head>
+	<title>SAFRN-DashBoard</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+</head>
+
+<body>
+	<div th:replace="fragments/title::nav"></div>
+	<main>
+		<div class="text-center">
+			<form action="https://www.stealthsoftwareinc.com/contact.html" class="form-signin justify-content-center">
+				<button class="btn btn-md btn-primary btn-block" type="Submit">New Organization - Contact</button>
+			 </form>
+			<form th:action="@{/organization/orglogin}" method="get" class="form-signin justify-content-center">
+				<button class="btn btn-md btn-primary btn-block" type="Submit">Existing Organization - Login</button>
+			</form>
+		</div>
+	</main>
+	<div th:replace="fragments/footer::footer"></div>
+
+</body>
+
+</html>

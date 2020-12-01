@@ -1,0 +1,142 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+set -e; . src/bash/preludes/gitlab-ci.bash
+
+apt-get -qy update
+
+apt-get -qy install \
+  autoconf \
+  automake \
+  build-essential \
+  cpio \
+  default-jdk \
+  default-jre \
+  gcc \
+  git \
+  gnupg \
+  gnupg1 \
+  jq \
+  libgmp-dev \
+  libssl-dev \
+  libtool \
+  m4 \
+  make \
+  nettle-dev \
+  openssl \
+  rpm2cpio \
+  sshpass \
+  texinfo \
+  texlive \
+  wget \
+;
+
+JAVACFLAGS="-source 1.7 -target 1.7 -bootclasspath $PWD/build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-rt.jar:$PWD/build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar"
+
+sed -i '
+  /mariadb/s|".*"|"build-aux/downloads/mariadb-java-client-1.8.0.jar"|
+  /ojdbc/s|".*"|"build-aux/downloads/ojdbc7-12.1.0.1.jar"|
+' lib/safrn.jar.ag.json
+
+./autogen
+./configure JAVACFLAGS="$JAVACFLAGS"
+
+make_j \
+  build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-rt.jar \
+  build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar \
+;
+
+make build-aux/gitbundles/wficmp.gitbundle
+git clone build-aux/gitbundles/wficmp.gitbundle wficmp
+cd wficmp
+autoreconf -fi
+./configure
+make
+make install
+cd ..
+
+make build-aux/gitbundles/tgicmp.gitbundle
+git clone build-aux/gitbundles/tgicmp.gitbundle tgicmp
+cd tgicmp
+autoreconf -fi
+./configure
+make
+make install
+cd ..
+
+
+make build-aux/gitbundles/sst.gitbundle
+git clone build-aux/gitbundles/sst.gitbundle sst
+cd sst
+./autogen
+./configure JAVACFLAGS="$JAVACFLAGS"
+make install-java-jardeps
+make_j
+make install
+cd ..
+
+make install-java-jardeps
+make_j
+make install
+
+PACKAGE_VERSION=$(
+  config_h_get_string \
+    config.h \
+    PACKAGE_VERSION \
+  ;
+)
+readonly PACKAGE_VERSION
+
+mkdir fat-jars
+cd fat-jars
+
+mkdir jars
+cd jars
+xs=$(sed 's/:/ /g' /usr/local/share/java/safrn.jar.classpath)
+ys=
+for x in $xs; do
+  y=$(basename $x .jar)
+  case $ys in
+    *" $y "*)
+      continue
+    ;;
+  esac
+  mkdir $y
+  cd $y
+  jar xf $x
+  cd ..
+  ys="$ys $y "
+done
+cd ..
+
+mkdir -p fat/META-INF/services
+sed \
+  '/^[[:blank:]]*#/d' \
+  jars/*/META-INF/services/java.sql.Driver \
+  >fat/META-INF/services/java.sql.Driver \
+;
+
+for x in jars/*; do
+  cd $x
+  for y in **/*.class; do
+    cp -n --parents $y ../../fat
+  done
+  cd ../..
+done
+
+jar cef \
+  com.stealthsoftwareinc.commercial.safrn.FrontServer \
+  ../safrn_front_server-$PACKAGE_VERSION-jre7.jar \
+  -C fat . \
+;
+
+jar cef \
+  com.stealthsoftwareinc.commercial.safrn.BackServer \
+  ../safrn_back_server-$PACKAGE_VERSION-jre7.jar \
+  -C fat . \
+;
+
+cd ..

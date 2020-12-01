@@ -1,0 +1,29 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+set -e; . src/bash/preludes/standard.bash
+
+if ! command -v sudo >/dev/null; then
+  echo "Installing sudo with apt-get..."
+  su -c "apt-get -qy update && apt-get -qy install sudo" root
+fi
+
+echo "Installing various packages with apt-get..."
+sudo sh -c '
+  apt-get -qy update
+  apt-get -qy install \
+    autoconf \
+    automake \
+    git \
+    jq \
+    libtool \
+    m4 \
+  ;
+'
+
+./autogen
+
+src/install/from-dist/$on_x

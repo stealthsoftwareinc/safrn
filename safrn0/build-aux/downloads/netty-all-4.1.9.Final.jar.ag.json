@@ -1,0 +1,18 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "2f4a891dffdb1259e4b10f1f090224e2",
+    "sha1": "0097860965d6a0a6b98e7f569f3f966727b8db75",
+    "sha224": "ce883090acc377be8952c3222d8c12385c8dbab457f8328ab0908d7b",
+    "sha256": "fd5ad66cdd0a496d281b26c699f4511da7c3f95083659ebb7bae22dab876581a",
+    "sha384": "a58edc08e0c80a09d0bb55ab09ae3691c1202e2a158c2a7e3809f4196361bf3c2bb1f85b8e4a3e24a53a7dc38795f001",
+    "sha512": "c9bd0b3b557d5c6eed54b71afaf043e6e6ed94000f3d7948f3977e951bd0eb222233935b760ff7b43a5ff1c75fe6c5fc37079c9606a66734f7d61bfd30ae7869"
+  },
+  "urls": [
+    "https://repo1.maven.org/maven2/io/netty/netty-all/4.1.9.Final/netty-all-4.1.9.Final.jar",
+    "https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.9.Final/netty-all-4.1.9.Final.jar",
+    "https://repo.jfrog.org/artifactory/repo1/io/netty/netty-all/4.1.9.Final/netty-all-4.1.9.Final.jar",
+    "https://repo.jenkins-ci.org/repo1/io/netty/netty-all/4.1.9.Final/netty-all-4.1.9.Final.jar"
+  ]
+}

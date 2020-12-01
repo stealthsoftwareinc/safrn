@@ -1,0 +1,27 @@
+<div th:fragment="orgSidebar" id="sidebar" class="d-flex flex-column justify-content-between"  sec:authorize="isAuthenticated()">
+    <h3 style="height: 33px;"> </h3>
+    <div>
+        <form th:action="@{/organization/profile}" method="get">
+            <button class="btn btn-md btn-block" th:classappend="${#httpServletRequest.requestURI == '/organization/profile'}? 'btn-afterclicked':'btn-primary'" type="Submit">Profile</button>
+        </form>
+    
+        <form th:action="@{/organization/listings}"  method="get" >
+            <button class="btn btn-md btn-block" th:classappend="${#httpServletRequest.requestURI == '/organization/listings'}? 'btn-afterclicked':'btn-primary'" type="Submit">View Organizations</button>
+        </form>
+    
+	    <form th:action="@{/organization/createsession}"  method="get" >
+            <button class="btn btn-md btn-block" th:classappend="${#httpServletRequest.requestURI == '/organization/createsession'}? 'btn-afterclicked':'btn-primary'" type="Submit">Create New Private Study</button>
+        </form>
+
+    	<form th:action="@{/organization/viewsession}"  method="get" >
+            <button class="btn btn-md btn-block" th:classappend="${#httpServletRequest.requestURI == '/organization/viewsession'}? 'btn-afterclicked':'btn-primary'" type="Submit">View Private Studies</button>
+        </form>
+
+        <form th:action="@{/organization/orglogout}"  method="get">
+            <button class="btn btn-md btn-primary btn-block" type="Submit">Logout</button>
+        </form>
+    </div>
+
+    <h3 style="height: 33px;"> </h3>
+
+</div>

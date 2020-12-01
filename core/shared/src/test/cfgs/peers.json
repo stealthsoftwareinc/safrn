@@ -1,0 +1,46 @@
+{
+  "peers": [
+    {
+      "organizationId": "fffffffffffffffffffffffffffffff0",
+      "domainOrIp": "localhost",
+      "port": 8000,
+      "certificateFingerprintAlgorithm": "SHA256",
+      "certificateFingerprint": "16051b80f8775d8360d735130bed5ee367e83ead25890023d03556250a9f022f"
+    },
+    {
+      "organizationId": "fffffffffffffffffffffffffffffff1",
+      "domainOrIp": "localhost",
+      "port": 8001,
+      "certificateFingerprintAlgorithm": "SHA256",
+      "certificateFingerprint": "0e95afb3d05f44775619dbaeab4e6fc73eb38f8f499e6a5fe3e3a6676c443afb"
+    },
+    {
+      "organizationId": "fffffffffffffffffffffffffffffff2",
+      "domainOrIp": "localhost",
+      "port": 8002,
+      "certificateFingerprintAlgorithm": "SHA256",
+      "certificateFingerprint": "c6a4947e72651b7b2d5804320aca060a2fc3df27209b79cf9386c2b7b943859a"
+    },
+    {
+      "organizationId": "fffffffffffffffffffffffffffffff3",
+      "domainOrIp": "localhost",
+      "port": 8003,
+      "certificateFingerprintAlgorithm": "SHA256",
+      "certificateFingerprint": "5820237714f10cbc2334a65adba33fc29f379158d34bc3cc5639e7a789f225eb"
+    },
+    {
+      "organizationId": "fffffffffffffffffffffffffffffff4",
+      "domainOrIp": "localhost",
+      "port": 8004,
+      "certificateFingerprintAlgorithm": "SHA256",
+      "certificateFingerprint": "1234567714f10cbc2334a65adba33fc29f379158d34bc3cc5639e7a789f225eb"
+    },
+    {
+      "organizationId": "fffffffffffffffffffffffffffffff5",
+      "domainOrIp": "localhost",
+      "port": 8005,
+      "certificateFingerprintAlgorithm": "SHA256",
+      "certificateFingerprint": "0987657714f10cbc2334a65adba33fc29f379158d34bc3cc5639e7a789f225eb"
+    }
+  ]
+}

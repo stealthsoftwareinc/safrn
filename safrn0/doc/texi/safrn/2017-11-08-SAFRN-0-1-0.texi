@@ -1,0 +1,18 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@ifset fullmanual
+@node @w{2017-11-08}@tie{}--- SAFRN@tie{}@w{0-1-0}
+@unnumbered @w{2017-11-08}@tie{}--- SAFRN@tie{}@w{0.@:1.@:0}
+@end ifset
+@ifclear fullmanual
+@unnumbered @w{2017-11-08}@tie{}--- SAFRN@tie{}@w{0.@:1.@:0}
+@end ifclear
+
+@noindent
+This is the first release of the SAFRN package@.

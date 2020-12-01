@@ -1,0 +1,15 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@ifset fullmanual
+@node Introduction
+@chapter Introduction
+@end ifset
+@ifclear fullmanual
+@unnumbered Introduction
+@end ifclear

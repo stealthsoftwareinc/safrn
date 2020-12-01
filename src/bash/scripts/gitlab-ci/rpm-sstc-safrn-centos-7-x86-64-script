@@ -1,0 +1,26 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+set -e; . src/bash/preludes/gitlab-ci.bash
+
+apt-get -qy update
+
+apt-get -qy install \
+  gcc \
+  git \
+  make \
+  sshpass \
+  wget \
+;
+
+x=$(basename safrn-*.tar.gz .tar.gz)
+tar xf $x.tar.gz
+mv $x.tar.* $x
+cd $x
+./configure
+make \
+  rpm/sstc-safrn/centos-7/sstc-safrn-VERSION.el7.x86_64.rpm \
+;

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head lang="en" th:include="fragments/header :: header">
+	<head>
+    	<title>Dashboard Admin</title>
+    	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+    <body>
+	<div th:replace="fragments/title::nav"></div>
+	<div th:replace="fragments/sidebar::sidebar"></div>
+    <!-- <div th:replace="fragments/userInfoBar::userInfoBar"></div> -->
+    <main role="main">
+        <div class="text-center">
+            <h1 class="h3 mb-3 font-weight-normal" ></h1>
+        </div>
+        <div class="text-center">
+            <form action="#" th:action="@{/admin/inactivateorg}" th:object="${inactivateOrgForm}"  method="post" 
+                class="justify-content-center">
+                <table>
+                    <tr>
+                        <td>Organization Name: </td>
+                        <td><input type="text" th:field="*{orgName}" class="form-control" required
+                            autofocus /> </td>
+                        <td><p th:if="${#fields.hasErrors('orgName')}" th:errors="*{orgName}">OrgName Error</p></td>
+                    </tr>
+                </table>
+                <button class="btn btn-primary"  type="submit"
+                        th:text="Submit"></button>
+                </form>
+        </div>
+        <div class="text-center">
+            <h1 class="h3 mb-3 font-weight-normal" ></h1>
+        </div>
+    </main>
+	<div th:replace="fragments/footer::footer"></div>
+    </body>
+</html>

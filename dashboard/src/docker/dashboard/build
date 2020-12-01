@@ -1,0 +1,35 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README file.
+#
+
+set -euo pipefail
+
+mkdir safrn
+cd safrn
+tar xf ../safrn.tar.gz
+cd */src/dashboard
+
+service postgresql start
+sudo -u postgres createuser -s root
+sudo -u postgres createdb dashboard
+
+psql -d dashboard <<EOF
+CREATE ROLE dashboard WITH SUPERUSER LOGIN PASSWORD 'dashboard';
+EOF
+
+cat >>src/main/resources/application.properties <<EOF
+
+server.address=127.0.0.1
+server.port=8080
+
+spring.datasource.url=jdbc:postgresql:dashboard
+spring.datasource.username=dashboard
+spring.datasource.password=dashboard
+
+EOF
+
+mvn -q clean install
+
+mv target/*.jar /dashboard.jar

@@ -1,0 +1,94 @@
+{
+  "studyId": "00000000000000000000000000000001",
+  "maxListSize": 50,
+  "lexicon": [{
+      "verticalIndex": 0,
+      "columns": [
+        {
+          "columnIndex": 0,
+          "name": "key1",
+          "type": "integer",
+          "signed": false,
+          "bits": 0
+        },
+        {
+          "columnIndex": 1,
+          "name": "payload1",
+          "type": "real",
+          "precision": 0,
+          "scale": 0
+        },
+        {
+          "columnIndex": 2,
+          "name": "payload2",
+          "type": "real",
+          "precision": 0,
+          "scale": 0
+        }
+      ]
+    }, {
+      "verticalIndex": 1,
+      "columns": [
+        {
+          "columnIndex": 0,
+          "name": "key2",
+          "type": "integer",
+          "signed": false,
+          "bits": 0
+        },
+        {
+          "columnIndex": 1,
+          "name": "payload3",
+          "type": "real",
+          "precision": 0,
+          "scale": 0
+        },
+        {
+          "columnIndex": 2,
+          "name": "payload4",
+          "type": "real",
+          "precision": 0,
+          "scale": 0
+        }
+      ]
+    }
+  ],
+  "peers": [{
+      "organizationId": "000000000000000000000000000A11CE",
+      "organizationName": "alice",
+      "dataowner": { "vertical": 0 }
+    }, {
+      "organizationId": "00000000000000000000000000000B0B",
+      "organizationName": "bob",
+      "dataowner": { "vertical": 0 }
+    }, {
+      "organizationId": "00000000000000000000000000CA111E",
+      "organizationName": "callie",
+      "dataowner": { "vertical": 0 }
+    }, {
+      "organizationId": "000000000000000000000000000DA51D",
+      "organizationName": "david",
+      "dataowner": { "vertical": 0 }
+    }, {
+      "organizationId": "00000000000000000000000BAA000B0B",
+      "organizationName": "baa-bob",
+      "dataowner": { "vertical": 1 }
+    }, {
+      "organizationId": "00000000000000000000000BAACA111E",
+      "organizationName": "baa-callie",
+      "dataowner": { "vertical": 1 }
+    }, {
+      "organizationId": "00000000000000000000000BAA0DA51D",
+      "organizationName": "baa-david",
+      "dataowner": { "vertical": 1 }
+    }, {
+      "organizationId": "0000000000000000000000000000DEA1",
+      "organizationName": "dealer",
+      "dealer": { }
+    }, {
+      "organizationId": "00000000000000000000000000FFFFFF",
+      "organizationName": "recipient",
+      "recipient": { }
+    }
+  ]
+}

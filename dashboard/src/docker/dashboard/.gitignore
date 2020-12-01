@@ -1,0 +1,8 @@
+#
+# We want to ignore everything under this directory except for files we
+# explicitly want to track. We could ignore everything and then unignore
+# those files, but there's no need, as git add -f is sufficient. Then we
+# don't need to maintain a list of unignored files in here.
+#
+
+*

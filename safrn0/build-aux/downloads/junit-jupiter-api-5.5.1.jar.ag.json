@@ -1,0 +1,18 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "1bdaebbc69f372006ef0d3f97d99e6de",
+    "sha1": "fc466b57ceda453119bd630c830ec68b93bba7f4",
+    "sha224": "dd13c5da248cb16cfa34ca9cba5bb81269005cae39f03793574073cc",
+    "sha256": "855791dffa67605b070caa2fe9e012cf55d3a00204c1d5dcf66eb4e4467a7263",
+    "sha384": "b0b1ed6c63dc98a7e452b795ece2def2781ac7a70451d6e58003586d1ce14b77af38f59ecaabc0fe64a1317ecd3fad8e",
+    "sha512": "ddbeb85af69ec611b13063b5af131339e4b6587ccbbef8cc6f23af6f2866381f05f2b2d18e7cb3ac7f94c06701ac9cd114fdf22ac68ab2e4744c5cbd7bf4ebd7"
+  },
+  "urls": [
+    "https://repo1.maven.org/maven2/org/junit/jupiter/junit-jupiter-api/5.5.1/junit-jupiter-api-5.5.1.jar",
+    "https://repo.maven.apache.org/maven2/org/junit/jupiter/junit-jupiter-api/5.5.1/junit-jupiter-api-5.5.1.jar",
+    "https://repo.jfrog.org/artifactory/repo1/org/junit/jupiter/junit-jupiter-api/5.5.1/junit-jupiter-api-5.5.1.jar",
+    "https://repo.jenkins-ci.org/repo1/org/junit/jupiter/junit-jupiter-api/5.5.1/junit-jupiter-api-5.5.1.jar"
+  ]
+}

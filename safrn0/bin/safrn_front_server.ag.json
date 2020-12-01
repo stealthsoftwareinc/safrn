@@ -1,0 +1,6 @@
+{
+  "autogen_handler": "autogen_java_programs",
+
+  "class": "com.stealthsoftwareinc.commercial.safrn.FrontServer",
+  "jar": "lib/safrn.jar"
+}

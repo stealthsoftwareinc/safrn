@@ -1,0 +1,69 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+set -e; . src/bash/preludes/standard.bash
+
+if ! command -v sudo >/dev/null; then
+  echo "Installing sudo with apt-get..."
+  su -c "apt-get -qy update && apt-get -qy install sudo" root
+fi
+
+echo "Installing various packages with apt-get..."
+sudo sh -c '
+  apt-get -qy update
+  apt-get -qy install \
+    autoconf \
+    automake \
+    default-jdk \
+    default-jre \
+    gcc \
+    git \
+    libtool \
+    m4 \
+    make \
+    openssl \
+    sshpass \
+    texinfo \
+    wget \
+    maven \
+  ;
+'
+
+safrn_urls=
+case ${CI_REPOSITORY_URL+is_set} in
+  ?*)
+    safrn_urls='safrn_urls="\$(abs_srcdir) $CI_REPOSITORY_URL"'
+  ;;
+esac
+readonly safrn_urls
+
+eval ./configure \
+  "$safrn_urls" \
+;
+
+make build-aux/gitbundles/sst.gitbundle
+git clone build-aux/gitbundles/sst.gitbundle sst
+cd sst
+install/on-ubuntu
+cd ..
+
+make install-java-jardeps-targets
+echo "Installing Java libraries..."
+sudo make install-java-jardeps
+
+make_j
+
+make maven-prep
+mvn install
+
+echo "Installing..."
+sudo sh -c '
+  make install
+'
+
+if command -v docker >/dev/null; then
+  make docker/safrn-docker.tar
+fi

@@ -1,0 +1,3 @@
+Checks: '
+-cppcoreguidelines-special-member-functions,
+-cert-err58-cpp'

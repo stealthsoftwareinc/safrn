@@ -1,0 +1,41 @@
+{
+  "prefilters": [ [ [ { "left": [ { "coefficient": 1, "values": [ { "col": { "vertical": 2, "columnIndex": 3 }, "exp": 4 } ] } ], "right": 5, "comp": "<" } ] ] ],
+
+  "joinStatement": {
+    "type": "INNER",
+    "joinOns": [
+      {
+        "first": {
+          "col": {
+            "vertical": 0,
+            "columnName": "key1"
+          },
+          "formula": [
+            "0",
+            "1"
+          ]
+        },
+        "second": {
+          "col": {
+            "vertical": 1,
+            "columnName": "key2"
+          },
+          "formula": [
+            "0",
+            "1"
+          ]
+        }
+      }
+    ]
+  },
+  "function": {
+    "type": "MomentFunction",
+    "bits_of_precision": 5,
+    "col": {
+      "vertical": 1,
+      "columnName": "payload3"
+    },
+    "momentType": "skew",
+    "revealCount": true
+  }
+}

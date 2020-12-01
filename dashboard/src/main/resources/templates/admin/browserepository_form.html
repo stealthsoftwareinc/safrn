@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+    <head lang="en" th:include="fragments/header :: header">
+    </head>
+	<head>
+  	  	<title>Dashboard Admin</title>
+  	  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	</head>
+    <body>
+    <div th:replace="fragments/title::nav"></div>
+    <div th:replace="fragments/sidebar::sidebar"></div>
+    <main role="main" style="margin-top: 42px;">
+        <div class="text-center" style="margin-bottom: 50px;">
+            <div class="text-primary" id="viewOrganizationForm">
+                <p th:if="${allOrgs.isEmpty()}">No organizations found</p>
+                <p class="nav-item" style="font-size: large;">Organizations</p>
+                <table th:unless="${allOrgs.isEmpty()}">
+                    <tr>
+                        <th>Id</th>
+                        <th>Profile Image</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr th:each="allOrgs , i: ${allOrgs}">
+                        <td><a th:text="*{allOrgs.orgId}" th:href="@{/admin/orgdetails?orgname=}+*{allOrgs.orgName}"></a></td>
+                        <td>
+                            <img th:src="@{/organization/download/profilePicture?orgName=}+*{allOrgs.orgName}" alt="" class="profileImage rounded-circle" width="50px" height="50px">
+                        </td>
+                        <td th:text="*{allOrgs.orgName}"></td>
+                        <td th:text="*{allOrgs.orgEmail}"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </main>
+    <div th:replace="fragments/footer::footer"></div>
+    </body>
+</html>

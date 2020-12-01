@@ -1,0 +1,19 @@
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+
+gitlab_projects += getting_started
+
+getting_started_server_url = https://gitlab.stealthsoftwareinc.com
+getting_started_project_id = 45
+
+getting_started_api_token = $(stealth_gitlab_api_token)
+
+ifndef stealth_gitlab_api_token
+$(eval $(call read_variable,stealth_gitlab_api_token,s))
+endif
+
+getting_started_downloads = \
+  doc/kb/45-2/.clang-format:.clang-format \
+$(prevent_an_empty_line)

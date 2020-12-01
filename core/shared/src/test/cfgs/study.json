@@ -1,0 +1,134 @@
+{
+  "studyId": "ffffffffffffffffffffffffffffffff",
+  "maxListSize": 100,
+  "lexicon": [{
+    "verticalIndex": 0,
+    "columns": [
+      {
+        "columnIndex": 0,
+        "name": "social",
+        "type": "integer",
+        "signed": false,
+        "bits": 30
+      },
+      {
+        "columnIndex": 1,
+        "name": "age",
+        "type": "integer",
+        "signed": false,
+        "bits": 7
+      },
+      {
+        "columnIndex": 2,
+        "name": "gpa",
+        "type": "real",
+        "precision": 2,
+        "scale": 1
+      },
+      {
+        "columnIndex": 3,
+        "name": "graduated",
+        "type": "bool"
+      },
+      {
+        "columnIndex": 4,
+        "type": "categorical",
+        "categorical": "major",
+        "name": "math"
+      },
+      {
+        "columnIndex": 5,
+        "type": "categorical",
+        "categorical": "major",
+        "name": "electronics"
+      }
+    ]
+  },
+    {
+      "verticalIndex": 1,
+      "columns": [
+        {
+          "columnIndex": 0,
+          "name": "ssn",
+          "type": "integer",
+          "signed": false,
+          "bits": 30
+        },
+        {
+          "columnIndex": 1,
+          "name": "income",
+          "type": "real",
+          "precision": 12,
+          "scale": 2
+        },
+        {
+          "columnIndex": 2,
+          "name": "debt",
+          "type": "real",
+          "precision": 12,
+          "scale": 2
+        }
+      ]
+    }
+  ],
+  "allowedQueries": [
+    {
+      "type": "MomentFunction",
+      "bits_of_precision": 5,
+      "col": {
+        "vertical": 0,
+        "columnIndex": 1
+      },
+      "momentType": "mean",
+      "revealCount": true
+    },
+    {
+      "type": "LinearRegressionFunction",
+      "fit_intercept": false,
+      "table_cell_bytes": 4,
+      "num_table_rows": 1000,
+      "bits_of_precision": 5,
+      "dep_var": {
+        "vertical": 1,
+        "columnIndex": 15
+      },
+      "indep_vars": [
+        {
+          "vertical": 3,
+          "columnIndex": 4
+        },
+        {
+          "vertical": 5,
+          "columnIndex": 6
+        }
+      ]
+    }
+  ],
+  "peers": [{
+      "organizationId": "fffffffffffffffffffffffffffffff0",
+      "organizationName": "analyst joe",
+      "analyst": { "allowedQueryCount": 10 }
+    }, {
+      "organizationId": "fffffffffffffffffffffffffffffff1",
+      "organizationName": "irs",
+      "dataowner": { "vertical": 1 }
+    }, {
+      "organizationId": "fffffffffffffffffffffffffffffff2",
+      "organizationName": "duke",
+      "dataowner": { "vertical": 0 }
+    }, {
+      "organizationId": "fffffffffffffffffffffffffffffff3",
+      "organizationName": "ucla",
+      "dataowner": { "vertical": 0 }
+    }, {
+      "organizationId": "fffffffffffffffffffffffffffffff4",
+      "organizationName": "analyst jane",
+      "recipient": { }
+    }, {
+      "organizationId": "fffffffffffffffffffffffffffffff5",
+      "organizationName": "random oracle",
+      "dealer": { }
+    }
+  ]
+}
+

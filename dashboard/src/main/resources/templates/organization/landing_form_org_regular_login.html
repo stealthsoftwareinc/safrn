@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head lang="en" th:include="fragments/header :: header">
+
+    <head>
+        <title>Dashboard Organization</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    </head>
+
+<body>
+    <div th:replace="fragments/title::nav"></div>
+    <div th:replace="fragments/orgSidebar::orgSidebar"></div>
+    <div th:replace="fragments/userInfoBar::userInfoBar"></div>
+    <main role="main">
+        <div class="text-center">
+            <div class="text-primary" th:utext="${successMessage}"></div>
+            <div class="text-primary" th:utext="${message1}"></div>
+            <div class="text-primary" th:utext="${message2}"></div>
+            <div class="text-primary" th:utext="${message3}"></div>
+        </div>
+    </main>
+    <div th:replace="fragments/footer::footer"></div>
+</body>
+
+</html>

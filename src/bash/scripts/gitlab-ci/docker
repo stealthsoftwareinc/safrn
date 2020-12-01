@@ -1,0 +1,119 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+
+set -e; . src/bash/preludes/gitlab-ci.bash
+
+#
+# .../docker <target>
+#
+# Builds a Docker image and pushes it to this project's registry.
+#
+# This script assumes that a distribution archive for this project is
+# available as the only .tar.gz file in $rundir. This is usually done
+# via a needs: [dist] entry for this job, where the dist job produces
+# the .tar.gz distribution archive as an artifact.
+#
+
+expect_argument_count $# 1
+
+case $1 in
+  *.image)
+    image_target=$1
+    tar_target=
+  ;;
+  *.tar)
+    image_target=$1.image
+    tar_target=$1
+  ;;
+  *)
+    barf '<target> does not end in .image or .tar: %s' "$1"
+  ;;
+esac
+readonly image_target
+readonly tar_target
+
+ubuntu_install_packages \
+  gcc \
+  git \
+  make \
+  openssl \
+  sshpass \
+  wget \
+  xz-utils \
+;
+
+cd "$tmpdir"
+tar xzf "$rundir"/safrn0/*.tar.gz
+cd *
+
+./configure
+
+make $image_target
+cp --parents $image_target "$rundir"
+
+#
+# Push the image if the registry is enabled for this project.
+#
+
+if [[ "${CI_REGISTRY_IMAGE-}" ]]; then
+
+  id=$(cat $image_target)
+  readonly id
+
+  nametags=$(
+    docker images \
+      --no-trunc \
+      --format "{{.ID}} {{.Repository}}:{{.Tag}}" \
+    | sed -n "/^$id /s/.* //p"
+  )
+  readonly nametags
+
+  # Gather the list of distinctly named nametags.
+  distinctly_named_nametags=
+  for src in $nametags; do
+    case $distinctly_named_nametags in
+      *" ${src%:*}:"*)
+        continue
+      ;;
+    esac
+    distinctly_named_nametags="$distinctly_named_nametags $src"
+  done
+  readonly distinctly_named_nametags
+
+  # Always push the image as commits/<name>:<commit_hash>.
+  for src in $distinctly_named_nametags; do
+    dst=$CI_REGISTRY_IMAGE/commits/${src%:*}:$CI_COMMIT_SHA
+    docker tag $src $dst
+    docker push $dst
+  done
+
+  # Also push the image as <name>:master when running for branch master.
+  if [[ "${CI_COMMIT_BRANCH-}" == master ]]; then
+    for src in $distinctly_named_nametags; do
+      dst=$CI_REGISTRY_IMAGE/${src%:*}:master
+      docker tag $src $dst
+      docker push $dst
+    done
+  fi
+
+  # Also push the image as every nametag when running for a version tag.
+  if [[ "${CI_COMMIT_TAG-}" == v* ]]; then
+    for src in $nametags; do
+      dst=$CI_REGISTRY_IMAGE/$src
+      docker tag $src $dst
+      docker push $dst
+    done
+  fi
+
+fi
+
+#
+#
+
+if [[ "$tar_target" ]]; then
+  make $tar_target
+  cp --parents $tar_target "$rundir"
+fi

@@ -1,0 +1,152 @@
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+#
+#
+
+.images:
+  - &builder-images-ubuntu registry.stealthsoftwareinc.com/stealth/builder-images/ubuntu
+  - &newest-supported-ubuntu ubuntu:18.04
+
+#
+#
+
+stages:
+  - stage1
+  - stage2
+  - stage3
+
+workflow:
+  rules: [{if: $CI_COMMIT_BRANCH || $CI_COMMIT_TAG}]
+
+#
+#
+
+dist:
+  artifacts: {paths: ["*.tar.*"]}
+  image: *newest-supported-ubuntu
+  script: [src/bash/scripts/gitlab-ci/dist]
+  stage: stage1
+  tags: [shared]
+
+#
+#
+
+.src-docker-dashboard:
+  image: *newest-supported-ubuntu
+  needs: [dist]
+  rules: [{if: $CI_REGISTRY_IMAGE}]
+  script: [src/bash/scripts/gitlab-ci/docker src/docker/dashboard.tar.image]
+  stage: stage2
+  tags: [shared]
+
+#
+#
+
+wiki:
+  image: *builder-images-ubuntu
+  script: [src/bash/scripts/gitlab-ci/wiki]
+  stage: stage1
+  tags: [shared]
+
+#
+#
+
+.install-from-dist:
+  needs: [dist]
+  stage: stage2
+  tags: [shared]
+
+.install-from-dist-on-centos-7:
+  extends: .install-from-dist
+  image: "centos:7"
+  script: [src/bash/scripts/gitlab-ci/install-from-dist on-centos]
+
+.install-from-dist-on-ubuntu-18.04:
+  extends: .install-from-dist
+  image: "ubuntu:18.04"
+  script: [src/bash/scripts/gitlab-ci/install-from-dist on-ubuntu]
+
+.install-from-repo:
+  stage: stage1
+  tags: [shared]
+
+.install-from-repo-on-centos-7:
+  extends: .install-from-repo
+  image: "centos:7"
+  script: [install/on-centos]
+
+.install-from-repo-on-ubuntu-18.04:
+  extends: .install-from-repo
+  image: "ubuntu:18.04"
+  script: [install/on-ubuntu]
+
+pages:
+  stage: stage1
+  tags:
+    - shared
+  only:
+    - /^master$/@stealth/safrn
+  except:
+    - tags
+  image:
+    *newest-supported-ubuntu
+  script:
+    - src/bash/scripts/gitlab-ci/pages-script
+  artifacts:
+    paths:
+      - public
+
+.safrn-distcheck-shared:
+  stage: stage1
+  tags: [shared]
+  image: *newest-supported-ubuntu
+  script: &safrn-distcheck-script
+    - src/bash/scripts/gitlab-ci/safrn-distcheck-script
+  artifacts: &safrn-distcheck-artifacts
+    paths:
+      - safrn-*.tar.*
+
+.safrn-docker-shared:
+  stage: stage1
+  tags:
+    - shared
+  only:
+    - branches
+  except:
+    - /^archivist$/@stealth/safrn
+  image: *newest-supported-ubuntu
+  script: &safrn-docker-script
+    - src/bash/scripts/gitlab-ci/safrn-docker-script
+  artifacts: &safrn-docker-artifacts
+    paths:
+      - docker/safrn-*-docker.tar.xz
+
+.rpm-sstc-safrn-centos-7-x86-64:
+  artifacts: {paths: [safrn-*/rpm/sstc-safrn/centos-7/*.rpm]}
+  dependencies: [safrn-distcheck-shared]
+  image: *newest-supported-ubuntu
+  needs: [safrn-distcheck-shared]
+  script: [src/bash/scripts/gitlab-ci/rpm-sstc-safrn-centos-7-x86-64-script]
+  stage: stage2
+  tags: [shared]
+
+safrn1-testing:
+  stage: stage1
+  image: registry.stealthsoftwareinc.com/stealth/builder-images/centos:8
+  script: [core/shared/src/main/scripts/gitlab_ci_test]
+
+safrn1-formatting:
+  stage: stage1
+  image: registry.stealthsoftwareinc.com/stealth/builder-images/centos:8
+  script: [core/shared/src/main/scripts/gitlab_ci_format]
+  rules:
+    - if: $CI_COMMIT_MESSAGE !~ /^WIP:/
+
+safrn1-packaging:
+  stage: stage1
+  image: registry.stealthsoftwareinc.com/stealth/builder-images/centos:8
+  script: [src/scripts/package.sh]
+  artifacts: {paths: [$CI_PROJECT_DIR/archives/*]}

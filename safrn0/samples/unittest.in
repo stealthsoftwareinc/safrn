@@ -1,0 +1,11 @@
+set -x
+curl "127.0.0.1:8090/query?analysis=freq"
+curl "127.0.0.1:8090/query?analysis=freq&iv=School"
+curl "127.0.0.1:8090/query?analysis=freq&iv=School+Degree"
+curl "127.0.0.1:8091/query?analysis=freq&iv=School&loanlink=1"
+curl "127.0.0.1:8091/query?analysis=mean&dv=Max_Loan&iv=School&loanlink=1"
+curl "127.0.0.1:8090/query?analysis=freq&iv=School+Degree"
+curl "127.0.0.1:8090/query?analysis=mean&iv=School+Degree&dv=Income10&countonlymean=1"
+curl "127.0.0.1:8091/query?analysis=mean&iv=School&dv=Max_Loan&loanlink=1"
+curl "127.0.0.1:8091/query?analysis=mean&iv=School+Degree&dv=Max_Loan&countonlymean=1&loanlink=1"
+curl "127.0.0.1:8091/query?analysis=mean&iv=School+Degree&dv=Max_Loan&loanlink=1&countonlymean=2"

@@ -1,0 +1,63 @@
+{
+  "prefilters": [
+    [
+      [
+        {
+          "left": [
+            {
+              "coefficient": 1,
+              "values": [
+                {
+                  "col": {
+                    "vertical": 2,
+                    "columnIndex": 3
+                  },
+                  "exp": 4
+                }
+              ]
+            }
+          ],
+          "right": 5,
+          "comp": "<"
+        }
+      ]
+    ]
+  ],
+  "joinStatement": {
+    "type": "INNER",
+    "joinOns": [
+      {
+        "first": {
+          "col": {
+            "vertical": 6,
+            "columnIndex": 7
+          },
+          "formula": [
+            "8",
+            "9"
+          ]
+        },
+        "second": {
+          "col": {
+            "vertical": 10,
+            "columnIndex": 11
+          },
+          "formula": [
+            "12",
+            "13"
+          ]
+        }
+      }
+    ]
+  },
+  "function": {
+    "type": "MomentFunction",
+    "bits_of_precision": 5,
+    "col": {
+      "vertical": 0,
+      "columnName": "age"
+    },
+    "momentType": "mean",
+    "revealCount": true
+  }
+}

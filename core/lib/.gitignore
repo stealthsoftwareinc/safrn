@@ -1,0 +1,8 @@
+**/
+*.tar.gz
+sst-config.success
+configure.success
+sst-install.success
+sst.success
+dependencies.success
+fortissimo.success

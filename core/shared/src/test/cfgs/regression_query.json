@@ -1,0 +1,74 @@
+{
+  "prefilters": [
+    [
+      [
+        {
+          "left": [
+            {
+              "coefficient": 1,
+              "values": [
+                {
+                  "col": {
+                    "vertical": 2,
+                    "columnIndex": 3
+                  },
+                  "exp": 4
+                }
+              ]
+            }
+          ],
+          "right": 5,
+          "comp": "<"
+        }
+      ]
+    ]
+  ],
+  "joinStatement": {
+    "type": "INNER",
+    "joinOns": [
+      {
+        "first": {
+          "col": {
+            "vertical": 6,
+            "columnIndex": 7
+          },
+          "formula": [
+            "8",
+            "9"
+          ]
+        },
+        "second": {
+          "col": {
+            "vertical": 10,
+            "columnIndex": 11
+          },
+          "formula": [
+            "12",
+            "13"
+          ]
+        }
+      }
+    ]
+  },
+  "function": {
+    "type": "LinearRegressionFunction",
+    "fit_intercept": false,
+    "table_cell_bytes": 4,
+    "num_table_rows": 1000,
+    "bits_of_precision": 5,
+    "dep_var": {
+      "vertical": 1,
+      "columnIndex": 15
+    },
+    "indep_vars": [
+      {
+        "vertical": 3,
+        "columnIndex": 4
+      },
+      {
+        "vertical": 5,
+        "columnIndex": 6
+      }
+    ]
+  }
+}

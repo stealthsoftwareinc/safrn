@@ -1,0 +1,32 @@
+#! /bin/sh -
+
+case $JAVA in
+  '')
+    JAVA=java
+  ;;
+esac
+readonly JAVA
+
+readonly JAVAFLAGS
+
+case $CLASSPATH in
+  ?*)
+    CLASSPATH=$CLASSPATH@CLASSPATH_SEPARATOR_LATER@
+  ;;
+esac
+case $USE_BUILD_TREE in
+  '')
+    CLASSPATH=$CLASSPATH`
+      cat {@}javadir{@}/%jar_base%.classpath
+    ` || exit $?
+  ;;
+  ?*)
+    CLASSPATH=$CLASSPATH`
+      cat {@}abs_builddir{@}/%jar%.build_tree_classpath
+    ` || exit $?
+  ;;
+esac
+readonly CLASSPATH
+export CLASSPATH
+
+eval "$JAVA" "$JAVAFLAGS" %class% '"$@AT_LATER@"'

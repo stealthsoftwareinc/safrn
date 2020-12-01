@@ -1,0 +1,15 @@
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README file.
+#
+
+autogen_am_var_append EXTRA_DIST \
+  src/dashboard/.mvn/**/* \
+  src/dashboard/README.md \
+  src/dashboard/mvnw \
+  src/dashboard/mvnw.cmd \
+  src/dashboard/pom.xml \
+  src/dashboard/run.cmd \
+  src/dashboard/run.sh \
+  src/dashboard/src/**/* \
+;

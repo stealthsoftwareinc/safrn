@@ -1,0 +1,38 @@
+dnl
+dnl For the copyright information for this file, please search up the
+dnl directory tree for the first README.md file.
+dnl
+
+[
+
+]dnl begin_targets
+[
+
+]GATBPS_CP(
+  [rpm/sstc-safrn/centos-7/x86_64/build/$(distdir).tar.gz],
+  [$(distdir).tar.gz])[
+
+]GATBPS_CP(
+  [rpm/sstc-safrn/centos-7/x86_64/build/Dockerfile],
+  [rpm/sstc-safrn/centos-7/x86_64/rpm.Dockerfile])[
+
+]GATBPS_CP(
+  [rpm/sstc-safrn/centos-7/x86_64/build/git-2.20.1.tar.gz],
+  [build-aux/downloads/git-2.20.1.tar.gz])[
+
+]GATBPS_CP(
+  [rpm/sstc-safrn/centos-7/x86_64/build/rpm.spec],
+  [rpm/sstc-safrn/centos-7/x86_64/rpm.spec])[
+
+]GATBPS_CP(
+  [rpm/sstc-safrn/centos-7/x86_64/build/sst.gitbundle],
+  [build-aux/gitbundles/sst.gitbundle])[
+
+]GATBPS_CP(
+  [rpm/sstc-safrn/centos-7/x86_64/build/texinfo-6.3.tar.xz],
+  [build-aux/downloads/texinfo-6.3.tar.xz])[
+
+]dnl end_targets
+[
+
+]

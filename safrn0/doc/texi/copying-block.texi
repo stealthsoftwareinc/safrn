@@ -1,0 +1,120 @@
+@ifxml
+@ifnotxml
+@c
+@c This file is from the SAFRN package.
+@c
+@c The following copyright notice is generally applicable:
+@c
+@c      Copyright (C)
+@c         Stealth Software Technologies Commercial, Inc.
+@c
+@c The full copyright information depends on the distribution
+@c of the package. For more information, see the COPYING file.
+@c However, depending on the context in which you are viewing
+@c this file, the COPYING file may not be available.
+@c
+@end ifnotxml
+@end ifxml
+@ifdocbook
+@copying
+This manual is from the SAFRN package.
+
+@noindent
+The following copyright notice is generally applicable:
+
+@quotation
+Copyright @copyright{} Stealth Software Technologies Commercial, Inc.
+@end quotation
+
+@noindent
+The full copyright information depends on the distribution
+of the package. For more information, see the introductory
+Copyright Information section.
+@end copying
+@end ifdocbook
+@ifhtml
+@copying
+@*
+This manual is from the SAFRN package.
+
+The following copyright notice is generally applicable:
+
+@w{     }Copyright (C)
+@w{        }Stealth Software Technologies Commercial, Inc.
+
+The full copyright information depends on the distribution
+of the package. For more information, see the introductory
+Copyright Information section.
+@*
+@end copying
+@end ifhtml
+@ifinfo
+@ifnotplaintext
+@copying
+This manual is from the SAFRN package.
+
+@noindent
+The following copyright notice is generally applicable:
+
+@quotation
+Copyright @copyright{} Stealth Software Technologies Commercial, Inc.
+@end quotation
+
+@noindent
+The full copyright information depends on the distribution
+of the package. For more information, see the introductory
+Copyright Information section.
+@end copying
+@end ifnotplaintext
+@end ifinfo
+@ifplaintext
+@copying
+This manual is from the SAFRN package.
+
+@noindent
+The following copyright notice is generally applicable:
+
+@quotation
+Copyright @copyright{} Stealth Software Technologies Commercial, Inc.
+@end quotation
+
+@noindent
+The full copyright information depends on the distribution
+of the package. For more information,
+@pxref{Copyright Information}.
+@end copying
+@end ifplaintext
+@iftex
+@copying
+This manual is from the SAFRN package.
+
+@noindent
+The following copyright notice is generally applicable:
+
+@quotation
+Copyright @copyright{} Stealth Software Technologies Commercial, Inc.
+@end quotation
+
+@noindent
+The full copyright information depends on the distribution
+of the package. For more information,
+@pxref{Copyright Information}.
+@end copying
+@end iftex
+@ifxml
+@copying
+This manual is from the SAFRN package.
+
+@noindent
+The following copyright notice is generally applicable:
+
+@quotation
+Copyright @copyright{} Stealth Software Technologies Commercial, Inc.
+@end quotation
+
+@noindent
+The full copyright information depends on the distribution
+of the package. For more information, see the introductory
+Copyright Information section.
+@end copying
+@end ifxml

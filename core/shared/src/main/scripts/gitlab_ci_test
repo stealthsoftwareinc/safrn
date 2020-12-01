@@ -1,0 +1,20 @@
+#! /bin/bash
+
+# Copyright 2019 Stealth Software Technologies Inc
+
+set -e
+. src/bash/preludes/gitlab-ci.bash
+
+cd core/
+
+make dependencies
+
+# Test with GCC
+make BUILD_TYPE=Ci CXX=g++ configure
+make test
+
+make mopclean
+
+#Test with Clang
+make BUILD_TYPE=Ci CXX=clang++ configure
+make test

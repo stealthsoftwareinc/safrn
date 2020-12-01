@@ -1,0 +1,41 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@node Easy Building and Installation
+@chapter Easy Building and Installation
+
+@cindex build and install, easy
+@cindex easy build and install
+A collection of
+@i{easy build and install}
+scripts is provided, each of which performs a typical build and install,
+including all prerequisites, on a particular platform@.
+Prerequisites are either installed using the system's package manager,
+or downloaded from elsewhere and built and/or installed appropriately@.
+You should make sure that you have SSH access to the Stealth GitLab
+server, as several projects may need to be downloaded from there@.
+If you'd like the Docker image to be built, make sure that you have
+Docker installed such that plain
+@w{@t{docker}}
+commands work without any permissions issues@.
+
+After doing an easy build and install, the
+@w{@t{safrn_front_server}}
+and
+@w{@t{safrn_back_server}}
+programs will be available on your system@.
+If the Docker image was built, it will be available as
+@w{@t{stealthcommercial/safrn}}@.
+
+To do an easy build and install, simply run the appropriate script from
+the following list@.
+
+@itemize
+@item
+Ubuntu: @w{@t{install/on-ubuntu}}
+@end itemize

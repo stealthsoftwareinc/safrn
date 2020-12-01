@@ -1,0 +1,14 @@
+{
+  "organizationId": "fffffffffffffffffffffffffffffff0",
+  "organizationName": "analyst",
+  "port": 8000,
+  "address": "0.0.0.0",
+  "approvedStudies": [{
+    "study": "shared/src/test/cfgs/study.json",
+    "peer": "shared/src/test/cfgs/peers.json",
+    "database": "shared/src/test/cfgs/database.json"
+  }],
+  "certificateAuthorityFile": "shared/src/test/cfgs/ca.pem",
+  "certificateFile": "shared/src/test/cfgs/analyst.pem",
+  "certificateKeyFile": "shared/src/test/cfgs/analyst.pem.key"
+}

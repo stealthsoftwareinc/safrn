@@ -1,0 +1,27 @@
+dnl
+dnl This file is from the SAFRN package.
+dnl
+dnl The following copyright notice is generally applicable:
+dnl
+dnl      Copyright (C)
+dnl         Stealth Software Technologies Commercial, Inc.
+dnl
+dnl The full copyright information depends on the distribution
+dnl of the package. For more information, see the COPYING file.
+dnl However, depending on the context in which you are viewing
+dnl this file, the COPYING file may not be available.
+dnl
+[
+
+]dnl begin_targets
+[
+
+]GATBPS_CONFIG_FILE(
+  [src/shadow/com/stealthsoftwareinc/commercial/safrn/BuildConfig.java.im],
+  [src/shadow/com/stealthsoftwareinc/commercial/safrn/BuildConfig.java.im.in],
+  [distclean])[
+
+]dnl end_targets
+[
+
+]

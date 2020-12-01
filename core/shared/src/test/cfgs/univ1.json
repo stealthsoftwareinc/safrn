@@ -1,0 +1,14 @@
+{
+  "organizationId": "fffffffffffffffffffffffffffffff2",
+  "organizationName": "univ1",
+  "port": 8002,
+  "address": "0.0.0.0",
+  "approvedStudies": [{
+    "study": "shared/src/test/cfgs/study.json",
+    "peer": "shared/src/test/cfgs/peers.json",
+    "database": "shared/src/test/cfgs/vertical.json"
+  }],
+  "certificateAuthorityFile": "shared/src/test/cfgs/ca.pem",
+  "certificateFile": "shared/src/test/cfgs/univ1.pem",
+  "certificateKeyFile": "shared/src/test/cfgs/univ1.pem.key"
+}

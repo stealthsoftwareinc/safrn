@@ -1,0 +1,19 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "477d03fe0cbc941f322c60c0a78bbe98",
+    "sha1": "acb2fbd55b7441c20adf9e4a22a11225afb4ea84",
+    "sha224": "07b360dd886a60b300737b31210a1a940cf4f72141b4960e6c161862",
+    "sha256": "c50b84fbcb4bf761aa5f4ccd321b01e30295c2d5d03b1edb39d1c3bf6768c7c9",
+    "sha384": "ec0b356426d983d37af29209c7a149970ea0d7217b5581543db2065a035548b0f1da9b8195808542d934894da76d412b",
+    "sha512": "cc94d7114a253a55d3a4635af3af677bcaae5ceb852a4ddfc3f83d61617df4ca8f4436ab4d8b9de5a18868eb3992ca7f4817429b89c31fdd9b098dd89c144f93"
+  },
+  "urls": [
+    "https://jdbc.postgresql.org/download/postgresql-42.2.8.jre7.jar",
+    "https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.8.jre7/postgresql-42.2.8.jre7.jar",
+    "https://repo.maven.apache.org/maven2/org/postgresql/postgresql/42.2.8.jre7/postgresql-42.2.8.jre7.jar",
+    "https://repo.jfrog.org/artifactory/repo1/org/postgresql/postgresql/42.2.8.jre7/postgresql-42.2.8.jre7.jar",
+    "https://repo.jenkins-ci.org/repo1/org/postgresql/postgresql/42.2.8.jre7/postgresql-42.2.8.jre7.jar"
+  ]
+}

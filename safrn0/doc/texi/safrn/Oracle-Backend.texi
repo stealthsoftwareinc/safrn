@@ -1,0 +1,160 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@node Oracle Backend
+@chapter Oracle Backend
+
+A collection of scripts is provided which should enable you to run the
+application with the backend provided by a docker container running an
+OracleDB image. We assume that you are able to pull the docker image
+@b{store/oracle/database-enterprise:12.2.0.1} and that you have the
+corresponding Oracle JDBC jar @b{ojdbc8.jar} available on your classpath.
+
+@heading Prepare Oracle Database
+
+You'll need a bunch of files, all of which can be found in the directory
+@file{samples/dbs}.
+
+@itemize
+@item
+The @file{.csv} files of sample data.
+@itemize
+@item
+@file{samples/dbs/MPC_Test5_1K_Income.csv}
+@item
+@file{samples/dbs/MPC_Test5_1K_Loans.csv}
+@item
+@file{samples/dbs/MPC_Test5_1K_School1.csv}
+@item
+@file{samples/dbs/MPC_Test5_1K_School2.csv}
+@item
+@file{samples/dbs/MPC_Test5_1K_School3.csv}
+@item
+@file{samples/dbs/MPC_Test5_1K_School4.csv}
+@end itemize
+@item
+Sql scripts
+@itemize
+@item
+The sql script @file{samples/dbs/oracle/createtbls.sql} you'll use to
+create the tables.
+@item
+The sql script @file{samples/dbs/oracle/createuser.sql} you'll use to
+create a non-system user.
+@end itemize
+@item
+A shell script @file{samples/dbs/oracle/sqlldr.bash} you'll use to run
+@command{sqlldr} with the the @file{.ctl} files below to load the sample data
+into these tables.
+@itemize
+@item
+@file{samples/dbs/oracle/income.ctl}
+@item
+@file{samples/dbs/oracle/loans.ctl}
+@item
+@file{samples/dbs/oracle/group1.ctl}
+@item
+@file{samples/dbs/oracle/group2.ctl}
+@item
+@file{samples/dbs/oracle/group3.ctl}
+@item
+@file{samples/dbs/oracle/group4.ctl}
+@end itemize
+@end itemize
+
+Finally, to keep some of the commands below shorter we assume that you
+are running these commands from the root of the repository.
+
+@heading Pull the docker image
+
+You can get a docker image for
+@url{https://docs.oracle.com/en/database/oracle/oracle-database/12.2,OracleDB 12.2}
+from @url{https://hub.docker.com, Docker Hub}. However, this means
+@enumerate
+@item
+Creating a docker Hub account
+@item
+giving your contact info to Oracle (this is a reocurring theme in these
+   notes).
+@end enumerate
+
+Once you do that if go to @b{My Content} section of Docker Hub there is
+some nice documentation by Oracle for working with this image.
+
+@heading Start the Container
+
+@enumerate
+@item
+Use the @option{-v} flag so you can access the files above from within the
+container. Here we link the local directory @file{samples/dbs} to
+@file{/var/libs/oracle-files} in the container.
+@item
+Use the @option{-p} flag to access the port @env{1521}, which we will need
+later to connect via JDBC.
+@end enumerate
+
+Will all of that, you are ready to start up the container:
+
+@code{docker run -d -it -v /PATH/TO/SAFRN/REPO/samples/dbs:/var/lib/oracle-files -p 1521:1521/tcp --name oracle-db store/oracle/database-enterprise:12.2.0.1-slim}
+
+Run @samp{docker ps} and proceed when the @env{STATUS} field says @i{healthy} (as
+opposed to @i{starting}).
+
+@heading Create a non-system user
+
+Run the script @file{samples/dbs/oracle/createuser.sql} script with
+@command{sqlplus} as the system user @env{SYS} (which you have to
+alias as @env{SYSDBA} or @env{SYSOPER} or Oracle will complain).
+
+@code{docker exec -it oracle-db bash -c "source /home/oracle/.bashrc;sqlplus sys/Oradoc_db1 as sysdba @@/var/lib/oracle-files/oracle/createuser.sql"}
+
+@heading Create the empty sample tables
+Note that from here on we are using the credentials of the non-system
+user @b{root} with password @b{root}.
+
+@code{docker exec -it oracle-db bash -c "source /home/oracle/.bashrc;sqlplus root/root @@/var/lib/oracle-files/oracle/createtbls.sql"}
+
+@heading Load the sample data
+Note the the path to the @file{.csv} file is hardcoded into the @file{.ctl}
+files so if you move them around things could break.
+
+@code{docker exec -it oracle-db bash -c "/var/lib/oracle-files/oracle/sqlldr.bash"}
+
+@heading Download the Oracle JDBC driver
+You can download the @b{odjdc8.jar} jar from
+@url{https://www.oracle.com/database/technologies/jdbc-ucp-122-downloads.html,
+Oracle JDBC jar}.
+
+@heading Compile that java class and run after adding jdbc driver to your classpath
+The class
+@b{com.stealthsoftwareinc.commercial.safrn.JDBCOracleConnector} in the
+SAFRN jar is provided to make sure that you have configured the
+container and jdbc correctly. Run and see if you get a printout of a
+table with two rows and 4 columns
+
+@code{java -cp ./lib/safrn.jar:/PATH/TO/ojdbc8.jar com.stealthsoftwareinc.commercial.safrn.JDBCOracleConnector}
+
+@heading Run the experiment script to initialize the front and back servers
+
+This script provides the setup to run experiment 1 (four schools).
+
+@code{bash ./samples/run_experiment.bash ./samples/exp1-oracle}
+
+@heading Run an analyst query to confirm that everything is working
+
+@code{curl "127.0.0.1:8090/query?analysis=freq"}
+
+This command should return the following result set:
+
+
+@multitable @columnfractions .5 .5
+@headitem Key @tab Value
+@item success @tab true
+@item analysis @tab "freq"
+@item data @tab @code{[1803]}
+@end multitable

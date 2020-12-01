@@ -1,0 +1,21 @@
+{
+  "verticals": [
+    {
+      "vertical": 0,
+      "keys": [],
+      "baggage": []
+    },
+    {
+      "vertical": 1,
+      "keys": [],
+      "baggage": []
+    }
+  ],
+  "functions": [
+    {
+      "algorithm": "conn_test",
+      "indVars": [],
+      "depVars": []
+    }
+  ]
+}

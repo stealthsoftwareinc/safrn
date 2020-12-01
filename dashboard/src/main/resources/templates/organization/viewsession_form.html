@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+    <head lang="en" th:include="fragments/header :: header">
+    </head>
+
+    <head>
+        <title>Dashboard Organization</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	    <script th:src="@{/js/viewSession.js}"></script>
+	    <link rel="stylesheet" type="text/css" th:href="@{/css/viewSession.css}"/>
+    </head>
+
+<body>
+    <div th:replace="fragments/title::nav"></div>
+    <div th:replace="fragments/orgSidebar::orgSidebar"></div>
+    <div th:replace="fragments/userInfoBar::userInfoBar"></div>
+    <main role="main" style="margin-top: 42px;">
+        <div class="text-center" style="margin-bottom: 50px;">
+            <div class="text-primary" id="viewSessionForm">
+                <p th:if="${acceptedSessions.isEmpty() and declinedSessions.isEmpty() and pendingSessions.isEmpty()}">No sessions found</p>
+                <div th:unless="${pendingMyResposeSessions.isEmpty()}" style="margin-bottom: 10px;">
+                    <p style="font-size:large; font-family: Georgia, 'Times New Roman', Times, serif; color: black;">Pending (<span class="text-danger">Respond now</span>)</p>
+                    <div class="card">
+                        <table th:unless="${pendingMyResposeSessions.isEmpty()}" class="sortable table-bordered">
+                            <tr>
+                                <th onclick="sortTable(0,this)"><div class="text-center">Private Study Id</div></th>
+                                <th onclick="sortTable(1,this)"><div class="text-center">Private Study Name</div></th>
+                                <th onclick="sortTable(2,this)"><div class="text-center">Private Study Initiator</div></th>
+                                <th><div class="text-center">Peer Config</div></th>
+                                <th><div class="text-center">Session Config</div></th>
+                            </tr>
+                            <tr th:each="viewSessionForm , i: ${pendingMyResposeSessions}">
+                                <td><a th:text="${viewSessionForm.id}" th:href="@{/organization/searchsession?sessionName=}+*{viewSessionForm.sessionName}"></a></td>
+                                <td th:text="*{viewSessionForm.sessionName}"></td>
+                                <td th:text="${viewSessionForm.initiatorOrganizationName}"></td>
+                                <td>
+                                    <span> PENDING </span>
+                                </td>
+                                <td>
+                                    <button
+                                        class="btn" style=" background-color:#4C5261; color: white;" 
+                                        th:onclick="@{'configDownload(\''+${viewSessionForm.sessionName}+'\',\''+${T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EConfigDownload).SESSION_CONFIG}+'\')'}"> DOWNLOAD</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align: left;">
+                        <button type = "button" class = "btn btn-link text-success" onclick="showMoreContent(this)" aria-expanded="false">show more</button>
+                    </div>
+                    <hr style="margin-bottom: 0;">
+                    <hr style="margin-top: 1.5px;">
+                </div>
+                <div th:unless="${pendingPeerResponseSessions.isEmpty()}" style="margin-bottom: 10px;">
+                    <p style="font-size:large; font-family: Georgia, 'Times New Roman', Times, serif; color: black;">Pending (Waiting for Peers response)</p>
+                    <div class="card">
+                        <table th:unless="${pendingPeerResponseSessions.isEmpty()}" class="sortable table-bordered">
+                            <tr>
+                                <th onclick="sortTable(0,this)"><div class="text-center">Private Study Id</div></th>
+                                <th onclick="sortTable(1,this)"><div class="text-center">Private Study Name</div></th>
+                                <th onclick="sortTable(2,this)"><div class="text-center">Private Study Initiator</div></th>
+                                <th><div class="text-center">Peer Config</div></th>
+                                <th><div class="text-center">Session Config</div></th>
+                            </tr>
+                            <tr th:each="viewSessionForm , i: ${pendingPeerResponseSessions}">
+                                <td><a th:text="${viewSessionForm.id}" th:href="@{/organization/searchsession?sessionName=}+*{viewSessionForm.sessionName}"></a></td>
+                                <td th:text="*{viewSessionForm.sessionName}"></td>
+                                <td th:text="${viewSessionForm.initiatorOrganizationName}"></td>
+                                <td>
+                                    <span> PENDING </span>
+                                </td>
+                                <td>
+                                    <button
+                                        class="btn" style=" background-color:#4C5261; color: white;" 
+                                        th:onclick="@{'configDownload(\''+${viewSessionForm.sessionName}+'\',\''+${T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EConfigDownload).SESSION_CONFIG}+'\')'}"> DOWNLOAD</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align: left;">
+                        <button type = "button" class = "btn btn-link text-success" onclick="showMoreContent(this)" aria-expanded="false">show more</button>
+                    </div>
+                    <hr style="margin-bottom: 0;">
+                    <hr style="margin-top: 1.5px;">
+                </div>
+                <div th:unless="${acceptedSessions.isEmpty()}" style="margin-bottom: 10px;">
+                    <p style="font-size:large; font-family: Georgia, 'Times New Roman', Times, serif; color: black;">Accepted</p>
+                    <div class="card">
+                        <table th:unless="${acceptedSessions.isEmpty()}" class="sortable table-bordered">
+                            <tr>
+                                <th onclick="sortTable(0,this)"><div class="text-center">Private Study Id</div></th>
+                                <th onclick="sortTable(1,this)"><div class="text-center">Private Study Name</div></th>
+                                <th onclick="sortTable(2,this)"><div class="text-center">Private Study Initiator</div></th>
+                                <th><div class="text-center">Peer Config</div></th>
+                                <th><div class="text-center">Session Config</div></th>
+                            </tr>
+                            <tr th:each="viewSessionForm , i: ${acceptedSessions}">
+                                <td><a th:text="*{viewSessionForm.id}" th:href="@{/organization/searchsession?sessionName=}+*{viewSessionForm.sessionName}"></a></td>
+                                <td th:text="*{viewSessionForm.sessionName}"></td>
+                                <td th:text="*{viewSessionForm.initiatorOrganizationName}"></td>
+                                <td>
+                                    <button class="btn" style=" background-color: #4C5261; color: white;" 
+                                        th:onclick="@{'configDownload(\''+${viewSessionForm.sessionName}+'\',\''+${T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EConfigDownload).PEER_CONFIG}+'\')'}"> DOWNLOAD</button>
+                                </td>
+                                <td>
+                                    <button
+                                        class="btn" style=" background-color:#4C5261; color: white;" 
+                                        th:onclick="@{'configDownload(\''+${viewSessionForm.sessionName}+'\',\''+${T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EConfigDownload).SESSION_CONFIG}+'\')'}"> DOWNLOAD</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align: left;">
+                        <button type = "button" class = "btn btn-link text-success" onclick="showMoreContent(this)" aria-expanded="false">show more</button>
+                    </div>
+                    <hr style="margin-bottom: 0;">
+                    <hr style="margin-top: 1.5px;">
+                </div>
+                <div th:unless="${declinedSessions.isEmpty()}" style="margin-bottom: 10px;">
+                    <p style="font-size:large; font-family: Georgia, 'Times New Roman', Times, serif; color: black;">Declined</p>
+                    <div class="card">
+                        <table th:unless="${declinedSessions.isEmpty()}" class="sortable table-bordered">
+                            <tr>
+                                <th onclick="sortTable(0,this)"><div class="text-center">Private Study Id</div></th>
+                                <th onclick="sortTable(1,this)"><div class="text-center">Private Study Name</div></th>
+                                <th onclick="sortTable(2,this)"><div class="text-center">Private Study Initiator</div></th>
+                                <th><div class="text-center">Peer Config</div></th>
+                                <th><div class="text-center">Session Config</div></th>
+                            </tr>
+                            <tr th:each="viewSessionForm , i: ${declinedSessions}">
+                                <td><a th:text="*{viewSessionForm.id}" th:href="@{/organization/searchsession?sessionName=}+*{viewSessionForm.sessionName}"></a></td>
+                                <td th:text="*{viewSessionForm.sessionName}"></td>
+                                <td th:text="*{viewSessionForm.initiatorOrganizationName}"></td>
+                                <td>
+                                    DECLINED
+                                </td>
+                                <td>
+                                    <button
+                                        class="btn" style=" background-color:#4C5261; color: white;" 
+                                        th:onclick="@{'configDownload(\''+${viewSessionForm.sessionName}+'\',\''+${T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EConfigDownload).SESSION_CONFIG}+'\')'}"> DOWNLOAD</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div style="text-align: left;">
+                        <button type = "button" class = "btn btn-link text-success" onclick="showMoreContent(this)" aria-expanded="false">show more</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="fragments/footer::footer"></div>
+</body>
+
+</html>

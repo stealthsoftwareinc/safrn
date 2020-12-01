@@ -1,0 +1,15 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "c62584d8c9296a561aa0425bb0ce5ac7",
+    "sha1": "1e22c4e52249aeda0e4500daace4fc12ca2504ae",
+    "sha224": "a7578fcf436f1cc7569215c071ecd5886f4cc16ca03808df2e5da752",
+    "sha256": "7915d9cb9eccbb5ac82f1de722bcd0787b35c39319f164ba20b7e9430d5e2d96",
+    "sha384": "b62902a40bb0091ed38d1ed155b5d0ef2a50fe9534adeb448e3de9f4c4bbe5b3b65c9187f072ebe8e6c3742441f118d9",
+    "sha512": "16808551a596ddffcd329efbd9e10e612818df528e53bed1dfad5b9ddffa26be64484dad61449ad118a02955b20880d06e58d6a856357bece1a548edf09bce8c"
+  },
+  "urls": [
+    "http://mirror.centos.org/centos/7/os/x86_64/Packages/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm"
+  ]
+}

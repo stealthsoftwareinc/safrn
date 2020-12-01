@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head lang="en" th:include="fragments/header :: header"></head>
+
+<head>
+    <title>Dashboard Organization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<body>
+    <div th:replace="fragments/title::nav"></div>
+	<div th:replace="fragments/sidebar::sidebar"></div>
+    <main role="main">
+        <div class="text-left profileForms">
+            <div class="row">
+                <div class="col-lg-4 text-right text-primary">
+                    Profile
+                </div>
+                <div class="col-lg-8">
+                    <img th:src="@{'/organization/download/profilePicture?orgName='+${orgInfo.orgName}}" class="rounded-circle" width="auto" height="200px">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-4 text-right text-primary">
+                    Connection Info
+                </div>
+                <div class="col-lg-8">
+                <form th:action="@{/organization/updateconnectioninfo}" th:object="${connectionInfoForm}" method="post">
+                    <table style="margin-top: 15px;">
+                        <tr>
+                            <td>Connection Name: </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" th:field="*{connectionName}" class="form-control" required autofocus readonly />
+                            </td>
+                            <td>
+                                <p th:if="${#fields.hasErrors('connectionName')}" th:errors="*connectionName}">ConnectionName Error</p></td>
+                        </tr>
+                        <tr>
+                            <td>Hostname:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" th:field="*{ipAddress}" class="form-control" readonly/> 
+                            </td>
+                            <td><p th:if="${#fields.hasErrors('ipAddress')}" th:errors="*{ipAddress}">IPAddress Error</p></td>
+                        </tr>
+                        <tr>
+                            <td>Port:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" th:field="*{port}" class="form-control" readonly/> 
+                                <!-- <button class="btn fa fa-unlock" aria-hidden="true" type="button" style="display: none;" onclick="lockInput(this)"></button>
+                                <button class="btn fa fa-lock" aria-hidden="true" type="button" onclick="unlockInput(this)"></button> -->
+                            </td>
+                            <td><p th:if="${#fields.hasErrors('port')}" th:errors="*{port}">Port Error</p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </form>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-4 text-right text-primary">
+                   Contact Info
+                </div>
+                <div class="col-lg-8">
+                <form th:action="@{/organization/updatecontactinfo}" th:object="${contactInfoForm}" method="post"
+                class="justify-content-center">
+                <table style="margin-top: 15px;">
+                    <tr>
+                        <td>About: </td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" th:field="*{about}" class="form-control" required autofocus readonly/> 
+                            <!-- <button class="btn fa fa-lock" aria-hidden="true" type="button" style="display: none;" onclick="lockInput(this)"></button>
+                            <button class="btn fa fa-unlock" aria-hidden="true" type="button" onclick="unlockInput(this)"></button> -->
+                        </td>
+                        <td>
+                            <p th:if="${#fields.hasErrors('about')}" th:errors="*{about}">About Error</p></td>
+                        </tr>
+                        <tr>
+                            <td>Phone:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" th:field="*{phone}" class="form-control" readonly/> 
+                                <!-- <button class="btn fa fa-lock" aria-hidden="true" type="button" style="display: none;" onclick="lockInput(this)"></button>
+                                <button class="btn fa fa-unlock" aria-hidden="true" type="button" onclick="unlockInput(this)"></button> -->
+                            </td>
+                            <td><p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone Error</p></td>
+                        </tr>
+                        <tr>
+                            <td>Address:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" th:field="*{address}" class="form-control" readonly/> 
+                                <!-- <button class="btn fa fa-lock" aria-hidden="true" type="button" style="display: none;" onclick="lockInput(this)"></button>
+                                <button class="btn fa fa-unlock" aria-hidden="true" type="button" onclick="unlockInput(this)"></button> -->
+                            </td>
+                            <td><p th:if="${#fields.hasErrors('address')}" th:errors="*{address}">Address Error</p></td>
+                        </tr>
+                    </table>
+                </form>
+                </div>
+            </div>
+        </div>
+    </main>
+	<div th:replace="fragments/footer::footer"></div>
+</body>
+</html>

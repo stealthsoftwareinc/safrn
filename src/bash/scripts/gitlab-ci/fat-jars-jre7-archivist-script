@@ -1,0 +1,27 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+set -e; . src/bash/preludes/gitlab-ci.bash
+
+apt-get -qy update
+
+apt-get -qy install \
+  git \
+  gnupg1 \
+  sshpass \
+;
+
+sh build-aux/save-artifacts.sh \
+  --copy-ssh-secret-key-file \
+  --git-committer-email archivist@stealthsoftwareinc.com \
+  --git-committer-name "Stealth Archivist" \
+  --gpg-passphrase-file /archivist.gpg-passphrase \
+  --gpg-secret-key-file /archivist.gpg-secret-key \
+  --repository git@gitlab.stealthsoftwareinc.com:stealth/safrn-artifacts.git \
+  --ssh-passphrase-file /archivist.ssh-passphrase \
+  --ssh-secret-key-file /archivist.ssh-secret-key \
+  *.jar \
+;

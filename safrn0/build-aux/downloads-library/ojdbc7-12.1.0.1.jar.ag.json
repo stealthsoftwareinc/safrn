@@ -1,0 +1,15 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "b74ac7e10bbdde05dd03629788be2a1d",
+    "sha1": "a2348e4944956fac05235f7cd5d30bf872afb157",
+    "sha224": "32b5e8d69ab11d4ffbf3ad55ec29e92444cb24f00d2eca0dbb798dd9",
+    "sha256": "72449d61e4d2685db8337e54dca2c33876c320aa7940054052da9244a3e934d7",
+    "sha384": "23816fcc29bb1f7afcfac8b2c6eeeb47cd93f5af2b00afa9eac7e798f099ac930edef4584d718bf822adbe7916576159",
+    "sha512": "2752d514bc4eceb55815b88de722b230e4436a47de4b174517393e6abff4d382cd0e901f7630ac4a73fc96ebf14166533632bf125ef7450f45d4064fdf72035e"
+  },
+  "urls": [
+    "https://github.com/rj90/CRM/raw/master/lib/com/oracle/ojdbc7/12.1.0.1/ojdbc7-12.1.0.1.jar"
+  ]
+}

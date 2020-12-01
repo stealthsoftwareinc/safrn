@@ -1,0 +1,23 @@
+##
+## For the copyright information for this file, please search up the
+## directory tree for the first README file.
+##
+
+## begin_variables
+
+EXTRA_DIST += src/docker/dashboard/Dockerfile
+EXTRA_DIST += src/docker/dashboard/build
+EXTRA_DIST += src/docker/dashboard/dashboard
+EXTRA_DIST += src/docker/dashboard/http.conf
+EXTRA_DIST += src/docker/dashboard/https.conf
+
+## end_variables
+
+## begin_rules
+
+.PHONY: src/docker/dashboard
+
+src/docker/dashboard: FORCE
+src/docker/dashboard: src/docker/dashboard.tar.image
+
+## end_rules

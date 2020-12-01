@@ -1,0 +1,16 @@
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+
+build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar: build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar.am
+build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar: build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm
+	rpm2cpio \
+  build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm \
+  >build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm.cpio \
+;
+	cpio -i --to-stdout \
+  ./usr/lib/jvm/java-1.7.0-openjdk-1.7.0.221-2.6.18.1.el7.x86_64/jre/lib/jce.jar \
+  <build-aux/downloads/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm.cpio \
+  >$@ \
+;

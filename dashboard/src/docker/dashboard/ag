@@ -1,0 +1,7 @@
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README file.
+#
+
+autogen_ac_include src/docker/dashboard/ac
+autogen_am_include src/docker/dashboard/am

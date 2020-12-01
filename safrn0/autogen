@@ -1,0 +1,33 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+set -e; . src/bash/preludes/standard.bash
+
+autogen_ac_start build-aux/autogen.ac
+autogen_am_start build-aux/autogen.am
+
+autogen_am_var_append EXTRA_DIST \
+  install/**/* \
+;
+
+autogen_downloads build-aux/downloads
+autogen_gitbundles build-aux/gitbundles
+
+autogen_java_jars \
+  lib/safrn.jar.ag.json \
+;
+
+autogen_java_programs \
+  bin/safrn_back_server.ag.json \
+  bin/safrn_front_server.ag.json \
+;
+
+autogen_texinfo doc/safrn.texi doc/texi doc/texi/safrn
+
+autogen_ac_finish
+autogen_am_finish
+
+autoreconf -fi

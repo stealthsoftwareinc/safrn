@@ -1,0 +1,18 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "7f0a808f095402a2bcac76c158797bda",
+    "sha1": "4b62847dc49c4dd7a77fa79c848f4fa429285795",
+    "sha224": "730d594a69e55e2ee969876d019fad826a8570efca7b0b1ea57948a8",
+    "sha256": "6cbd4f14b966fb7a200ed8a2582c1bfabd4863002ac361b14475c7f9eeee6a89",
+    "sha384": "ce4c1adbecf3e73b79622a09a21d26609e9585b97774eaa92624d6e5fd4b4d5d89af12885e6c5baad24662bf63763ccc",
+    "sha512": "44d9a32d441c0765ec77db7be439b3a0b029d57c2bb7b17ddaa06d5c375ba5add3eb41d8db32df88a6f1a87c486c241fc8194377de840a338eb6e731432faa13"
+  },
+  "urls": [
+    "https://repo1.maven.org/maven2/info/picocli/picocli/4.0.2/picocli-4.0.2.jar",
+    "https://repo.maven.apache.org/maven2/info/picocli/picocli/4.0.2/picocli-4.0.2.jar",
+    "https://repo.jfrog.org/artifactory/repo1/info/picocli/picocli/4.0.2/picocli-4.0.2.jar",
+    "https://repo.jenkins-ci.org/repo1/info/picocli/picocli/4.0.2/picocli-4.0.2.jar"
+  ]
+}

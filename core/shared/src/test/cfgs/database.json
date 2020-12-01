@@ -1,0 +1,27 @@
+{
+  "columnMaps": [
+    {
+      "localName": "SSN",
+      "localSQLType": 4,
+      "verticalIndex": 1,
+      "columnIndex": 2
+    },
+    {
+      "localName": "age",
+      "localSQLType": 4,
+      "verticalIndex": 3,
+      "columnIndex": 4
+    }
+  ],
+  "databaseSettings" : {
+    "driverName": "PostgreSQL Unicode",
+    "userID": "ODBCTest",
+    "password": "ODBCTest",
+    "additionalParameters": [
+      "Server=127.0.0.1",
+      "Port=5432",
+      "Database=ODBCTest"
+    ]
+  }
+}
+

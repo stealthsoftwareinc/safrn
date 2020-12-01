@@ -1,0 +1,164 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head lang="en" th:include="fragments/header :: header"></head>
+
+<head>
+    <title>Dashboard Organization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/searchSession.css}"/>
+</head>
+
+<body>
+    <div th:replace="fragments/title::nav"></div>
+    <div th:replace="fragments/orgSidebar::orgSidebar"></div>
+    <div th:replace="fragments/userInfoBar::userInfoBar"></div>
+    <div id="viewSessionAccept-dialog-confirm" title="">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Do you want to continue with accepting this private study?</p>
+    </div>
+    <div id="viewSessionDecline-dialog-confirm" title="">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Do you want to continue with declining this private study?</p>
+    </div>
+    <main role="main" style="margin-top: 42px;">
+        <div class="text-center" style="margin-bottom: 50px; overflow-y: auto; margin-left: 260px;">
+            <div th:if="${sessionDetails == null}">
+                <p th:text="${successMessage}"></p>
+            </div>
+            <div th:unless="${sessionDetails == null}">
+                <div class="d-flex justify-content-center">
+                    <table style="margin-bottom: 30px;">
+                        <tr>
+                            <td class="text-right">
+                                <div style="margin-right: 40px;"> Private Study Name:</div>
+                            </td>
+                            <td class="text-primary" th:text="${sessionDetails.sessionName}">
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr class="sessionAboutForm">
+                            <td class="text-right">
+                                <div style="margin-right: 40px;">About:</div>
+                            </td>
+                            <td class="text-primary" th:text="${sessionDetails.aboutSession}">
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+
+                        <tr style="height: 3px;"></tr>
+                    </table>
+                </div>
+                <div th:each="vertical, i : *{sessionDetails.verticals}" class="text-primary"
+                    style="margin-bottom: 20px;">
+                    <div class="d-flex justify-content-center" >
+                        <span style="font-family: Georgia, 'Times New Roman', Times, serif;color: black;" th:text="${vertical.verticalName}" class="createSession-page-4"></span>
+                    </div>
+                    <div class="d-flex justify-content-center" >
+                        <table class=" align-self-center" style="background-color: #f8f8f8;">
+                            <tr>
+                                <th> Column Name</th>
+                                <th> Data Type</th>
+                                <th> Unique?</th>
+                                <th> Attribute 1</th>
+                                <th> Attribute 2</th>
+                            </tr>
+                            <tr th:each="column, j: *{vertical.columns}">
+                                <td th:text="*{column.cname}"></td>
+                                <td th:text="*{column.ctype}">
+                                </td>
+                                <td th:text="*{column.cunique}">
+                                </td>
+                                <td th:text="*{column.clb}">
+                                </td>
+                                <td th:text="*{column.cub}">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="text-primary"
+                    style="margin-bottom: 20px;">
+                    <table style="background-color: #f8f8f8;">
+                        <!-- <h3>Peers</h3> -->
+                        <tr>
+                            <th>Organization Name</th>
+                            <th>Peer Type</th>
+                            <th>Peer Value</th>
+                            <th>Ordinal Value</th>
+                        </tr>
+                        <tr th:each="peers, i : *{sessionDetails.peers}">
+                            <td th:text="*{sessionDetails.peers[__${i.index}__].organizationName}">
+                            </td>
+                            <td th:text="*{sessionDetails.peers[__${i.index}__].peerType}">
+                            </td>
+                            <td th:text="*{sessionDetails.peers[__${i.index}__].peerValue}">
+                            </td>
+                            <td th:text="*{sessionDetails.peers[__${i.index}__].ordinalValue}"></td>
+                        </tr>
+                    </table>
+                </div>
+                <hr style="margin-bottom: 0;">
+                <hr style="margin-top: 1.5px;">
+                <div class="shadow p-3 m-3 bg-white rounded">
+                    <p th:if="${sessionDetails.invitationStatus == T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EInvitationStatus).PENDING}" class="text-danger" style="font-size:large; font-family: Georgia, 'Times New Roman', Times, serif">Respond Now</p>
+                    <form th:action="@{/organization/updatemysessionstatus}" method="post">
+                        <div class="text-left d-flex justify-content-center" style="margin-top: .5rem;">
+                            <table>
+                                <tr>
+                                    <td class="text-right text-success" style="width: fit-content!important;">Domain or IP: 
+                                    </td>
+                                    <td th:if="${sessionDetails.invitationStatus == T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EInvitationStatus).PENDING}"
+                                        style="display: flex;">
+                                            <input type="text" name="connectionInfoForm.ipAddress" th:value="*{connectionInfo.ipAddress}" 
+                                            class="form-control" readonly/>
+                                            <button class="btn fa fa-unlock" aria-hidden="true" type="button" style="display: none;" onclick="lockInput(this)"></button>
+                                            <button class="btn fa fa-lock" aria-hidden="true" type="button" onclick="unlockInput(this)"></button>
+                                    </td>
+                                    <td th:unless="${sessionDetails.invitationStatus == T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EInvitationStatus).PENDING}" th:text="*{connectionInfo.ipAddress}" 
+                                        class="form-control"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-right text-success" style="width: fit-content!important;">Port: 
+                                    </td>
+                                    <td th:if="${sessionDetails.invitationStatus == T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EInvitationStatus).PENDING}"
+                                        style="display: flex;">
+                                        <input type="text" name="connectionInfoForm.port" th:value="*{connectionInfo.port}" 
+                                        class="form-control" style="display: inline;" readonly/>
+                                        <button class="btn fa fa-unlock" aria-hidden="true" type="button" style="display: none;" onclick="lockInput(this)"></button>
+                                        <button class="btn fa fa-lock" aria-hidden="true" type="button" onclick="unlockInput(this)"></button>
+                                    </td>
+                                    <td th:unless="${sessionDetails.invitationStatus == T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EInvitationStatus).PENDING}" th:text="*{connectionInfo.port}" 
+                                        class="form-control"/></td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div
+                            th:if="${sessionDetails.invitationStatus == T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EInvitationStatus).PENDING}"
+                            style="margin-top: 10px;">
+                            <input type="hidden" name="sessionName" th:value="${sessionDetails.sessionName}" />
+                            <input type="hidden" name="loginId" th:value="${sessionDetails.id}" />
+                            <input type="hidden" name="connectionInfoForm.connectionName" th:value="${connectionInfo.connectionName}" />
+                            <label class="btn btn-success" aria-hidden="true" style="margin-right: 10px;"
+                                for="ACCEPTED">
+                                Accept
+                            </label>
+                            <input id="ACCEPTED" type="radio" name="status" onclick="viewSessionAccept(this)" style="display: none;"
+                                value="ACCEPTED" />
+            
+                            <label class="btn btn-danger" aria-hidden="true" for="DECLINED">
+                                Decline
+                            </label>
+                            <input id="DECLINED" type="radio" name="status" onclick="viewSessionDecline(this)"
+                                style="display: none;" value="DECLINED" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div th:replace="fragments/footer::footer"></div>
+</body>
+
+</html>

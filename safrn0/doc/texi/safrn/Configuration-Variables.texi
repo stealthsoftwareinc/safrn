@@ -1,0 +1,407 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@node Configuration Variables
+@chapter Configuration Variables
+
+@cindex configuration variables
+The
+@w{@t{safrn_front_server}}
+and
+@w{@t{safrn_back_server}}
+programs are configured at startup through a collection of
+@i{configuration variables}@.
+At a fundamental level, the names and values of configuration variables
+are arbitrary strings, but only certain names are recognized and many
+checks are performed on the values to verify their validity both
+individually and as a whole@.
+
+Configuration variables are set with command-line options@.
+They can be set directly by using syntax like
+@w{@t{--http_listen_port=1234}}
+(or
+@w{@t{--http_listen_port 1234}},
+which is equivalent), or indirectly by putting them in a properties
+file, say
+@w{@t{foo.props}},
+and using
+@w{@t{--config=foo.props}}
+(or
+@w{@t{--config foo.props}})@.
+The file must be encoded in UTF-8, and the syntax is as specified by the
+@url{https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Properties.html#load(java.io.Reader), java.@:util.@:Properties.@:load(java.@:io.@:Reader)}
+function@.
+Any of these command-line options can appear any number of times@.
+When the same configuration variable is set multiple times, the last one
+is taken, where command-line options are ordered from left to right and
+entries within the same properties file are ordered from top to bottom@.
+
+@heading Networking Variables
+
+@itemize
+@item
+@idindex @w{@t{http_listen_host}}
+@w{@t{http_listen_host}}:
+Specifies the interface on which the HTTP server should listen@.
+This variable only applies to the analyst server@.
+It defaults to
+@w{@t{127.@:0.@:0.@:1}}@.
+To listen on all interfaces, use
+@w{@t{0.@:0.@:0.@:0}}@.
+
+@item
+@idindex @w{@t{http_listen_port}}
+@w{@t{http_listen_port}}:
+Specifies the port on which the HTTP server should listen@.
+This variable only applies to the analyst server@.
+It defaults to 8080@.
+
+@item
+@idindex @w{@t{raw_listen_host}}
+@w{@t{raw_listen_host}}:
+Specifies the interface on which the raw protocol server should listen@.
+This variable applies to all servers except the analyst server@.
+It defaults to
+@w{@t{127.@:0.@:0.@:1}}@.
+To listen on all interfaces, use
+@w{@t{0.@:0.@:0.@:0}}@.
+
+@item
+@idindex @w{@t{raw_listen_port}}
+@w{@t{raw_listen_port}}:
+Specifies the port on which the raw protocol server should listen@.
+This variable applies to all servers except the analyst server@.
+It defaults to 10701@.
+
+@item
+@idindex @w{@t{raw_connect_host_}@i{i}}
+@w{@t{raw_connect_host_}@i{i}}
+(for
+@tex
+$i = {\tt local\_party} + 1, \ldots, {\tt party\_count}$):
+@end tex
+@ifnottex
+@w{@i{i} = @t{local_party} + 1},
+@w{@bdots{}},
+@w{@t{party_count}}):
+@end ifnottex
+Specifies the host to use to connect to party @i{i}'s raw protocol
+server@.
+This variable applies to all servers except the last group server@.
+It defaults to
+@w{@t{127.@:0.@:0.@:1}}@.
+
+@item
+@idindex @w{@t{raw_connect_port_}@i{i}}
+@w{@t{raw_connect_port_}@i{i}}
+(for
+@tex
+$i = {\tt local\_party} + 1, \ldots, {\tt party\_count}$):
+@end tex
+@ifnottex
+@w{@i{i} = @t{local_party} + 1},
+@w{@bdots{}},
+@w{@t{party_count}}):
+@end ifnottex
+Specifies the port to use to connect to party @i{i}'s raw protocol
+server@.
+This variable applies to all servers except the last group server@.
+It defaults to 10701@.
+@end itemize
+
+@heading Database Variables
+
+@itemize
+@item
+@idindex @w{@t{jdbc_subprotocol}}
+@w{@t{jdbc_subprotocol}}:
+Specifies which database system to use@.
+This must be one of
+@w{@t{mysql}}
+or
+@w{@t{postgresql}}
+or
+@w{@t{oracle}}@.
+The default is
+@w{@t{mysql}}@.
+
+@item
+@idindex @w{@t{jdbc_host}}
+@w{@t{jdbc_host}}:
+Specifies the host to use to connect to the database@.
+This variable can be overridden by the various
+@w{@i{d}@t{_host}}
+variables depending on which
+@w{@t{jdbc_subprotocol}}
+is being used@.
+This variable defaults to
+@w{@t{127.@:0.@:0.@:1}}@.
+
+@item
+@idindex @w{@t{jdbc_port}}
+@w{@t{jdbc_port}}:
+Specifies the port to use to connect to the database@.
+This variable can be overridden by the
+@w{@i{x}@t{_port}}
+variable, where
+@w{@i{x}}
+is the
+@w{@t{jdbc_subprotocol}}
+being used@.
+This variable defaults to a value depending on which
+@w{@t{jdbc_subprotocol}}
+is being used:
+@itemize
+@item @w{@t{jdbc_subprotocol} = @t{mysql}}: 3306@.
+@item @w{@t{jdbc_subprotocol} = @t{postgresql}}: 5432@.
+@item @w{@t{jdbc_subprotocol} = @t{oracle}}: 1521@.
+@end itemize
+
+@item
+@idindex @w{@t{jdbc_username}}
+@w{@t{jdbc_username}}:
+Specifies the username to use when connecting to the database@.
+This variable can be overridden by the various
+@w{@i{d}@t{_username}}
+variables depending on which
+@w{@t{jdbc_subprotocol}}
+is being used@.
+This variable defaults to
+@w{@t{root}}@.
+
+@item
+@idindex @w{@t{jdbc_password}}
+@w{@t{jdbc_password}}:
+Specifies the password to use when connecting to the database@.
+This variable can be overridden by the various
+@w{@i{d}@t{_password}}
+variables depending on which
+@w{@t{jdbc_subprotocol}}
+is being used@.
+This variable defaults to
+@w{@t{root}}@.
+
+@item
+@idindex @w{@t{jdbc_database}}
+@w{@t{jdbc_database}}:
+Specifies the database name to use when connecting to the database@.
+This variable can be overridden by the various
+@w{@i{d}@t{_database}}
+variables depending on which
+@w{@t{jdbc_subprotocol}}
+is being used@.
+This variable defaults to
+@w{@t{safrn}}@.
+
+@item
+@idindex @w{@t{mysql_host}}
+@w{@t{mysql_host}}:
+Specifies the host to use to connect to the MySQL database@.
+This variable defaults to the value of the
+@w{@t{jdbc_host}}
+variable@.
+
+@item
+@idindex @w{@t{mysql_port}}
+@w{@t{mysql_port}}:
+Specifies the port to use to connect to the MySQL database@.
+This variable defaults to the value of the
+@w{@t{jdbc_port}}
+variable@.
+
+@item
+@idindex @w{@t{mysql_username}}
+@w{@t{mysql_username}}:
+Specifies the username to use when connecting to the MySQL database@.
+This variable defaults to the value of the
+@w{@t{jdbc_username}}
+variable@.
+
+@item
+@idindex @w{@t{mysql_password}}
+@w{@t{mysql_password}}:
+Specifies the password to use when connecting to the MySQL database@.
+This variable defaults to the value of the
+@w{@t{jdbc_password}}
+variable@.
+
+@item
+@idindex @w{@t{mysql_database}}
+@w{@t{mysql_database}}:
+Specifies the database name to use when connecting to the MySQL
+database@.
+This variable defaults to the value of the
+@w{@t{jdbc_database}}
+variable@.
+
+@item
+@idindex @w{@t{mysql_table}}
+@w{@t{mysql_table}}: It defaults to @w{@t{data}}.
+
+@item
+@idindex @w{@t{oracle_host}}
+@w{@t{oracle_host}}:
+Specifies the host to use to connect to the Oracle database@.
+This variable defaults to the value of the
+@w{@t{jdbc_host}}
+variable@.
+
+@item
+@idindex @w{@t{oracle_port}}
+@w{@t{oracle_port}}:
+Specifies the port to use to connect to the Oracle database@.
+This variable defaults to the value of the
+@w{@t{jdbc_port}}
+variable@.
+
+@item
+@idindex @w{@t{oracle_servicename}}
+@w{@t{oracle_servicename}}:
+Specifies the Oracle servicename to use when connecting to the Oracle
+database@.
+This variable defaults to
+@w{@t{ORCLCDB.localdomain}}@.
+
+@item
+@idindex @w{@t{oracle_username}}
+@w{@t{oracle_username}}:
+Specifies the username to use when connecting to the Oracle
+database@.
+This variable defaults to the value of the
+@w{@t{jdbc_username}}
+variable@.
+
+@item
+@idindex @w{@t{oracle_password}}
+@w{@t{oracle_password}}:
+Specifies the password to use when connecting to the Oracle
+database@.
+This variable defaults to the value of the
+@w{@t{jdbc_password}}
+variable@.
+
+@item
+@idindex @w{@t{postgresql_host}}
+@w{@t{postgresql_host}}:
+Specifies the host to use to connect to the PostgreSQL database@.
+This variable defaults to the value of the
+@w{@t{jdbc_host}}
+variable@.
+
+@item
+@idindex @w{@t{postgresql_port}}
+@w{@t{postgresql_port}}:
+Specifies the port to use to connect to the PostgreSQL database@.
+This variable defaults to the value of the
+@w{@t{jdbc_port}}
+variable@.
+
+@item
+@idindex @w{@t{postgresql_username}}
+@w{@t{postgresql_username}}:
+Specifies the username to use when connecting to the PostgreSQL
+database@.
+This variable defaults to the value of the
+@w{@t{jdbc_username}}
+variable@.
+
+@item
+@idindex @w{@t{postgresql_password}}
+@w{@t{postgresql_password}}:
+Specifies the password to use when connecting to the PostgreSQL
+database@.
+This variable defaults to the value of the
+@w{@t{jdbc_password}}
+variable@.
+
+@item
+@idindex @w{@t{postgresql_database}}
+@w{@t{postgresql_database}}:
+Specifies the database name to use when connecting to the PostgreSQL
+database@.
+This variable defaults to the value of the
+@w{@t{jdbc_database}}
+variable@.
+@end itemize
+
+@heading Column Names
+
+@itemize
+@item
+@idindex @w{@t{valid_dvs}}
+@w{@t{valid_dvs}}: It defaults to @w{@t{Income}}.
+
+@item
+@idindex @w{@t{valid_keys}}
+@w{@t{valid_keys}}: It defaults to @w{@t{CaseID}}.
+
+@item
+@idindex @w{@t{valid_ivs}}
+@w{@t{valid_ivs}}: It defaults to @w{@t{Attrib_A,Group_X,Attrib_B}}.
+
+@item
+@idindex @w{@i{s}@t{_domain_quote}}
+@w{@i{s}@t{_domain_quote}}
+(for any string @w{@i{s}}): It defaults to @w{@t{true}}.
+
+@item
+@idindex @w{@i{s}@t{_domain_values}}
+@w{@i{s}@t{_domain_values}}
+(for any string @w{@i{s}}): It defaults to @w{@t{1}}.
+@end itemize
+
+@heading Data Parameters
+
+@itemize
+@item
+@idindex @w{@t{group_size_bound}}
+@w{@t{group_size_bound}}: It defaults to @w{@t{1000}}. This flag can be assigned all
+nonzero integers (following the pattern @w{@t{[1-9][0-9]*}}).
+
+@item
+@idindex @w{@t{income_size_bound}}
+@w{@t{income_size_bound}}: It defaults to @w{@t{1000}}. This flag can be assigned
+all positive integers (following the pattern @w{@t{[1-9][0-9]*}}).
+
+@item
+@idindex @w{@t{hash_slop}}
+@w{@t{hash_slop}}: It defaults to @w{@t{2.1}}. Argument provided must be a valid (double) floating point number.
+
+@item
+@idindex @w{@t{modulus}}
+@w{@t{modulus}}: It defaults to @w{@t{1073741789}}. This flag can be assigned all positive integers (following the
+pattern @w{@t{[1-9][0-9]*}}).
+@end itemize
+
+@heading Other Variables
+
+@itemize
+@item
+@idindex @w{@t{party_count}}
+@w{@t{party_count}}: It defaults to @w{@t{5}}. This flag can be assigned all positive integers greater than or equal
+ to 5 (following the pattern @w{@t{[5-9]|[1-9][0-9]+}}).
+
+@item
+@idindex @w{@t{local_party}}
+@w{@t{local_party}}: Specifies the kind of party, where the argument must be between 0 and @w{@t{party_count - 1}}.
+0 is the analyst server, 1 is the income server, and @w{@t{n > 1}} is the group @w{@t{n - 2}} server. For example,
+@w{@t{safrn_front_server}} must be given @w{@t{local_party = 0}} and @w{@t{safrn_back_server}} must be given
+@w{@t{local_party > 0}}. It defaults to @w{@t{0}}.
+
+@item
+@idindex @w{@t{performance_log_file}}
+@w{@t{performance_log_file}}: It defaults to the empty string (@w{@t{""}}).
+
+@item
+@idindex @w{@t{tmpdir}}
+@w{@t{tmpdir}}: It defaults to the empty string (@w{@t{""}}).
+
+@item
+@idindex @w{@t{use_files_for_large_memory}}
+@w{@t{use_files_for_large_memory}}: It defaults to @w{@t{false}}.
+@end itemize

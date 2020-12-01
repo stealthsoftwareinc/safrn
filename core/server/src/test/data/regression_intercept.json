@@ -1,0 +1,56 @@
+{
+  "prefilters": [ [ [ { "left": [ { "coefficient": 1, "values": [ { "col": { "vertical": 2, "columnIndex": 3 }, "exp": 4 } ] } ], "right": 5, "comp": "<" } ] ] ],
+
+  "joinStatement": {
+    "type": "INNER",
+    "joinOns": [
+      {
+        "first": {
+          "col": {
+            "vertical": 0,
+            "columnName": "key1"
+          },
+          "formula": [
+            "0",
+            "1"
+          ]
+        },
+        "second": {
+          "col": {
+            "vertical": 1,
+            "columnName": "key2"
+          },
+          "formula": [
+            "0",
+            "1"
+          ]
+        }
+      }
+    ]
+  },
+  "function": {
+    "type": "LinearRegressionFunction",
+    "fit_intercept": true,
+    "table_cell_bytes": 4,
+    "num_table_rows": 1000,
+    "bits_of_precision": 5,
+    "dep_var": {
+      "vertical": 1,
+      "columnName": "payload4"
+    },
+    "indep_vars": [
+      {
+        "vertical": 0,
+        "columnName": "payload1"
+      },
+      {
+        "vertical": 0,
+        "columnName": "payload2"
+      },
+      {
+        "vertical": 1,
+        "columnName": "payload3"
+      }
+    ]
+  }
+}

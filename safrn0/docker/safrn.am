@@ -1,0 +1,150 @@
+##
+## This file is from the SAFRN package.
+##
+## The following copyright notice is generally applicable:
+##
+##      Copyright (C)
+##         Stealth Software Technologies Commercial, Inc.
+##
+## The full copyright information depends on the distribution
+## of the package. For more information, see the COPYING file.
+## However, depending on the context in which you are viewing
+## this file, the COPYING file may not be available.
+##
+
+## begin_variables
+
+EXTRA_DIST += docker/safrn/Dockerfile
+EXTRA_DIST += docker/safrn/builder/Dockerfile
+
+## end_variables
+
+## begin_rules
+
+.PHONY: clean-docker/safrn/overlay
+.PHONY: docker/safrn-VERSION-docker.tar
+.PHONY: docker/safrn-VERSION-docker.tar.xz
+
+clean-docker/safrn/overlay: FORCE
+	-'rm' \
+  '-f' \
+  '-r' \
+  'docker/safrn/builder.tmp' \
+  'docker/safrn/overlay' \
+  'docker/safrn/overlay.tmp' \
+;
+
+docker/safrn-VERSION-docker.tar: FORCE
+docker/safrn-VERSION-docker.tar: docker/safrn-$(PACKAGE_VERSION)-docker.tar
+
+docker/safrn-VERSION-docker.tar.xz: FORCE
+docker/safrn-VERSION-docker.tar.xz: docker/safrn-$(PACKAGE_VERSION)-docker.tar.xz
+
+docker/safrn/overlay: build-aux/gitbundles/safrn.gitbundle
+docker/safrn/overlay: build-aux/gitbundles/sst.gitbundle
+docker/safrn/overlay: build-aux/gitbundles/tgicmp.gitbundle
+docker/safrn/overlay: build-aux/gitbundles/wficmp.gitbundle
+docker/safrn/overlay: docker/safrn/builder/Dockerfile
+	$(AM_V_at)$(GATBPS_RECIPE_MARKER_TOP)
+	$(AM_V_at)'rm' \
+  '-f' \
+  '-r' \
+  'docker/safrn/builder.tmp' \
+  'docker/safrn/overlay' \
+  'docker/safrn/overlay.tmp' \
+;
+	$(AM_V_at){ \
+  ( \
+    $(MAKE) \
+      $(AM_MAKEFLAGS) \
+      'docker/safrn/builder.tmp/Dockerfile' \
+      'docker/safrn/builder.tmp/safrn.gitbundle' \
+      'docker/safrn/builder.tmp/sst.gitbundle' \
+      'docker/safrn/builder.tmp/tgicmp.gitbundle' \
+      'docker/safrn/builder.tmp/wficmp.gitbundle' \
+    || 'exit' "$${?}"; \
+    'exit' '0'; \
+  :;); \
+  s="$${?}"; \
+  'readonly' 's'; \
+  case "$${s}" in \
+    '0') \
+    ;; \
+    *) \
+      'rm' \
+        '-f' \
+        '-r' \
+        'docker/safrn/builder.tmp' \
+      ; \
+    ;; \
+  esac; \
+  'exit' "$${s}"; \
+:;}
+	$(AM_V_GEN)$(GATBPS_V_NOP)
+	$(AM_V_at){ \
+  ( \
+    $(DOCKER) \
+      'build' \
+      '--tag' \
+      'tmp'"$${$$}" \
+      'docker/safrn/builder.tmp' \
+    || 'exit' "$${?}"; \
+    ( \
+      $(DOCKER) \
+        'create' \
+        '--name' \
+        'tmp'"$${$$}" \
+        'tmp'"$${$$}" \
+      || 'exit' "$${?}"; \
+      $(DOCKER) \
+        'cp' \
+        'tmp'"$${$$}"':/x/overlay' \
+        'docker/safrn/overlay.tmp' \
+      || 'exit' "$${?}"; \
+      'exit' '0'; \
+    :;); \
+    s="$${?}"; \
+    'readonly' 's'; \
+    $(DOCKER) \
+      'rm' \
+      'tmp'"$${$$}" \
+    ; \
+    case "$${s}" in \
+      '0') \
+      ;; \
+      *) \
+        'exit' "$${s}"; \
+      ;; \
+    esac; \
+    'mv' \
+      'docker/safrn/overlay.tmp' \
+      'docker/safrn/overlay' \
+    || 'exit' "$${?}"; \
+    'exit' '0'; \
+  :;); \
+  s="$${?}"; \
+  'readonly' 's'; \
+  'rm' \
+    '-f' \
+    '-r' \
+    'docker/safrn/builder.tmp' \
+  ; \
+  case "$${s}" in \
+    '0') \
+    ;; \
+    *) \
+      'rm' \
+        '-f' \
+        '-r' \
+        'docker/safrn/overlay' \
+        'docker/safrn/overlay.tmp' \
+      ; \
+    ;; \
+  esac; \
+  'exit' "$${s}"; \
+:;}
+	$(AM_V_at)$(GATBPS_RECIPE_MARKER_BOT)
+
+mostlyclean-local: clean-docker/safrn/overlay
+
+## end_rules

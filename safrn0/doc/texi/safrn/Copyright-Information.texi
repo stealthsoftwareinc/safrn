@@ -1,0 +1,19 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@ifset fullmanual
+@node Copyright Information
+@unnumbered Copyright Information
+@end ifset
+@ifclear fullmanual
+@unnumbered Copyright Information
+@end ifclear
+
+Unless otherwise stated, all content of the SAFRN package is copyright
+of Stealth Software Technologies Commercial, Inc@.
+All rights reserved@.

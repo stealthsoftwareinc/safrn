@@ -1,0 +1,30 @@
+#! /bin/bash -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first README.md file.
+#
+
+. src/bash/preludes/standard.bash || exit
+
+if ! command -v sudo >/dev/null; then
+  echo "Installing sudo with yum..."
+  su -c "yum install -y sudo" root
+fi
+
+echo "Installing various packages with yum..."
+sudo sh -c '
+  yum install -y epel-release
+  yum install -y \
+    autoconf \
+    automake \
+    git \
+    jq \
+    libtool \
+    m4 \
+  ;
+'
+
+./autogen
+
+echo on x is $on_x
+src/install/from-dist/${on_x}

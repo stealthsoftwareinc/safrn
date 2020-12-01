@@ -1,0 +1,21 @@
+@ifxml
+@ifnotxml
+@c
+@c For the copyright information for this file, please search up the
+@c directory tree for the first README.md file.
+@c
+@end ifnotxml
+@end ifxml
+@node Building and Installation
+@chapter Building and Installation
+
+@menu
+* Easy Building and Installation::
+* Advanced Building and Installation::
+@end menu
+
+@lowersections
+@include safrn/Easy-Building-and-Installation.texi
+
+@include safrn/Advanced-Building-and-Installation.texi
+@raisesections

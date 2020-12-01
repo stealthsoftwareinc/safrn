@@ -1,0 +1,18 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "32baefe5c7080dfb512a4eac5ce67b2a",
+    "sha1": "64568f2791d1309aaccc22e63758458fd249ec8b",
+    "sha224": "d545d7e8aa47d2cfae30d1d995ef7f8630595d69cf72a4af56e1ae00",
+    "sha256": "246cf3ffa54985118ec2eea2b8d0c71b92114efe6282c2ae90d65029db4cf93a",
+    "sha384": "55d8422ed1ca4ace40109d1c61e7b782e501058b13ae877894c5aa0f0ec4fd4561bf2e1cda57545721cab6c961642649",
+    "sha512": "ef6c5878d9db497d7963bd9138418b30c39a5605c215bf2f4e8f1f083d93c3c99f8c459aa675f7da3b78da6189cb6bbf3cf19a2ee1d52e569de2f6ce82762bf4"
+  },
+  "urls": [
+    "https://ftp.gnu.org/gnu/texinfo/texinfo-6.3.tar.xz",
+    "https://mirrors.kernel.org/gnu/texinfo/texinfo-6.3.tar.xz",
+    "https://www.mirrorservice.org/sites/ftp.gnu.org/gnu/texinfo/texinfo-6.3.tar.xz",
+    "https://mirrors.ocf.berkeley.edu/gnu/texinfo/texinfo-6.3.tar.xz"
+  ]
+}

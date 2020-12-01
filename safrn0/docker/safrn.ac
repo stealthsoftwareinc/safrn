@@ -1,0 +1,113 @@
+dnl
+dnl This file is from the SAFRN package.
+dnl
+dnl The following copyright notice is generally applicable:
+dnl
+dnl      Copyright (C)
+dnl         Stealth Software Technologies Commercial, Inc.
+dnl
+dnl The full copyright information depends on the distribution
+dnl of the package. For more information, see the COPYING file.
+dnl However, depending on the context in which you are viewing
+dnl this file, the COPYING file may not be available.
+dnl
+[
+
+]dnl begin_targets
+[
+
+]GATBPS_CP(
+  [docker/safrn-$(PACKAGE_VERSION)-docker.tar],
+  [docker/safrn-docker.tar],
+  [file],
+  [clean],
+  [
+  ])[
+
+]GATBPS_CP(
+  [docker/safrn-$(PACKAGE_VERSION)-docker.tar.xz],
+  [docker/safrn-docker.tar.xz],
+  [file],
+  [clean],
+  [
+  ])[
+
+]GATBPS_CP(
+  [docker/safrn/builder.tmp/Dockerfile],
+  [docker/safrn/builder/Dockerfile],
+  [file],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_CP(
+  [docker/safrn/builder.tmp/safrn.gitbundle],
+  [build-aux/gitbundles/safrn.gitbundle],
+  [file],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_CP(
+  [docker/safrn/builder.tmp/sst.gitbundle],
+  [build-aux/gitbundles/sst.gitbundle],
+  [file],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_CP(
+  [docker/safrn/builder.tmp/tgicmp.gitbundle],
+  [build-aux/gitbundles/tgicmp.gitbundle],
+  [file],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_CP(
+  [docker/safrn/builder.tmp/wficmp.gitbundle],
+  [build-aux/gitbundles/wficmp.gitbundle],
+  [file],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_DOCKER_BUILD(
+  [docker/safrn-docker.tar],
+  [docker/safrn],
+  [
+    [registry.stealthsoftwareinc.com/stealthcommercial/safrn:]AC_PACKAGE_VERSION_DOCKER,
+    [registry.stealthsoftwareinc.com/stealthcommercial/safrn:latest],
+    [stealthcommercial/safrn:]AC_PACKAGE_VERSION_DOCKER,
+    [stealthcommercial/safrn:latest],
+  ],
+  [
+    [docker/safrn/Dockerfile],
+    [docker/safrn/overlay.tar.xz],
+  ],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_TAR(
+  [docker/safrn/overlay.tar],
+  [docker/safrn/overlay],
+  [directory_contents],
+  [mostlyclean],
+  [
+  ])[
+
+]GATBPS_XZ(
+  [docker/safrn-docker.tar.xz],
+  [docker/safrn-docker.tar],
+  [mostlyclean])[
+
+]GATBPS_XZ(
+  [docker/safrn/overlay.tar.xz],
+  [docker/safrn/overlay.tar],
+  [mostlyclean])[
+
+]dnl end_targets
+[
+
+]

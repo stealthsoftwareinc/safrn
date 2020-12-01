@@ -1,0 +1,431 @@
+Parsing /query?analysis=freq
+SELECT COUNT(*) FROM `SQL_TABLE`;
+
+Parsing /query?analysis=mean&dv=Income
+SELECT
+  SUM(`Income`) AS `Income`,
+  COUNT(*) AS `count`
+FROM `SQL_TABLE`;
+
+Parsing /query?analysis=freq&iv=Attrib_A
+SELECT
+`Attrib_A`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_A_domain`
+)
+ORDER BY
+  `Attrib_A_domain`.`Attrib_A`
+;
+
+Parsing /query?analysis=freq&iv=Attrib_B
+SELECT
+`Attrib_B`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_B_domain`
+)
+ORDER BY
+  `Attrib_B_domain`.`Attrib_B`
+;
+
+Parsing /query?analysis=freq&iv=Group_X
+SELECT
+`Group_X`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Group_X_domain`
+)
+ORDER BY
+  `Group_X_domain`.`Group_X`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Attrib_A
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"'))
+UNION
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Attrib_A_domain`
+)
+ORDER BY
+  `Attrib_A-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Attrib_B
+SELECT
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Attrib_B_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"'))
+UNION
+SELECT
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Attrib_B_domain`
+)
+ORDER BY
+  `Attrib_B-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Group_X
+SELECT
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Group_X_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+UNION
+SELECT
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Group_X_domain`
+)
+ORDER BY
+  `Group_X-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=freq&iv=Attrib_A+Attrib_B
+SELECT
+`Attrib_A`,
+`Attrib_B`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"')) AND
+    ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Attrib_B_domain`
+)
+ORDER BY
+  `Attrib_A_domain`.`Attrib_A`,
+  `Attrib_B_domain`.`Attrib_B`
+;
+
+Parsing /query?analysis=freq&iv=Attrib_A+Group_X
+SELECT
+`Attrib_A`,
+`Group_X`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"')) AND
+    ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Group_X_domain`
+)
+ORDER BY
+  `Attrib_A_domain`.`Attrib_A`,
+  `Group_X_domain`.`Group_X`
+;
+
+Parsing /query?analysis=freq&iv=Attrib_B+Group_X
+SELECT
+`Attrib_B`,
+`Group_X`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"')) AND
+    ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_B_domain` CROSS JOIN
+  `Group_X_domain`
+)
+ORDER BY
+  `Attrib_B_domain`.`Attrib_B`,
+  `Group_X_domain`.`Group_X`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Attrib_A+Attrib_B
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Attrib_B_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"')) AND
+  ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"'))
+UNION
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Attrib_B_domain`
+)
+ORDER BY
+  `Attrib_A-orderfix`,
+  `Attrib_B-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Attrib_A+Group_X
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Group_X_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"')) AND
+  ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+UNION
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Group_X_domain`
+)
+ORDER BY
+  `Attrib_A-orderfix`,
+  `Group_X-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Attrib_B+Group_X
+SELECT
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Attrib_B_domain` CROSS JOIN
+  `Group_X_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"')) AND
+  ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+UNION
+SELECT
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Attrib_B_domain` CROSS JOIN
+  `Group_X_domain`
+)
+ORDER BY
+  `Attrib_B-orderfix`,
+  `Group_X-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=freq&iv=Attrib_A+Attrib_B+Group_X
+SELECT
+`Attrib_A`,
+`Attrib_B`,
+`Group_X`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"')) AND
+    ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"')) AND
+    ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Attrib_B_domain` CROSS JOIN
+  `Group_X_domain`
+)
+ORDER BY
+  `Attrib_A_domain`.`Attrib_A`,
+  `Attrib_B_domain`.`Attrib_B`,
+  `Group_X_domain`.`Group_X`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Attrib_A+Attrib_B+Group_X
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Attrib_B_domain` CROSS JOIN
+  `Group_X_domain` CROSS JOIN
+  `SQL_TABLE`
+) WHERE
+  ((`SQL_TABLE`.`Attrib_A`=CAST(`Attrib_A_domain`.`Attrib_A` AS CHAR)) OR (`Attrib_A_domain`.`Attrib_A`='"*"')) AND
+  ((`SQL_TABLE`.`Attrib_B`=CAST(`Attrib_B_domain`.`Attrib_B` AS CHAR)) OR (`Attrib_B_domain`.`Attrib_B`='"*"')) AND
+  ((`SQL_TABLE`.`Group_X`=CAST(`Group_X_domain`.`Group_X` AS CHAR)) OR (`Group_X_domain`.`Group_X`='"*"'))
+UNION
+SELECT
+`Attrib_A_domain`.`Attrib_A`+0 AS `Attrib_A-orderfix`,
+`Attrib_B_domain`.`Attrib_B`+0 AS `Attrib_B-orderfix`,
+`Group_X_domain`.`Group_X`+0 AS `Group_X-orderfix`,
+  NULL AS `CaseID`
+  FROM
+(
+  `Attrib_A_domain` CROSS JOIN
+  `Attrib_B_domain` CROSS JOIN
+  `Group_X_domain`
+)
+ORDER BY
+  `Attrib_A-orderfix`,
+  `Attrib_B-orderfix`,
+  `Group_X-orderfix`,
+  `CaseID`
+;
+
+Parsing /query?analysis=mean&dv=Income&iv=Income
+ERROR: Variable is already selected as dependent Income 
+
+
+Parsing /query?analysis=freq&dv=Income
+ERROR: Cannot have dv for frequency analysis 
+
+
+Parsing /query?analysis=freq&iv=Attrib_A+Attrib_A
+ERROR: Duplicated independent variable Attrib_A 
+
+
+Parsing /query?analysis=freq&iv=attrib_a
+SELECT
+`attrib_a`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`attrib_a`=CAST(`attrib_a_domain`.`attrib_a` AS CHAR)) OR (`attrib_a_domain`.`attrib_a`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `attrib_a_domain`
+)
+ORDER BY
+  `attrib_a_domain`.`attrib_a`
+;
+
+Parsing /query?analysis=freq&iv=Attrib_C
+SELECT
+`Attrib_C`,
+(
+  SELECT COUNT(*) FROM
+  `SQL_TABLE`
+  WHERE
+  (
+    ((`SQL_TABLE`.`Attrib_C`=CAST(`Attrib_C_domain`.`Attrib_C` AS CHAR)) OR (`Attrib_C_domain`.`Attrib_C`='"*"'))
+  )
+)
+AS freq FROM
+(
+  `Attrib_C_domain`
+)
+ORDER BY
+  `Attrib_C_domain`.`Attrib_C`
+;
+
+Parsing /query?analysis=freq&analysis=freq
+ERROR: Invalid or duplicated option: analysis
+
+
+Parsing /query?a=mean
+ERROR: Invalid or duplicated option: a
+
+
+Parsing /query?analysis=mean
+ERROR: Need dv for mean analysis 
+
+
+Parsing /query?analysis=f
+ERROR: Must use mean or freq for analysis 
+
+
+Parsing /query?analysis=
+ERROR: Must use mean or freq for analysis 
+
+
+Parsing /query?analysis
+ERROR: Missing = after analysis
+
+
+Parsing /query?
+ERROR: Missing parameter? 
+
+

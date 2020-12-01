@@ -1,0 +1,10 @@
+*.buildgenerated.*
+target/
+node_modules/
+.vscode/
+.idea/
+**/*.gitignorable.*
+cmake-build-debug/
+cmake-build-release
+*.swp
+*.swo

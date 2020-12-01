@@ -1,0 +1,16 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "7a7769e5c957364ed0aed89e6e67c254",
+    "sha1": "6439fb9afc9366f7bf1ddf8bfbe59998e0450ed3",
+    "sha224": "1236a63fdb8665882fb91cb4ba7bab52c931bcb64598ba35661636c7",
+    "sha256": "edc3bc1495b69179ba4e272e97eff93334a20decb1d8db6ec3c19c16417738fd",
+    "sha384": "04ee69a24f75e2fc8f9684f17e23518d66edf6ac8066608ff309d4b67174457a91c6f930223da531ad9c6d1f91263689",
+    "sha512": "9184951867466043fbd75da98ea20f13380e47cda78f9266efad0776a6bc057374c9bad27f96b90b349a2739895db6e1bfb68ff5aaa4ae680e8fb5c66a6982d2"
+  },
+  "urls": [
+    "https://www.kernel.org/pub/software/scm/git/git-2.20.1.tar.gz",
+    "https://www.mirrorservice.org/sites/ftp.kernel.org/pub/software/scm/git/git-2.20.1.tar.gz"
+  ]
+}

@@ -1,0 +1,103 @@
+##
+## For the copyright information for this file, please search up the
+## directory tree for the first README.md file.
+##
+
+## begin_rules
+
+.PHONY: clean-rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm
+.PHONY: rpm/sstc-safrn/centos-7/sstc-safrn-VERSION.el7.x86_64.rpm
+
+EXTRA_DIST += rpm/sstc-safrn/centos-7/x86_64/rpm.Dockerfile
+EXTRA_DIST += rpm/sstc-safrn/centos-7/x86_64/rpm.spec
+
+clean-rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: FORCE
+	-rm -fr \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+  rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/x86_64/build \
+;
+
+mostlyclean-local: clean-rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm
+
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: $(distdir).tar.gz
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: build-aux/downloads/git-2.20.1.tar.gz
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: build-aux/downloads/texinfo-6.3.tar.xz
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: build-aux/gitbundles/sst.gitbundle
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: rpm/sstc-safrn/centos-7/x86_64/rpm.Dockerfile
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: rpm/sstc-safrn/centos-7/x86_64/rpm.ac
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: rpm/sstc-safrn/centos-7/x86_64/rpm.am
+rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm: rpm/sstc-safrn/centos-7/x86_64/rpm.spec
+	$(AM_V_at)$(GATBPS_RECIPE_MARKER_TOP)
+	$(AM_V_at)rm -fr \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+  rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/x86_64/build \
+;
+	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) \
+  rpm/sstc-safrn/centos-7/x86_64/build/$(distdir).tar.gz \
+  rpm/sstc-safrn/centos-7/x86_64/build/Dockerfile \
+  rpm/sstc-safrn/centos-7/x86_64/build/git-2.20.1.tar.gz \
+  rpm/sstc-safrn/centos-7/x86_64/build/rpm.spec \
+  rpm/sstc-safrn/centos-7/x86_64/build/sst.gitbundle \
+  rpm/sstc-safrn/centos-7/x86_64/build/texinfo-6.3.tar.xz \
+;
+	$(AM_V_GEN)$(GATBPS_V_NOP)
+	$(AM_V_at){ \
+  $(DOCKER) build \
+    --build-arg ARG_PACKAGE_VERSION=$(PACKAGE_VERSION) \
+    --build-arg ARG_PACKAGE_VERSION_RPM_R=$(PACKAGE_VERSION_RPM_R) \
+    --build-arg ARG_PACKAGE_VERSION_RPM_V=$(PACKAGE_VERSION_RPM_V) \
+    --tag tmp$$$$ \
+    rpm/sstc-safrn/centos-7/x86_64/build \
+  || exit; \
+  $(DOCKER) create --name tmp$$$$ tmp$$$$ || exit; \
+  $(DOCKER) cp \
+    tmp$$$$:/root/rpmbuild/RPMS/x86_64/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+    rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  || exit; \
+  $(DOCKER) cp \
+    tmp$$$$:/root/rpmbuild/SRPMS/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.src.rpm \
+    rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm.tmp \
+  || exit; \
+  $(DOCKER) cp \
+    tmp$$$$:/root/rpmbuild/RPMS/x86_64/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+    rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  || exit; \
+  $(DOCKER) cp \
+    tmp$$$$:/root/rpmbuild/RPMS/x86_64/sstc-safrn-uberjar-oracle12201-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+    rpm/sstc-safrn/centos-7/sstc-safrn-uberjar-oracle12201-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  || exit; \
+  $(DOCKER) rm tmp$$$$ || :; \
+}
+	$(AM_V_at)mv \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+;
+	$(AM_V_at)mv \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.src.rpm \
+;
+	$(AM_V_at)mv \
+  rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-debuginfo-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+;
+	$(AM_V_at)mv \
+  rpm/sstc-safrn/centos-7/sstc-safrn-uberjar-oracle12201-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm.tmp \
+  rpm/sstc-safrn/centos-7/sstc-safrn-uberjar-oracle12201-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm \
+;
+	$(AM_V_at)-rm -fr rpm/sstc-safrn/centos-7/x86_64/build
+	$(AM_V_at)$(GATBPS_RECIPE_MARKER_BOT)
+
+rpm/sstc-safrn/centos-7/sstc-safrn-VERSION.el7.x86_64.rpm: FORCE
+rpm/sstc-safrn/centos-7/sstc-safrn-VERSION.el7.x86_64.rpm: rpm/sstc-safrn/centos-7/sstc-safrn-$(PACKAGE_VERSION_RPM_VR).el7.x86_64.rpm
+
+## end_rules

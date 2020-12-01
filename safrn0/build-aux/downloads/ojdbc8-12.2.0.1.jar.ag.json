@@ -1,0 +1,15 @@
+{
+  "autogen_handler": "autogen_downloads",
+
+  "hashes": {
+    "md5": "057478599050cf8999ced6069d3ccbf4",
+    "sha1": "60f439fd01536508df32658d0a416c49ac6f07fb",
+    "sha224": "d7bfda9428f6e3171c29639e7c2fdc3b51516ceef198cf0a423919f5",
+    "sha256": "b3a51360ef96cd6053c4707a3f5b44f6adb30262306d7ccfbec9861d1e15ea07",
+    "sha384": "3a5635fc95e8bccd7fcc9aa98f9aeee72f6ff9cc4f125aed013961d0f14ab7c53fcd46fe7e3c0bbc11ff67353c2904d0",
+    "sha512": "91ba1e5f9bd6ad0ac345a43b48370ad5ade2014750b3e7d3f1008ffb2a7abf8aff9fba2734a4ecb4e08904dd6c39b80a24b013b69d30bc500e3866df4e0c27b7"
+  },
+  "urls": [
+    "https://maven.xwiki.org/externals/com/oracle/jdbc/ojdbc8/12.2.0.1/ojdbc8-12.2.0.1.jar"
+  ]
+}

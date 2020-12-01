@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head lang="en" th:replace="fragments/header :: header">
+</head> 
+<head>
+    <title>Dashboard Organization</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script th:src="@{/js/createSession.js}"></script>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/createSession.css}"/>
+</head>
+
+<body>
+    <div th:replace="fragments/title::nav"></div>
+    <div th:replace="fragments/orgSidebar::orgSidebar"></div>
+    <div th:replace="fragments/userInfoBar::userInfoBar"></div>
+    <div id="saveDraft-dialog-alert" title="">
+        <p>Draft is successfully saved</p>
+    </div>
+    <div id="deletePeer-dialog-confirm" title="">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Do you want to continue with deleting peer?</p>
+    </div>
+    <div id="deleteColumn-dialog-confirm" title="">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Do you want to continue with deleting column?</p>
+    </div>
+    <div id="deleteVertical-dialog-confirm" title="">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>Do you want to continue with deleting vertical?</p>
+    </div>
+    <main role="main" style="margin-top: 42px;">
+        <div class="text-center" style="margin-bottom: 50px;" id="createSessionForm">
+                <p class="nav-item createSession-page-1" style="font-size: large;">About</p>
+                <p class="nav-item createSession-page-2" style="font-size: large; display: none;">Schema</p>
+                <p class="nav-item createSession-page-3" style="font-size: large; display: none;">Peers</p>
+            <form th:action="@{/organization/createsession}" th:object="${createSessionForm}" method="post">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 49.72px;"></div>
+                    <p style="display: none; font-size: large;" class="nav-item createSession-page-4">About</p>
+                    <div>
+                        <div class="divHovering">
+                            <button style="margin:0; margin-right: 10px; display: none;" class="btn btn-primary fa fa-pencil createSession-page-4" id="editSessionButton" onclick="editSession()" type="button"></button>
+                        </div>
+                        <div class="divToShow" style="display: none;"> Edit this private study</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <table style="margin-bottom: 30px;">
+                        <tr>
+                            <td class="text-right">
+                                <div style="padding-right: 40px;" class="divHovering text-primary">Name:</div> 
+                                <div class="divToShow" style="display: none;">A brief human form name for the private study </div>
+                            </td>
+                            <td>
+                                <input type="text" th:field="*{sessionName}" class="form-control createSession-page-1"  autofocus id="createsessionName"/>
+                                <span class="text-primary createSession-page-4" style="display:none" th:text="${createSessionForm.sessionName}"> </span>
+                                <span class="text-black createSession-page-2 createSession-page-3" style="display:none" th:text="${createSessionForm.sessionName}"> </span>
+                            </td>
+                            <td id="sessionNameError">
+                                <p th:if="${#fields.hasErrors('sessionName')}" th:errors="*{sessionName}">SessionName Error</p></td>
+                        </tr>
+                        <tr class="createSession-page-1 createSession-page-4">
+                            <td class="text-right">
+                                <div style="padding-right: 40px;" class="divHovering text-primary">Description:</div>
+                                <div class="divToShow" style="display: none;">A brief description for the private study</div>
+                            </td>
+                            <td>
+                                <textarea rows = "5" cols = "60" th:field="*{aboutSession}" class="form-control createSession-page-1" id="createSessionAbout">
+                                </textarea>
+                                <span class="text-primary createSession-page-4" style="display:none"> </span>
+                            </td>
+                            <td>
+                                <p th:if="${#fields.hasErrors('aboutSession')}" th:errors="*{aboutSession}" style="font-size: 15;color: #FF1C19;font-weight: bold;">AboutSession Error</p>
+                            </td>
+                        </tr>
+                        <tr style="height: 3px;"></tr>
+                    </table> 
+                </div>
+                <hr class="createSession-page-4" style="display: none; margin-bottom: 0;">
+                <hr class="createSession-page-4" style="display: none; margin-top: 1.5px;">
+                <div class="d-flex justify-content-between">
+                    <div style="width: 49.72px;"></div>
+                    <p style="display: none; font-size: large;" class="nav-item createSession-page-4">Schema</p>
+                    <div>
+                        <div class="divHovering">
+                            <button style="margin:0; margin-right: 10px; display: none;" class="btn btn-primary fa fa-pencil createSession-page-4" id="editVerticalButton" onclick="editVertical()" type="button"></button>
+                        </div>
+                        <div class="divToShow" style="display: none;"> Edit verticals</div>
+                    </div>
+                </div>
+                <div th:each="verticals, i : *{verticals}" class="verticalForms createSession-page-2 createSession-page-4" style="margin-bottom: 20px; display: none;">
+                    <div class="text-left">
+                        <input th:field="*{verticals[__${i.index}__].verticalName}" class="verticalNames form-control createSession-page-2" style="width: min-content; font-family: Georgia, 'Times New Roman', Times, serif; margin-bottom: 10px;"/>
+                        <span style="font-family: Georgia, 'Times New Roman', Times, serif; color: #495057; display: none;" class="createSession-page-4" th:text="VERTICAL+' '+${i.count}"></span>
+                    </div>
+                    <div class="border rounded d-flex justify-content-between" style=" background-color: #f8f8f8;">
+                        <!-- <div style="width: 49.72px;"></div> -->
+                        <div>
+                            <table class="verticalForms align-self-center">
+                                <tr class="verticalForms">
+                                    <th> 
+                                        <div class="divHovering text-primary">Unique?</div>
+                                        <div class="divToShow" style="display: none;">All values in this column are different </div>
+                                    </th>
+                                    <th> 
+                                        <div class="divHovering text-primary">Data Type</div>
+                                        <div class="divToShow" style="display: none;">An enumerated-value string which may be: integer, real, or categorical </div>
+                                    </th>
+                                    <th> 
+                                        <div class="divHovering text-primary">Column Name</div>
+                                        <div class="divToShow" style="display: none;">A string form column name </div>
+                                    </th>
+                                    <th>
+                                    </th>
+                                    <th>
+                                    </th>
+                                    <th class="createSession-page-2"></th>
+                                </tr>	
+                                <tr class="verticalForms" th:each="column,j : *{verticals[__${i.index}__].columns}">
+                                    <td>
+                                        <input class="rounded border createSession-page-2" type="checkbox" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].cunique}"/>
+                                        <span class="text-primary createSession-page-4" style="display:none"> </span>
+                                    </td>
+                                    <td>
+                                        <select class="rounded border dataTypes createSession-page-2"  th:field="*{verticals[__${i.index}__].columns[__${j.index}__].ctype}">
+                                            <option value="">
+                                            </option>
+                                            <option th:value="integer">
+                                                INTEGER
+                                            </option>
+                                            <option th:value="real">
+                                                REAL
+                                            </option>
+                                            <option th:value="categorical">
+                                                CATEGORICAL
+                                            </option>
+                                        </select>
+                                        <span class="text-primary createSession-page-4" style="display:none"> </span>
+                                    </td>
+                                    <td>
+                                        <input class="rounded border columnNames createSession-page-2" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].cname}"  />
+                                        <span class="text-primary createSession-page-4" style="display:none"> </span>
+                                    </td>
+                                    <td>
+                                        <div class="divHovering hideScrollBar" style="display: flex; overflow: scroll;">
+                                            <label class="signed text-primary" style="display: none;"> Signed: </label>
+                                            <input class="rounded border lowerBounds createSession-page-2" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].clb}"  type="text" style="display: none;" disabled/>
+                                            <textarea class="rounded border lowerBounds createSession-page-2" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].clb}"  type="text" style="display: none; margin: 0;" disabled/>
+                                            <input type="file" style="display:none;" class="csvUploadInputs" onchange="readFileAsString(this)"/>
+                                            <button class="btn btn-primary fa fa-upload csvUploadButtons createSession-page-2" style="display: none; margin-top: auto; margin-bottom: auto;height: 30px; width: 38px;" type="button" onclick="thisFileUpload(this);" disabled></button>
+                                            <select class="rounded border signed createSession-page-2" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].clb}"  type="number" style="display: none;" disabled>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                            <span class="text-primary createSession-page-4" style="display:none; max-width: 300px; max-height: 100px;"> </span>
+                                        </div>
+                                        <div class="divToShow" style="display: none;"></div>
+                                    </td>
+                                    <td>
+                                        <div class="divHovering" style="width:170px">
+                                        <input class="rounded border upperBounds createSession-page-2" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].cub}"  type="number" style="display: none" disabled;/>
+                                        <label class="numberOfBits text-primary" style="display: none;"> Number of Bits: </label>
+                                        <select class="rounded border numberOfBits createSession-page-2" th:field="*{verticals[__${i.index}__].columns[__${j.index}__].cub}"  type="number" style="display: none" disabled;>
+                                            <option value="2">2</option>
+                                            <option value="4">4</option>
+                                            <option value="8">8</option>
+                                            <option value="16">16</option>
+                                            <option value="32">32</option>
+                                            <option value="32">64</option>
+                                        </select>
+                                        <span class="text-primary createSession-page-4" style="display:none"> </span>
+                                        </div>
+                                        <div class="divToShow" style="display: none;"></div>
+                                    </td>
+                                    <td class="createSession-page-2">
+                                        <div class="divHovering">
+                                            <button style="margin:0" class="btn btn-danger fa fa-trash createSession-page-2 deleteColumnButtons" th:onclick="@{'deleteColumn('+${i.index}+','+${j.index}+')'}" type="button"></button>
+                                        </div>
+                                        <div class="divToShow" style="display: none;"> Delete this column</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="createSession-page-2">
+                                        <div class="divHovering">
+                                            <button style="margin: 0;" class="btn btn-primary fa fa-plus createSession-page-2 addColumnButtons" id="" type="button" th:onclick="@{'addColumn('+${i.index}+')'}"></button>
+                                        </div>
+                                        <div class="divToShow" style="display: none;">Add one more column</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="createSession-page-2">
+                            <div class="divHovering">
+                                <button style="margin:0; margin-right: 10px;" class="btn btn-danger fa fa-trash-o" id="deleteVerticalButton" th:onclick="@{'deleteVertical('+${i.index}+')'}" type="button"></button>
+                            </div>
+                            <div class="divToShow" style="display: none;"> Delete this vertical</div>
+                        </div>
+                        <!-- <div style="width: 49.72px;" class="createSession-page-4"></div> -->
+                    </div>
+                </div>
+                <div class="text-right createSession-page-2" style="display:none;">
+                    <div class="divHovering" style="margin-top: -20px;">
+                        <button style="margin: 0; margin-bottom: 3px; margin-right: 10px;" class="btn btn-primary  fa fa-plus" type="button" id="addVerticalButton" onclick="addVertical()"></button>
+                    </div>
+                    <div class="divToShow" style="display: none;">Add one more vertical</div>
+                </div>
+                <hr class="createSession-page-4" style="display: none; margin-bottom: 0;">
+                <hr class="createSession-page-4" style="display: none; margin-top: 1.5px;">
+                <div class="d-flex justify-content-between" style="margin-bottom: 25px;">
+                    <div style="width: 46.578px;"></div>
+                    <p style="display: none; font-size: large;" class="nav-item createSession-page-4">Peers</p>
+                    <div>
+                        <div class="divHovering">
+                            <button style="margin:0; margin-right: 10px; display: none;" class="btn btn-primary fa fa-pencil createSession-page-4" id="editPeerButton" onclick="editPeer()" type="button"></button>
+                        </div>
+                        <div class="divToShow" style="display: none;"> Edit peers</div>
+                    </div>
+                </div>
+                <div class="border rounded createSession-page-3 createSession-page-4" style="background-color: #f8f8f8; display: none;">
+                <table id="peerForm">
+                    <colgroup>
+                        <col style="border-right:4px double #e9ecef;">
+                        <col span="3">
+                        <col style="border-left:4px double #e9ecef;" span="1">
+                    </colgroup>
+                    <tr style="border-bottom: 2px black solid;">
+                        <td><div style="font-family: Georgia, 'Times New Roman', Times, serif;  text-decoration:none!important; color: #495057;">ORGANIZATION</div></th>
+                        <td colspan="3"><div style="font-family: Georgia, 'Times New Roman', Times, serif;  text-decoration:none!important; color: #495057;">ROLE SPECIFIC INFO</div></th>
+                    </tr>
+                    <tr>
+                        <th>
+                            <div class="divHovering text-primary">Organization Name</div>
+                            <div class="divToShow" style="display: none;">The organization's name, for logging and display purposes </div>
+                        </th>
+                        <th>
+                            <div class="divHovering text-primary">Peer Type</div>
+                            <div class="divToShow" style="display: none;">
+                                ANALYST: This object indicates by presence if the peer is allowed to make new queries </br> 
+                                DATAOWNER: This object indicates by presence if the peer can contribute data to the processing of a query </br>
+                                DEALER: This object indicates by presence if the peer can deal randomness to other peers <br>
+                                RECIPIENT: This object indicates by presence if the peer will recieve the results of a quey
+                            </div>
+                        </th>
+                        <th>
+                            <div class="divHovering text-primary">Peer Value</div>
+                            <div class="divToShow" style="display: none;">
+                                ALLOWEDQUERYCOUNT if Peer Type is ANALYST <br> 
+                                VERTICAL if Peer Type is DATAOWNER, DEALER, or RECIPIENT
+                            </div>
+                        </th>
+                        <th>
+                            <div class="divHovering text-primary">Ordinal Value</div>
+                            <div class="divToShow" style="display: none;">Value of Peer Value </div>
+                        </th>
+                        <th class="createSession-page-3"></th>
+                    </tr>
+                    <tr th:each="peers, i : *{peers}" >
+                        <td>
+                            <input class="rounded border organizationNames createSession-page-3" th:field="*{peers[__${i.index}__].organizationName}" list="orgNames" autocomplete="off" />
+                           <datalist id="orgNames">
+                                <option th:each="orgName: ${orgInfos}" th:value="${orgName.orgName}"></option>
+                           </datalist> 
+                            <span class="text-primary createSession-page-4" style="display:none"> </span>
+                        </td>
+                        <td>
+                            <select class="rounded border peerTypes createSession-page-3" th:field="*{peers[__${i.index}__].peerType}">
+                                <option value="">
+                                </option>
+                                <option th:each="type : ${T(com.stealthsoftwareinc.commercial.safrn.dashboard.interfaces.EPeerType).values()}"
+                                    th:value="${type}" th:text="${type}"></option>
+                            </select>
+                            <span class="text-primary createSession-page-4" style="display:none"> </span>
+                        </td>
+                        <td>
+                            <input class="rounded border peerValues createSession-page-3" th:field="*{peers[__${i.index}__].peerValue}" readonly>
+                            </input>
+                            <span class="text-primary createSession-page-4" style="display:none"> </span>
+                        </td>
+                        <td>
+                            <select class="rounded border ordinalValues createSession-page-3" th:field="*{peers[__${i.index}__].ordinalValue}">
+                            </select>   
+                            <input class="rounded border ordinalValues createSession-page-3" th:field="*{peers[__${i.index}__].ordinalValue}" type="number" min="1" style="width: 91px;"/>
+                            <p hidden th:text="${createSessionForm.peers[__${i.index}__].ordinalValue}"></p>
+                            <span class="text-primary createSession-page-4" style="display:none"> </span>
+                        </td>
+                        <td class="createSession-page-3">
+                            <div class="divHovering">
+                                <button style="margin:0" class="btn btn-danger fa fa-trash createSession-page-3" id="deletePeerButton" th:onclick="@{'deletePeer('+${i.index}+')'}" type="button"></button>
+                            </div>
+                            <div class="divToShow" style="display: none;"> Delete this peer</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="createSession-page-3">
+                            <div class="divHovering">
+                                <button style="margin: 0;" class="btn btn-primary fa fa-plus createSession-page-3" id="addPeerButton" type="button" onclick="addPeer()"></button>
+                            </div>
+                            <div class="divToShow" style="display: none;">Add one more peer</div>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+            </form>
+            <table class="createSession-page-1" style="margin-top: -55px;">
+                <tr>
+                    <td class="text-right">
+                        <div style="padding-right: 40px;" class="divHovering text-primary">Import:</div> 
+                        <div class="divToShow" style="display: none;">Import from existing private studies </div>
+                    </td>
+                    <td style="display: flex;" class="justify-content-center">
+                        <select class="rounded border" id="existingPrivateStudiesSelect" name="sessionName" autocomplete="off"
+                            style="height: 30px;">
+                        </select>
+                        <button class="btn btn-primary fa fa-download" aria-hidden="true"  
+                        id="existingPrivateStudiesButton" type="button" style="margin-top: 0;"
+                        onclick="importExistingPrivateStudiesButton()">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-primary createSession-page-2 createSession-page-3 createSession-page-4" style="margin-right: 20px; display: none;" type="button" th:text="Back" onclick="createSessionBack()" id="createsessoinBack"></button>
+            <button class="btn btn-primary" style="margin-right: 20px;" type="button" th:text="Save" id="createsessionSaveButton" onclick="createsessionSave()"></button>
+            <button class="btn btn-primary createSession-page-4" type="button" th:text="Submit" style="display: none;" id="createsessionSearch" onclick="createsessionSubmit()"></button>
+            <button class="btn btn-primary createSession-page-3" type="button" th:text="Preview" onclick="createSessionPreview()" style="display: none;" id="createsessionPreview"></button>
+            <button class="btn btn-primary createSession-page-1 createSession-page-2" type="button" th:text="Next" onclick="createSessionNext()" id="createsessoinNext"></button>
+            <div style="margin-top: 10px; display: none;">
+                <span id="pageNumber">1</span>
+            </div>
+            <div style="margin-top: 10px;" id="createSessionPageLink">
+                <button type = "button" class = "btn btn-link text-dark" onclick="createSessionPageLink(1)">1</button>
+                <button type = "button" class = "btn btn-link text-primary" onclick="createSessionPageLink(2)">2</button>
+                <button type = "button" class = "btn btn-link text-primary" onclick="createSessionPageLink(3)">3</button>
+                <button type = "button" class = "btn btn-link text-primary" onclick="createSessionPageLink(4)">4</button>
+            </div>
+        </div>
+    </main>
+	<div th:replace="fragments/footer::footer"></div>
+</body>
+</html>
