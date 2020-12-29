@@ -24,7 +24,7 @@ variable is linear in the (possibly many) independent variables $`X`$.
 
 # Non-Secure Implementation
 
-Use [gradient descent](./Gradient-descent) to minimize the negative
+Use [gradient descent](/doc/wiki/Gradient-descent.md) to minimize the negative
 of the log-likelihood error:
 ```math
     \min_{w} \sum_{i=1}^n (\log(1 + e^{w^TX_i}) - Y_iw^Tx_i).

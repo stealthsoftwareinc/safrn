@@ -1,4 +1,6 @@
 {
+  "handler": "sst_ajh_gitbundle",
+
   "commit": "ab313b4c5b28572845f24f0d47177cfe69507f55",
   "urls": [
     "https://gitlab.com/quinngrier/wficmp.git",

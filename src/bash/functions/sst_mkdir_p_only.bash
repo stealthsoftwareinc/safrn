@@ -3,8 +3,15 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-sst_mkdir_p_only)" != function ]]; then
+# TODO: Use sst_dot_slash instead of --
+
+if [[ "$(type -t sst_mkdir_p_only)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 sst_mkdir_p_only() {
 
   local x
@@ -15,4 +22,6 @@ sst_mkdir_p_only() {
     fi
   done
 
-}; readonly -f sst_mkdir_p_only; fi
+}
+
+readonly -f sst_mkdir_p_only

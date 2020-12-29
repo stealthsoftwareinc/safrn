@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-autogen_java_tests)" != function ]]; then
+if [[ "$(type -t autogen_java_tests)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_java_tests() {
 
   local ag
@@ -30,12 +35,12 @@ autogen_java_tests() {
       ?*.jar)
       ;;
       *)
-        barf '%s: .jcl: expected *.jar: %s' $ag $jcl
+        sst_barf '%s: .jcl: expected *.jar: %s' $ag $jcl
       ;;
     esac
     case $jcl in
       */*)
-        barf '%s: .jcl: no slashes allowed: %s' $ag $jcl
+        sst_barf '%s: .jcl: no slashes allowed: %s' $ag $jcl
       ;;
     esac
 
@@ -45,7 +50,7 @@ autogen_java_tests() {
     ' $ag)
     case $jcl_is_in_jardeps in
       false)
-        barf '%s: .jcl must appear in .jardeps' $ag
+        sst_barf '%s: .jcl must appear in .jardeps' $ag
       ;;
     esac
 
@@ -87,4 +92,6 @@ EOF
 
   done
 
-}; readonly -f autogen_java_tests; fi
+}
+
+readonly -f autogen_java_tests

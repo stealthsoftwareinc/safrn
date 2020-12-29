@@ -2,7 +2,7 @@ NOT TO BE IMPLEMENTED IN SAFRN 1.0
 
 # Lasso Regression
 
-Lasso regression, like [Linear Regression](./Linear-Regression)
+Lasso regression, like [Linear Regression](/doc/wiki/zz-algorithms/Linear-Regression.md)
 seeks to fit a linear model, but uses a different error function. The
 resulting solution often has fewer non-zero coefficients, which in
 effect reduces the number of features of the model.
@@ -34,8 +34,8 @@ $`l^1`$-norm on the regularization term.
 $`Error(w) := \frac{1}{2n} \| \varepsilon \|_2^2 +  \lambda\| w \|_1,`$
 
 Unlike OLS and Ridge Regression, there is no closed form solution. We
-rely instead on [gradient descent](./Gradient-descent).
+rely instead on [gradient descent](/doc/wiki/zz-algorithms/Gradient-descent.md).
 
 # Secure Implementation
 
-See [gradient descent](./Gradient-descent).
+See [gradient descent](/doc/wiki/zz-algorithms/Gradient-descent.md).

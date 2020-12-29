@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-config_h_get_string)" != function ]]; then
+if [[ "$(type -t config_h_get_string)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 config_h_get_string() {
 
   local config
@@ -15,7 +20,7 @@ config_h_get_string() {
     2)
     ;;
     *)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
@@ -25,7 +30,7 @@ config_h_get_string() {
 
   macro=$2
   readonly macro
-  expect_c_identifier "$macro"
+  sst_expect_basic_identifier "$macro"
 
   main=config_h_get_string-$macro-$$.c
   readonly main
@@ -53,4 +58,6 @@ EOF
 
   rm $main.exe $main
 
-}; readonly -f config_h_get_string; fi
+}
+
+readonly -f config_h_get_string

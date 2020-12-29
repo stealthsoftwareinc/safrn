@@ -19,22 +19,23 @@ TEST(EvBufferWrapper, without_typenames) {
   const uint64_t bit64 =
       ((uint64_t)rand()) | (((uint64_t)rand()) << 32);
 
-  dbuid_t const dbuid = {(uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand()};
+  dbuid_t const dbuid = {
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand()};
 
   std::string str = "abcdefghijklmnopqrstuvwxyz1234567890";
 
@@ -85,22 +86,23 @@ TEST(EvBufferWrapper, with_typenames) {
   const uint64_t bit64 =
       ((uint64_t)rand()) | (((uint64_t)rand()) << 32);
 
-  dbuid_t const dbuid = {(uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand(),
-                         (uint8_t)rand()};
+  dbuid_t const dbuid = {
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand(),
+      (uint8_t)rand()};
 
   std::string str = "abcdefghijklmnopqrstuvwxyz1234567890";
 

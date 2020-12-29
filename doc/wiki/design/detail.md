@@ -12,11 +12,11 @@ As a consequence, a function-protocol may also invoke many simultaneus function-
 ## Framework Configuration
 SAFRN1 will be largely controlled by the following four configuration files, describing 
 
- - [Server](json-schemas/server-config) configuration file, with properties unique to a given server.
- - [Session](json-schemas/session-config) configuration file, with properties unique to a given session.
+ - [Server](/doc/wiki/json-schemas/server-config.md) configuration file, with properties unique to a given server.
+ - [Session](/doc/wiki/json-schemas/session-config.md) configuration file, with properties unique to a given session.
    The Session configuration file has signatures from all participants which are supposed to guarantee immutability of the session.
- - [Peer](json-schemas/peer-config) configuration file, describing the participants in a given session.
- - [Database](json-schemas/database-config) configuration file, with properties describing the database connection and mapping for a given lexicon.
+ - [Peer](/doc/wiki/json-schemas/peer-config.md) configuration file, describing the participants in a given session.
+ - [Database](/doc/wiki/json-schemas/database-config.md) configuration file, with properties describing the database connection and mapping for a given lexicon.
 
 This table outlines the characteristics of all configuration files.
 
@@ -57,7 +57,7 @@ done
 This section will use UML and other visualizations to explain the code level of SAFRN1's Framework.
 
 First up are the configuration objects, used by SAFRN.
-The UML for configuration objects is not strictly authoratative, and is used in conjunction with JSON Schemas for the [session](/json-schemas/session-config) and [query](/json-schemas/query).
+The UML for configuration objects is not strictly authoratative, and is used in conjunction with JSON Schemas for the [session](/doc/wiki/json-schemas/session-config.md) and [query](/doc/wiki/json-schemas/query.md).
 
 ![Configuration Objects used by SAFRN](json_objs_uml.png)
 
@@ -77,7 +77,7 @@ They include the following information:
  4. TODO: in the future, transformations from this server's database schema to its lexicon.
 
 The ``QueryJson``, ``LexiconColumns`` and ``FunctionJson`` classes represent a given query.
-I will forgo a more detailed description of these objects as they are planned to change as the [query json schema](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/wikis/json-schemas/query) changes.
+I will forgo a more detailed description of these objects as they are planned to change as the [query json schema](/doc/wiki/json-schemas/query.md) changes.
 
 ![Function Protocol Evaluator UML Diagram](func_proto_eval_UML.png)
 
@@ -87,7 +87,7 @@ Their definitions and usage can be found in the libevent [API Reference](http://
 Additionally ``event_base_loop`` is not a class, and instead it is a function from libevent which schedules event callbacks.
 The attributes given are events it is configured to dispatch.
 
-This code is designed to implement the [function-protocol framework protocol](/framework-protocol).
+This code is designed to implement the [function-protocol framework protocol](/doc/wiki/framework-protocol.md).
 
 The ``NewConnectionHandler`` responds to each new connection to determine if it is part of a new query, or if it is a connection to an existing query.
 As part of this responsibility it reads a header, and possibly a query object, then creates an ``EventHandler`` for the connection, with the correct ``QueryHandler``.

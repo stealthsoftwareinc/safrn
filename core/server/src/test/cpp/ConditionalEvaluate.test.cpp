@@ -94,8 +94,9 @@ TEST(SISO_Sort, conditional_evaluate) {
     oLists.at(i).numXORPayloadCols = numXORPayloadCols; // 0
     for (size_t j = 0; j < batchSize; j++) {
       ff::mpc::Observation o;
-      o.keyCols = {static_cast<SmallNum>((4UL * j) / 5UL),
-                   static_cast<SmallNum>(j % 2)};
+      o.keyCols = {
+          static_cast<SmallNum>((4UL * j) / 5UL),
+          static_cast<SmallNum>(j % 2)};
       std::vector<SmallNum> payloadCols(
           regressionInfoFirstVertical.payloadLength, 0);
       if ((4UL * j) / 5UL == (4UL * j + 4UL) / 5UL && i == 0UL) {

@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-sst_join)" != function ]]; then
+if [[ "$(type -t sst_join)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 sst_join() {
 
   # Avoid $* so we don't depend on IFS.
@@ -16,4 +21,6 @@ sst_join() {
   fi
   echo
 
-}; readonly -f sst_join; fi
+}
+
+readonly -f sst_join

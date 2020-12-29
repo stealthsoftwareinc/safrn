@@ -4,7 +4,7 @@
 The study configuration file details an MPC study and is signed by each participant before the study is allowed to begin.
 The study prominently consists of the lexicon (defines one or more vertical partitions and the column names and datatypes of each such partition), a set of verticals used for computation, the organizations partaking in the calculations, and the restrictions on allowable queries.
 The study does not include connection information for peers, as that is liable to change between the initiation of a study, and the execution of said study.
-Instead, a separate [peer configuration](/json-schemas/peer-config) file is provided by the _Dashboard_.
+Instead, a separate [peer configuration](/doc/wiki/json-schemas/peer-config.md) file is provided by the _Dashboard_.
 
 Each participant (or peer) can have a combination of the following 4 roles, and each role may be played by multiple parties:
 
@@ -20,15 +20,15 @@ Each participant (or peer) can have a combination of the following 4 roles, and 
 
 ## Structure
 
- - ``studyId`` a [DBUID](/json-schemas/dbuid) unique to this study. Assigned by the dashboard.
+ - ``studyId`` a [DBUID](/doc/wiki/json-schemas/dbuid.md) unique to this study. Assigned by the dashboard.
  - ``<<array>> lexicon``
    - ``<<integer>> verticalIndex``
    - ``<<array<columnLexicon_t>>> columns`` -- Each item in the array is a single flat object with the following attributes:
      - ``<<integer>> columnIndex``
      - ``<<string>> name`` -- is a string form column name.
      - ``<<enumeration>> type`` -- is an enumerated-value string which may be:
-       - ``integer`` -- see [Theory Design Doc](/design/theory) more info
-       - ``real`` -- see [Theory Design Doc](/design/theory) more info
+       - ``integer`` -- see [Theory Design Doc](/doc/wiki/design/theory.md) more info
+       - ``real`` -- see [Theory Design Doc](/doc/wiki/design/theory.md) more info
        - ``categorical`` -- implicitly identifies a column as a ``<<bool>>``.  Also labels this column are part of a collection of other ``<<bool>>`` columns that map to enumeration values.
        - ``bool`` -- Stand-alone boolean value that can have an integer value of 0 or 1.
      - *(optional)* ``<<integer>> scale`` -- only used if "real" type is specified <br>
@@ -45,7 +45,7 @@ Each participant (or peer) can have a combination of the following 4 roles, and 
 
  - ``peers`` is an array of all the peers participating.
    Each peer is an object holding identifying information, and some permissions.
-   - ``organizationId`` the organization ID [Dashboard UID](/json-schemas/dbuid).
+   - ``organizationId`` the organization ID [Dashboard UID](/doc/wiki/json-schemas/dbuid.md).
    - ``OrganizationName`` (optional) the organization's name, for logging and display purposes.
    - ``analyst`` (optional) This object indicates by presence if the peer is allowed to make new queries.
      Its attributes detail restrictions to the peer's analyst permissions.

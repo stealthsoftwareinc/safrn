@@ -7,8 +7,13 @@
 # autogen_c_cpp_tests <dir> <lib>...
 #
 
-if [[ "$(type -t \
-autogen_c_cpp_tests)" != function ]]; then
+if [[ "$(type -t autogen_c_cpp_tests)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_c_cpp_tests() {
 
   local dir
@@ -19,7 +24,7 @@ autogen_c_cpp_tests() {
 
   case $# in
     0 | 1)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
@@ -59,25 +64,25 @@ check_PROGRAMS += $x2
 ${x3}_CFLAGS = \\
   \$(AM_CFLAGS) \\
   \$(EXE_CFLAGS) \\
-\$(prevent_a_blank_line)
+\$(prevent_an_empty_line)
 
 ${x3}_CPPFLAGS = \\
   \$(AM_CPPFLAGS) \\
   -I $dir \\
   -I \$(srcdir)/$dir \\
-\$(prevent_a_blank_line)
+\$(prevent_an_empty_line)
 
 ${x3}_CXXFLAGS = \\
   \$(AM_CXXFLAGS) \\
   \$(EXE_CXXFLAGS) \\
-\$(prevent_a_blank_line)
+\$(prevent_an_empty_line)
 
 ${x3}_LDADD = $libs
 
 ${x3}_LDFLAGS = \\
   \$(AM_LDFLAGS) \\
   \$(EXE_LDFLAGS) \\
-\$(prevent_a_blank_line)
+\$(prevent_an_empty_line)
 
 ${x3}_SOURCES = $x1
 
@@ -88,4 +93,6 @@ EOF
 
   done
 
-}; readonly -f autogen_c_cpp_tests; fi
+}
+
+readonly -f autogen_c_cpp_tests

@@ -3,15 +3,20 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-jq_inline)" != function ]]; then
+if [[ "$(type -t jq_inline)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 jq_inline() {
 
   local x
 
   case $# in
     0)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
@@ -23,4 +28,6 @@ jq_inline() {
 $x
 EOF
 
-}; readonly -f jq_inline; fi
+}
+
+readonly -f jq_inline

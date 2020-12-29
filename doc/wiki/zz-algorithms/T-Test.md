@@ -17,7 +17,7 @@ population, based on a given sample. It can be used as
 
 
 # Non-Secure Implementation
-One sample test to check if population mean is $`\mu_0`$, [is calculated as follows](1)
+One sample test to check if population mean is $`\mu_0`$, [is calculated as follows][1]
 ```math
      t = \frac{(\overline X - \mu_0)} {s/\sqrt{\smash[b]{n}}}.
 ```

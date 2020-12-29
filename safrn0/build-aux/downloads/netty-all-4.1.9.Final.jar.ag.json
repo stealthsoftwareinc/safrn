@@ -1,5 +1,5 @@
 {
-  "autogen_handler": "autogen_downloads",
+  "handler": "sst_ajh_download",
 
   "hashes": {
     "md5": "2f4a891dffdb1259e4b10f1f090224e2",

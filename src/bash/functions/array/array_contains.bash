@@ -10,8 +10,13 @@
 # instead of producing an unbound variable error.
 #
 
-if [[ "$(type -t \
-array_contains)" != function ]]; then
+if [[ "$(type -t array_contains)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 array_contains() {
 
   #
@@ -21,8 +26,8 @@ array_contains() {
   #
 
   if (($# == 3)); then
-    expect_c_identifier "$1"
-    expect_c_identifier "$2"
+    sst_expect_basic_identifier "$1"
+    sst_expect_basic_identifier "$2"
     eval '
       local r'$1$2'=0
       local x'$1$2'
@@ -35,7 +40,9 @@ array_contains() {
       '$1'=$r'$1$2'
     '
   else
-    expect_argument_count $# 3
+    sst_expect_argument_count $# 3
   fi
 
-}; readonly -f array_contains; fi
+}
+
+readonly -f array_contains

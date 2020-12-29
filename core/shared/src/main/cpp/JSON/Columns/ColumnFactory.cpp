@@ -27,10 +27,11 @@ safrn::ColumnFactory::createColumn(nlohmann::json const & columnJson) {
       std::string,
       std::function<std::unique_ptr<ColumnBase>(
           const nlohmann::json &)>>
-      factoryMap = {{"integer", IntegerColumn::CreateFromJSON},
-                    {"real", RealColumn::CreateFromJSON},
-                    {"categorical", CategoricalColumn::CreateFromJSON},
-                    {"bool", BoolColumn::CreateFromJSON}};
+      factoryMap = {
+          {"integer", IntegerColumn::CreateFromJSON},
+          {"real", RealColumn::CreateFromJSON},
+          {"categorical", CategoricalColumn::CreateFromJSON},
+          {"bool", BoolColumn::CreateFromJSON}};
 
   std::function<std::unique_ptr<ColumnBase>(const nlohmann::json &)>
       function = factoryMap.at(columnJson["type"]);

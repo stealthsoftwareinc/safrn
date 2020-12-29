@@ -1,0 +1,270 @@
+#! /bin/sh -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+# This script bootstraps into Bash. The shebang is only for portability.
+# For more information, see the Bash library > Bootstrapping section of
+# the SST manual.
+#
+
+# Load the prelude.
+case $0 in /*) x=$0 ;; *) x=./$0 ;; esac
+x=`dirname "$x"` || exit $?
+case $x in /) x= ;; esac
+set -e || exit $?
+. "$x"/../../preludes/gitlab-ci.bash
+
+sst_install_utility \
+  git \
+  jq \
+;
+
+sst_expect_argument_count $# 1
+
+if [[ "$1" == '{'* ]]; then
+  args=$tmpdir/args.json
+  cat <<<"$1" >"$args"
+else
+  args=$1
+fi
+readonly args
+
+#-----------------------------------------------------------------------
+
+sst_jq_get_string_or_null .gitbundle "$args" gitbundle
+if [[ "$gitbundle" == "" ]]; then
+  gitbundle=preview.gitbundle
+fi
+readonly gitbundle
+
+sst_jq_get_string .pull_repo "$args" pull_repo
+readonly pull_repo
+if [[ "$pull_repo" == "" ]]; then
+  sst_barf '%s: .pull_repo: expected nonempty string' "$args"
+fi
+
+unset push_repo
+unset error
+x=$(jq -r '
+  .push_repo
+  | if . == null then
+      "push_repo+=(\"$pull_repo\")"
+    elif type == "array" then
+      if length == 0 then
+        "error+=(\": expected nonempty string"
+                 + " or nonempty array of nonempty strings\")"
+      else
+        .[]
+        | if type != "string" or . == "" then
+            "error+=(\"[]: expected nonempty string\")"
+          else
+            "push_repo+=(" + (. | @sh) + ")"
+          end
+      end
+    elif type != "string" or . == "" then
+      "error+=(\": expected nonempty string"
+               + " or nonempty array of nonempty strings\")"
+    else
+      "push_repo+=(" + (. | @sh) + ")"
+    end
+' "$args")
+eval "$x"
+readonly push_repo
+if [[ "${error-}" != "" ]]; then
+  sst_barf '%s: .push_repo%s' "$args" "$error"
+fi
+
+sst_jq_get_string_or_null .update_script "$args" update_script
+readonly update_script
+
+sst_jq_get_string_or_null .post_update_script "$args" post_update_script
+readonly post_update_script
+
+sst_jq_get_string_or_null .commit_script "$args" commit_script
+readonly commit_script
+
+sst_jq_get_string_or_null .dist_archive "$args" dist_archive
+
+#-----------------------------------------------------------------------
+
+#
+# Get the distribution archive.
+#
+
+case $dist_archive in
+  '')
+    dist_archive=$rundir/$(sst_find_dist_archive | sst_csf)
+    sst_csf dist_archive
+  ;;
+  git-archive)
+    dist_archive=$tmpdir/dist.tar
+    git archive --prefix=x/ HEAD >"$dist_archive"
+  ;;
+esac
+readonly dist_archive
+
+#
+#
+
+git clone -- "$pull_repo" "$tmpdir"/pull_repo
+cd "$tmpdir"/pull_repo
+
+#
+# Get the branch name of the pull repo.
+#
+
+n=$(git rev-list --branches | awk 'END { print NR }')
+if ((n == 0)); then
+  sst_barf '%s: expected exactly one branch' "$pull_repo"
+fi
+branch=$(git show-ref --heads | awk '{ print $2 }')
+readonly branch
+if [[ "$branch" == *$'\n'* ]]; then
+  sst_barf '%s: expected exactly one branch' "$pull_repo"
+fi
+
+#
+# Delete all tags. This makes it easy to determine which tags were
+# created by update_script and commit_script.
+#
+
+tags=$(git tag)
+if [[ "$tags" == "" ]]; then
+  tags=()
+else
+  tags=$(git show-ref --tags | sed '
+    s/'\''/&\\&&/g
+    s/^.* /tags+=('\''/
+    s/$/'\'')/
+    1s/^/unset tags;/
+  ')
+  eval "$tags"
+fi
+for tag in "${tags[@]}"; do
+  git update-ref -d -- "$tag"
+done
+
+#
+# Extract the distribution archive to an empty temporary directory.
+# We'll be giving the extracted directory to the update script.
+#
+
+x=$tmpdir/dist_archive
+mkdir "$x"
+(
+  cd "$x"
+  sst_extract_archive "$dist_archive"
+)
+for x in "$x"/*; do
+  dist_dir=$x
+done
+readonly dist_dir
+
+#
+# Run the update script.
+#
+
+if [[ "$update_script" == "" ]]; then
+
+  #
+  # When no update script is specified, perform the default update
+  # script behavior, which simply replaces the entire content of the
+  # repository with the entire content of the extracted distribution
+  # archive directory.
+  #
+
+  files=$(git ls-files)
+  if [[ "$files" != "" ]]; then
+    git rm '*'
+  fi
+  cp -R "$dist_dir"/* .
+  git add .
+
+else
+
+  "$rundir/$update_script" "$dist_dir" "$rundir"
+
+fi
+
+#
+# Run the post-update script.
+#
+
+if [[ "$post_update_script" == "" ]]; then
+
+  :
+
+else
+
+  "$rundir/$post_update_script" "$dist_dir" "$rundir"
+
+fi
+
+#
+# Run the commit script.
+#
+
+if [[ "$commit_script" == "" ]]; then
+
+  if [[ "${CI_COMMIT_TAG-}" != "" ]]; then
+
+    #
+    # If we're building from a tag, reference the tag in our gitbundle
+    # commit and duplicate the tag in our gitbundle. Also sign the tag
+    # if we have a GPG key.
+    #
+
+    git commit --allow-empty -m "Update to $CI_COMMIT_TAG"
+    s=${GPG_SECRET_KEY:+-s}
+    git tag $s -m "$CI_COMMIT_TAG" -- "$CI_COMMIT_TAG"
+
+  else
+
+    #
+    # If we're not building from a tag, just reference the commit hash
+    # in our gitbundle commit.
+    #
+
+    git commit --allow-empty -m "Update to $CI_COMMIT_SHA"
+
+  fi
+
+else
+
+  "$rundir/$commit_script" "$dist_dir" "$rundir"
+
+fi
+
+#
+# Create our gitbundle with the commit and any new tags.
+#
+
+tags=$(git tag)
+if [[ "$tags" == "" ]]; then
+  tags=()
+else
+  tags=$(git show-ref --tags | sed '
+    s/'\''/&\\&&/g
+    s/^.* /tags+=('\''/
+    s/$/'\'')/
+    1s/^/unset tags;/
+  ')
+  eval "$tags"
+fi
+git bundle create "$rundir/$gitbundle" HEAD "$branch" "${tags[@]}"
+
+#
+# Push the commit to every push repo as a new preview-* branch, but do
+# not push the tags. The tags only go into the gitbundle. They will be
+# pushed by a future publish-dist-repo job when the maintainer chooses
+# to publish.
+#
+
+for url in "${push_repo[@]}"; do
+  if [[ "${CI_COMMIT_TAG-}" != "" ]]; then
+    git push -- "$url" "HEAD:preview-$CI_COMMIT_TAG"
+  else
+    git push -- "$url" "HEAD:preview-$CI_COMMIT_SHA"
+  fi
+done

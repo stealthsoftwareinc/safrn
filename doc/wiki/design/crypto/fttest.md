@@ -19,7 +19,15 @@ and
 \sum (y_i - \hat{\alpha} - \hat{\beta} x_i)^2 = \sum y_i^2 + \hat{\alpha^2} + \hat{\beta^2} \sum x_i^2 - 2 \hat{\alpha} \sum y_i - 2 \hat{\beta} \sum x_i y_i - 2 \hat{\alpha \beta} \sum x_i
 ```
 
-Thus while computing the regression we need to compute shares of the additional terms $`n`$ (i.e. the count), $`\sum x_i`$, $`\sum x_i^2`$, $`\sum y_i`$, $`\sum y_i^2`$, and $`\sum x_i y_i`$.
+Thus while computing the regression we need to compute shares of the additional terms $`n`$ (i.e. the count), $`\sum x_i`$, $`\sum x_i^2`$, $`\sum y_i`$, $`\sum y_i^2`$, and $`\sum x_i y_i`$.  
+    
+After computing the t-statistic, we perform a secure look-up of the associated p-value using shared randomness.
+
+### Secure look-up
+
+Given shares of a table index, we use a simple implementation of PIR (Private Information Retrieval) using memory costs linear in the table size.  
+  
+The dealer distributes shares of the table, shifted by some random value `r`, as well as shares of the value `r` modulo the table size. The dataowner parties hold shares of an index `a`, add locally and open to reveal the value `a-r`, and then use the value of the table at index `a-r` as their resulting share.
 
 ## F-test
 

@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-sst_expect_source_path)" != function ]]; then
+if [[ "$(type -t sst_expect_source_path)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 sst_expect_source_path() {
 
   local e
@@ -52,9 +57,11 @@ sst_expect_source_path() {
 
     if [[ "$e" != "" ]]; then
       x=$(jq_quote "$x")
-      barf '%s: %s' "$e" "$x"
+      sst_barf '%s: %s' "$e" "$x"
     fi
 
   done
 
-}; readonly -f sst_expect_source_path; fi
+}
+
+readonly -f sst_expect_source_path

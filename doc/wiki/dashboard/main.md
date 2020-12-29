@@ -1,3 +1,7 @@
+# Dashboard development status  
+  
+  The SAFRN dashboard is not production ready, and is not in active development. The documents in this section should be read as a snapshot of a work in progress.
+
 # SAFRN Dashboard
 
 The SAFRN Dashboard is a standalone website that can be ran as a service or self-hosted and serves the purpose of optionally assisting users in the setup, configuration, and orchestration of the SAFRN secure computation.  The dashboard helps users get a better understanding of which role they are playing and how they connect with other parties.  In terms of end results, the dashboard will produce downloadable SAFRN configuration files.
@@ -45,16 +49,9 @@ TODO: Define a workflow where a registered user can create an MPC invite.
 
 ### Responding to an MPC Invite
 
-See [here](https://gitlab.stealthsoftwareinc.com/stealth/safrn-docs/blob/master/meeting-notes/SAFRN-Lightweight-Dashboard.pptx)
-
 Upon getting the configuration file, it must be combined with other portions of the config file before being used in an MPC computation.  The MPC computation is a separate process different than the dashboard (though integration between the MPC application and the dashboard service may be future feature).
 
 
 # Usage Scenarios
 
 We go over different usage scenarios between users who do and do not use the dashboard in the Scenarios page (TODO).
-
-# Relevant/Other Discussions
-+ https://gitlab.stealthsoftwareinc.com/stealth/safrn-docs/blob/master/meeting-notes/2020-02-03-meeting-notes.md
-+ https://docs.google.com/presentation/d/1iYpu3JLJK1yEov_esyjNCcVE3N-omUKt0R-2czeMgn4/edit?usp=sharing
-

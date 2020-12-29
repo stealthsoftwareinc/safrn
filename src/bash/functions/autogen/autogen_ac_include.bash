@@ -7,8 +7,13 @@
 # autogen_ac_include [<file>]...
 #
 
-if [[ "$(type -t \
-autogen_ac_include)" != function ]]; then
+if [[ "$(type -t autogen_ac_include)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_ac_include() {
   local x
   for x; do
@@ -23,4 +28,6 @@ EOF
       ;;
     esac
   done
-}; readonly -f autogen_ac_include; fi
+}
+
+readonly -f autogen_ac_include

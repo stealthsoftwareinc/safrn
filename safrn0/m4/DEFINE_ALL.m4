@@ -44,10 +44,6 @@ m4_if(
 ]dnl end_prerequisites
 [
 
-]AC_REQUIRE([DEFINE_ALL_WGET_URLS])[
-]AC_REQUIRE([DEFINE_ALL_GITBUNDLE_URLS])[
-]AC_REQUIRE([DEFINE_ALL_GITBUNDLE_COMMITS])[
-
 ]dnl begin_prerequisites
 [
 

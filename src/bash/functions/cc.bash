@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-cc)" != function ]]; then
+if [[ "$(type -t cc)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 cc() {
 
   case ${cc_command+x} in
@@ -16,7 +21,7 @@ cc() {
       elif command -v cc >/dev/null; then
         cc_command=cc
       else
-        barf 'no C compiler found'
+        sst_barf 'no C compiler found'
       fi
       readonly cc_command
     ;;
@@ -24,4 +29,6 @@ cc() {
 
   command $cc_command "$@"
 
-}; readonly -f cc; fi
+}
+
+readonly -f cc

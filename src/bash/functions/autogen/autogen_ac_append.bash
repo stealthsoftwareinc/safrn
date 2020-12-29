@@ -7,19 +7,24 @@
 # autogen_ac_append
 #
 
-if [[ "$(type -t \
-autogen_ac_append)" != function ]]; then
+if [[ "$(type -t autogen_ac_append)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_ac_append() {
 
   case ${autogen_ac_start_has_been_called+x} in
     "")
-      barf 'autogen_ac_start has not been called'
+      sst_barf 'autogen_ac_start has not been called'
     ;;
   esac
 
   case ${autogen_ac_finish_has_been_called+x} in
     ?*)
-      barf 'autogen_ac_finish has been called'
+      sst_barf 'autogen_ac_finish has been called'
     ;;
   esac
 
@@ -27,10 +32,12 @@ autogen_ac_append() {
     0)
     ;;
     *)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
   cat >>$autogen_ac_file
 
-}; readonly -f autogen_ac_append; fi
+}
+
+readonly -f autogen_ac_append

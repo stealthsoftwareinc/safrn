@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-make_j)" != function ]]; then
+if [[ "$(type -t make_j)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 make_j() {
 
   case ${make_j_is_supported+x} in
@@ -28,4 +33,6 @@ make_j() {
     ;;
   esac
 
-}; readonly -f make_j; fi
+}
+
+readonly -f make_j

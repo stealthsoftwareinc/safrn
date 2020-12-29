@@ -6,21 +6,21 @@ implementation plans.  :triangular_ruler: indicates possible implementation in S
 
  - :paperclip: [Linear
    Regression](./zz-algorithms/Linear-Regression)
-   - :paperclip: [F Test](./zz-algorithms/Linear-Regression#F-test)
-   - :paperclip: [T Test](./zz-algorithms/Linear-Regression#T-test)
+   - :paperclip: [F Test](/doc/wiki/zz-algorithms/Linear-Regression.md#F-test)
+   - :paperclip: [T Test](/doc/wiki/zz-algorithms/Linear-Regression.md#T-test)
  - :triangular_ruler: [Lasso
    Regression](./zz-algorithms/Lasso-Regression)
  - :triangular_ruler: [Logistic
    Regression](../zz-algorithms/Logistic-Regression) this is a low
    priority/optional requirement.
- - :linked_paperclips: [Moments](./zz-algorithms/Moments) The
-   [mean](./zz-algorithms/mean) is implemented in SAFRN0, and we
+ - :linked_paperclips: [Moments](/doc/wiki/zz-algorithms/Moments.md) The
+   [mean](/doc/wiki/zz-algorithms/mean.md) is implemented in SAFRN0, and we
    are discussing which moments are valuable for SAFRN1.
  - :triangular_ruler: [QR
    Decomposition](./zz-algorithms/QR-Decomposition) This may be a
    component to another algorithm, but on its own adds no value to
    SAFRN.
- - :paperclip: [Ranking](./zz-algorithms/Ranking) we are currently
+ - :paperclip: [Ranking](/doc/wiki/zz-algorithms/Ranking.md) we are currently
    discussing which rankings are important (thinking maximum, minimum,
    and median at the moment).
  - :triangular_ruler: [K-Means
@@ -37,9 +37,9 @@ implementation plans.  :triangular_ruler: indicates possible implementation in S
    Estimation](./zz-algorithms/Maximum-Likelihood-Estimation)
  - :scissors: [Grubbs Outlier
    Test](./zz-algorithms/Grubbs-Outlier-Test)
- - :scissors: [Chi-Squared Test](./zz-algorithms/Chi-Squared-Test)
- - :scissors: [Dixon's Q Test](./zz-algorithms/Dixons-Q-test)
+ - :scissors: [Chi-Squared Test](/doc/wiki/zz-algorithms/Chi-Squared-Test.md)
+ - :scissors: [Dixon's Q Test](/doc/wiki/zz-algorithms/Dixons-Q-test.md)
 
 
-Use this [template](./zz-algorithms/template) for new algorithm
+Use this [template](/doc/wiki/zz-algorithms/template.md) for new algorithm
 pages.

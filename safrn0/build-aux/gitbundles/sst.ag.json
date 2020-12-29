@@ -1,6 +1,8 @@
 {
-  "commit": "b72d61fafb4ebf61a038c1e7ec32eeea02684c8b",
+  "handler": "sst_ajh_gitbundle",
+
+  "commit": "e5cb49bc8c6f4d95f54cffc89c42d459b7caa3ec",
   "urls": [
-    "git@gitlab.stealthsoftwareinc.com:stealth/sst.git"
+    "https://github.com/stealthsoftwareinc/sst.git"
   ]
 }

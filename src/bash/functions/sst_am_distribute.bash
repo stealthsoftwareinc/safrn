@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-sst_am_distribute)" != function ]]; then
+if [[ "$(type -t sst_am_distribute)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 sst_am_distribute() {
 
   local x
@@ -13,4 +18,6 @@ sst_am_distribute() {
     autogen_am_var_append_files EXTRA_DIST $x
   done
 
-}; readonly -f sst_am_distribute; fi
+}
+
+readonly -f sst_am_distribute

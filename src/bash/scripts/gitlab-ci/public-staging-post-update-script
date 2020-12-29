@@ -1,0 +1,47 @@
+#! /bin/sh -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+# This script bootstraps into Bash. The shebang is only for portability.
+# For more information, see the Bash library > Bootstrapping section of
+# the SST manual.
+#
+
+# Load the prelude.
+case $0 in /*) x=$0 ;; *) x=./$0 ;; esac
+x=`dirname "$x"` || exit $?
+case $x in /) x= ;; esac
+set -e || exit $?
+. "$x"/../../preludes/gitlab-ci.bash
+
+readonly dist_dir="$1"
+readonly repo_dir="$2"
+
+echo "transforming for github"
+
+git rm -f doc/wiki/push_preview
+git rm -f safrn0/README.md
+git rm -f safrn0/README_QBTEST.md
+
+git rm -f -r analyst-ui
+git rm -f -r dashboard
+cd src
+git rm -f bash/preludes/gitlab-ci.bash
+git rm -f bash/scripts/gitlab-ci/safrn-docker-script
+git rm -f bash/scripts/gitlab-ci/fat-jars-jre7-script
+git rm -f bash/scripts/gitlab-ci/safrn-distcheck-script
+git rm -f bash/scripts/gitlab-ci/install-from-dist
+git rm -f bash/scripts/gitlab-ci/dist
+git rm -f bash/scripts/gitlab-ci/wiki
+git rm -f bash/scripts/gitlab-ci/rpm-sstc-safrn-centos-7-x86-64-script
+git rm -f bash/scripts/gitlab-ci/pages-script
+git rm -f bash/scripts/gitlab-ci/fat-jars-jre7-archivist-script
+git rm -f bash/scripts/gitlab-ci/rpm-sstc-safrn-centos-7-x86-64-archivist-script
+git rm -f bash/scripts/gitlab-ci/docker
+git rm -f bash/functions/gitlab_ci_docker_push_here.bash
+git rm -f scripts/package.sh
+cd ..
+
+find doc/wiki \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s/\(\[[-' a-zA-Z ]*\](\)\.\?\/\?\(\([-a-zA-Z0-9]\+\/\?\)\+\)\(#[-a-zA-Z]*\)\?)/\1\/doc\/wiki\/\2.md\4)/g" *.md
+git add -u

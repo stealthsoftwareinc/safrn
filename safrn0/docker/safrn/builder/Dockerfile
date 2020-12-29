@@ -69,7 +69,6 @@ COPY sst.gitbundle /x/
 RUN : \
   && git clone /x/sst.gitbundle /x/sst \
   && cd /x/sst \
-  && ./autogen \
   && CPPFLAGS= \
   && CPPFLAGS="$CPPFLAGS -I/usr/lib/jvm/java-1.8-openjdk/include" \
   && CPPFLAGS="$CPPFLAGS -I/usr/lib/jvm/java-1.8-openjdk/include/linux" \

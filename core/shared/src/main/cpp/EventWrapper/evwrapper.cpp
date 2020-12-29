@@ -40,8 +40,8 @@ void evw_deleter::operator()(evconnlistener * ptr) {
   evconnlistener_free(ptr);
 }
 
-void evw_deleter::operator()(evutil_socket_t * const ptr) const
-    noexcept {
+void evw_deleter::operator()(
+    evutil_socket_t * const ptr) const noexcept {
   log_assert(ptr != nullptr);
   int const s = evutil_closesocket(*ptr);
   if (s != 0) {

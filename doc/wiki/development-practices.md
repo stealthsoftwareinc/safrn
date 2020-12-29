@@ -43,7 +43,6 @@ Use the following naming conventions for new C++ code.
  - Well known mathematical names may override verb/noun agreement rules. For example ``extendedEuclid(...)``.
  - arbitrary single letter identifiers may be used for mathematical expressions, so long as an explaining reference is given.
    - Examples of acceptable references would be a company Wiki or Knowledge Base article, or an academic paper referenced through a durable medium.
-   - When referencing a page on gitlab.stealthsoftwareinc.com make sure take a link which includes a commit-sha, as pages maybe moved or edited after you reference it.
    - [IACR ePrint](https://eprint.iacr.org/) and the [Wayback Machine](http://web.archive.org/) are examples of sufficiently durable mediums.
      Faculty pages of educational institutes are to be avoided as links can go stale when individuals transfer from one institution to another (There is a button on the Wayback Machine to save a page).
 
@@ -73,11 +72,11 @@ Use the following conventions for naming branches.
  - ``wiki/<title>`` for changes to the SAFRN Wiki.
  - ``bugfix/<title>`` For fixes to bugs.
  - ``feature/<title>`` For new feature development. May involve changes to the wiki without a separate ``wiki/`` branch.
- - ``misc/<title>`` For miscelaneous other changes.
+ - ``misc/<title>`` For miscellaneous other changes.
 
 Use the following conventions for managing the flow of branches.
 
- - ``master`` Never push to master, always use a merge request. (This is enforced by GitLab already)
+ - ``master`` Never push to master, always use a merge request.
  - ``wiki/*`` always branch off of latest master, and merge request to master.
  - ``feature/*`` A feature must branch from ``master``, and must merge request back onto ``master``.
    - A ``feature`` branch may merge from ``master`` onto the ``feature/`` branch in cases where feature development depends on later changes from ``master``.

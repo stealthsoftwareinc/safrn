@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-pick_max_procs)" != function ]]; then
+if [[ "$(type -t pick_max_procs)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 pick_max_procs() {
 
   local n
@@ -25,4 +30,6 @@ pick_max_procs() {
 
   readonly max_procs
 
-}; readonly -f pick_max_procs; fi
+}
+
+readonly -f pick_max_procs

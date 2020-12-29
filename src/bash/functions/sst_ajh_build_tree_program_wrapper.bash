@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-sst_ajh_build_tree_program_wrapper)" != function ]]; then
+if [[ "$(type -t sst_ajh_build_tree_program_wrapper)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 sst_ajh_build_tree_program_wrapper() {
 
   local ag_json
@@ -64,4 +69,6 @@ EOF
 
   done
 
-}; readonly -f sst_ajh_build_tree_program_wrapper; fi
+}
+
+readonly -f sst_ajh_build_tree_program_wrapper

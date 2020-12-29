@@ -54,7 +54,7 @@ The config file is in JSON. It has the following attributes
        format.
        If the path is not absolute, it is taken relative to the current
        working directory.
- - ``approvedSessions`` is a list of objects containing file names of the [session](/json-schemas/session-config), [peer](/json-schemas/peer-config), and [database](/json-schemas/database-config) files.
+ - ``approvedSessions`` is a list of objects containing file names of the [session](/doc/wiki/json-schemas/session-config.md), [peer](/doc/wiki/json-schemas/peer-config.md), and [database](/doc/wiki/json-schemas/database-config.md) files.
    This may be replaced with a directory name which will be scanned for these files, but at the moment I'm doing this out of lazyness.
    - ``study`` the study configuration file name.
    - ``peer`` the peer configuration file which is paired to this study.

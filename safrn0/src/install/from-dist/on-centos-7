@@ -55,7 +55,7 @@ install_local_git build-aux/downloads/git-2.20.1.tar.gz
 make build-aux/gitbundles/sst.gitbundle
 git clone build-aux/gitbundles/sst.gitbundle sst
 cd sst
-install/on-centos
+install/on-centos --with-build-groups=default,+java-maven
 cd ..
 
 make install-java-jardeps-targets

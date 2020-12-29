@@ -52,7 +52,7 @@ Many tools exist for approximating the solution to a linear equation. [Scikit-le
 
 The secure implementation is also computed via Cholesky decomposition,
 closely following [this paper](#2). The full details are given
-[here](zz-algorithms/Linear-Regression-Secure-Impl)
+[here](/doc/wiki/zz-algorithms/Linear-Regression-Secure-Impl.md)
 
 ## Root Mean Square Error
 The Root Mean Square Error (commonly referred to as the "standard error of the regression," the "standard error of the estimate," or (in the summary output of the R `lm` function) the "residual standard error") is an estimate of the standard deviation of the error $`\varepsilon`$.  For a model with an intercept, it is computed as

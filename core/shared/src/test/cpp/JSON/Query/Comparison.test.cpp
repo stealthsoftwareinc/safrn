@@ -24,12 +24,13 @@ TEST(Comparison, ExhaustiveValues) {
    * a change in the provided string will yield
    * a change in the result. */
   const std::vector<std::pair<std::string, safrn::Comparison::Enum_t>>
-      AllPossibleValues = {{R"("<")", safrn::Comparison::Enum_t::LT},
-                           {R"("<=")", safrn::Comparison::Enum_t::LTE},
-                           {R"(">")", safrn::Comparison::Enum_t::GT},
-                           {R"(">=")", safrn::Comparison::Enum_t::GTE},
-                           {R"("=")", safrn::Comparison::Enum_t::EQ},
-                           {R"("!=")", safrn::Comparison::Enum_t::NEQ}};
+      AllPossibleValues = {
+          {R"("<")", safrn::Comparison::Enum_t::LT},
+          {R"("<=")", safrn::Comparison::Enum_t::LTE},
+          {R"(">")", safrn::Comparison::Enum_t::GT},
+          {R"(">=")", safrn::Comparison::Enum_t::GTE},
+          {R"("=")", safrn::Comparison::Enum_t::EQ},
+          {R"("!=")", safrn::Comparison::Enum_t::NEQ}};
 
   for (const auto & value : AllPossibleValues) {
     const nlohmann::json jsonInit = nlohmann::json::parse(value.first);

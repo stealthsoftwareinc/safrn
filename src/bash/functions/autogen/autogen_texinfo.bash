@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-autogen_texinfo)" != function ]]; then
+if [[ "$(type -t autogen_texinfo)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_texinfo() {
 
   local dd
@@ -17,7 +22,7 @@ autogen_texinfo() {
 
   case $# in
     0 | 1)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
@@ -28,7 +33,7 @@ autogen_texinfo() {
     *.texi)
     ;;
     *)
-      barf '$1 must end in .texi: %s' $x1
+      sst_barf '$1 must end in .texi: %s' $x1
     ;;
   esac
   shift
@@ -86,4 +91,6 @@ EOF
 
   autogen_am_include $x2.am
 
-}; readonly -f autogen_texinfo; fi
+}
+
+readonly -f autogen_texinfo

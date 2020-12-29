@@ -8,11 +8,11 @@
     
 ## Crypto assumptions
 
-- Core MPC implemented by $`m`$ data-owner parties, with a different party playing the role of data owner (see [arch doc](arch#safrn1-parties-involved))
-- At most two verticals (per query, as of SAFRN 1.0), with $`m_1`$ parties from the first vertical and $`m_2`$ parties from the second vertical (see [Issue #48](https://gitlab.stealthsoftwareinc.com/stealth/safrn/issues/48)) We may implement more than two verticals in SAFRN 1.1.
+- Core MPC implemented by $`m`$ data-owner parties, with a different party playing the role of dealer (see [arch doc](arch#safrn1-parties-involved))
+- At most two verticals (per query, as of SAFRN 1.0), with $`m_1`$ parties from the first vertical and $`m_2`$ parties from the second vertical. We may implement more than two verticals in SAFRN 1.1.
 - Honest-but curious adversaries
 - Corruption threshold: Up to $`m-1`$ data owners *OR* the randomness dealer can be corrupted (any data owners + the dealer currently compromises security). The analyst and data owners can be corrupted without compromising security, since they see nothing other than what they're supposed to see.
-- Acceptable leakages (see [Issue #33](https://gitlab.stealthsoftwareinc.com/stealth/safrn/issues/33)):
+- Acceptable leakages:
   - Can leak an upper bound on the size of sets $`\{A_i,B_j\}`$
   - Cannot leak the size of intersections $`A_i \cap B_j`$
 
@@ -31,16 +31,16 @@ PSO is made up, broadly, of two steps: A secure sorting step that sorts by keys,
 
 ### Sorting protocols
 
-In SAFRN 1.0, we will implement four versions of secure sorting, based on the number of data owners participating and whether the input is private or shared. The four versions are:  
+In SAFRN 1.0, we encounter four versions of secure sorting, based on the number of data owners participating and whether the input is private or shared. The four versions are:  
   
-  1. 2PC PISO PSO [#103](https://gitlab.stealthsoftwareinc.com/stealth/safrn/issues/103)
-  2. 2PC SISO PSO [#104](https://gitlab.stealthsoftwareinc.com/stealth/safrn/issues/104)
-  3. MPC PISO PSO [#105](https://gitlab.stealthsoftwareinc.com/stealth/safrn/issues/105)
-  3. MPC SISO PSO [#106](https://gitlab.stealthsoftwareinc.com/stealth/safrn/issues/106)
+  1. 2PC PISO PSO
+  2. 2PC SISO PSO
+  3. MPC PISO PSO
+  3. MPC SISO PSO  
   
-  PISO PSO can be perform naturally by sharing all inputs and then running SISO PSO. Alternatively, each party can sort their private input locally and then run a `secure merge` protocol.
+  Because PISO PSO can be perform naturally by sharing all inputs and then running SISO PSO, and because 2PC is a special case of MPC, it is sufficient to implement MPC SISO PSO. However, some optimizations exist for PISO and 2PC PSO.
   
-  These protocols are described [here](crypto/pso).
+  These protocols are described [here](/doc/wiki/crypto/pso.md).
 
 
 ### Compare via Map-Reduce
@@ -51,13 +51,13 @@ When there are duplicate records with the same key in a vertical, our algorithm 
 
 When running multiple calculations on the same data set (either to compute multiple statistics, or to compute e.g. variance, which requires $`E[X^2]`$ and $`E[X]`$), we can optimize by performing multiple distinct MPC operations on the same payload, or by replacing the payload with a tuple of payloads. There's a trade-off here between runtime efficiency and engineering work.
 
-The comparison protocol works via the map-reduce paradigm to parallelize, giving $`O(1)`$ round complexity. The `map` step considers every pair of adjacent elements, selecting those with matching keys. The `reduce` step sums the results, requiring no communication. These protocols are described in more detail [here](crypto/mapreduce#PSO-compare-step)
+The comparison protocol works via the map-reduce paradigm to parallelize, giving $`O(1)`$ round complexity. The `map` step considers every pair of adjacent elements, selecting those with matching keys. The `reduce` step sums the results, requiring no communication. These protocols are described in more detail [here](/doc/wiki/crypto/mapreduce.md#PSO-compare-step)
 
-It is also possible to implement the compare step via a linear scan. This gives some (constant factor) improvement in communication cost, but increases the round complexity form $`O(1)`$ to $`O(n)`$. Full details are given here [#68](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/issues/68).
+It is also possible to implement the compare step via a linear scan. This gives some (constant factor) improvement in communication cost, but increases the round complexity form $`O(1)`$ to $`O(n)`$. We do not implement this variation because of the cost in round complexity.
 
 ### SQL Join Semantics
 
-In SAFRN 1.0, we will support the four standard SQL JOIN operations: INNER, OUTER, LEFT, and RIGHT. However, we do not support arbitrary functions on columns from separate verticals the merged table. We allow only two cases:
+In SAFRN 2.0, we plan to support the four standard SQL JOIN operations: INNER, OUTER, LEFT, and RIGHT. However, we do not support arbitrary functions on columns from separate verticals the merged table. We allow only two cases:
 
 - We compute some function on payload columns from only vertical, and sum the result over all rows satisfying the JOIN condition.
 - We compute the dot product of a payload column from the left vertical and a payload column from the right vertical. The calculation ignores all rows with a NULL entry in a relevant column, so that only rows from an INNER JOIN are included. (NOTE: Implementing arbitrary polynomials across verticals is equivalent to additional pre-processing by data-owners, and could also be supported)
@@ -69,9 +69,11 @@ These restrictions mean that, on the implementation level, each query behaves li
 | Inner | Inner | Inner | Inner |
 | Outer | No PSO needed | No PSO needed | Inner |
 | Left  | No PSO needed | Inner | Inner | 
-| Right | Inner | No PSO needed | Inner |
-
-Other cases with more complex functions or different NULL behavior will not be implemented in SAFRN 1.0 but may be implemented in the future, see [#68](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/issues/68).
+| Right | Inner | No PSO needed | Inner |    
+    
+Other cases with more complex functions or different NULL behavior will not be implemented in SAFRN 1.0 but may be implemented in the future.  
+  
+For SAFRN 1.0, we support inner join on two verticals, the top row only.
 
 ### Handling multiple parties 
 
@@ -95,28 +97,24 @@ Note that we have to avoid leaking the size of each $`A_i`$, $`B_j`$ and $`A_i \
 
 #### By true multi-party PSO
 
-When computing PSO+X for some more complicated function (e.g. [median](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/wikis/zz-algorithms/Ranking)), there is no natural way to derive the result from computations on subsets $`A_i \cap B_j`$. Instead we run a MPC PSO operation with all $`m + \ell`$ parties to produce a sorted list of length $`(m+\ell)n`$, shared across all parties.
+When computing PSO+X for some more complicated function (e.g. [median](/doc/wiki/zz-algorithms/Ranking.md)), there is no natural way to derive the result from computations on subsets $`A_i \cap B_j`$. Instead we run a MPC PSO operation with all $`m + \ell`$ parties to produce a sorted list of length $`(m+\ell)n`$, shared across all parties.
 
 ## Modulus conversion and comparison
 
 An important class of subprotocols for PSO and some other settings deal with modulus conversion, bit decomposition, and comparison testing.
-
-Beginning with XOR shares of a string of bits, or with `mod p` shares of an integer between `0` and `p`, we wish to convert to shares of a different format, or compute shares of the results of a comparison such as `x < y`.
-
-As a concrete example, the current implementation scheme we plan to use for LWE in PALISADE will give `mod p` shares as output, for some fixed prime `p` with 29 bits. To sort this list, we require a `mod p comparison` protocol, that returns the results of a comparison test as XOR shares, and another protocol that converts XOR shares to `mod p` shares of `0` or `1`.
-
-If, for some reason, we needed to switch out our current LWE protocol for one that gives results as XOR shares of bits, we then sort using a secure bitwise comparison protocol. We run a `mod 2 to mod p` conversion protocol on the result, for whichever prime `p` we desire for the remaining MPC.
   
-  We also need a `mod-p to mod-q` conversion algorithm, for `$p \ll q$`, in our ridge regression protocol.
+Because the result of some intermediate protocols are We require protocols for converting from XOR shares of a bit to shares of `0` or `1` `mod p`, and likewise to convert from shares of `0` or `1` `mod p` to XOR shares.
   
-The full details of the protocols are given [here](crypto/bitconv) and [here](crypto/compare).
+  We also need a `mod-p to mod-q` conversion algorithm, for `$p \ll q$`, in order to increase the modulus to allow for more precision of intermediate values in our calculation.
+  
+The full details of the protocols are given [here](/doc/wiki/crypto/bitconv.md) and [here](/doc/wiki/crypto/compare.md).
 
 
 ## Assuring Disjoint Horizontal Partitions (1.1)
 
-### SAFRN 1.0 assurances
+### SAFRN 1.1 assurances
 
-In SAFRN 1.0, we offer the following guarantee:
+In SAFRN 1.1, we offer the following guarantee:
 
   - If one party holds multiple elements with the same key, we will use an arbitrary element with that key and ignore the others.
   - While computing median, if multiple horizontal parties hold multiple elements with the same key, we will use an arbitrary element with that key and ignore the others.
@@ -149,16 +147,14 @@ The algorithms we plan to implement for SAFRN 1.0 are:
 - Sum
 - Count
 - Mean, variance, and higher-order moments
-- Min/Max
-- Median, quartiles and other ranked elements
-- Linear regression via ridge regression
+- Linear regression
 - Significance tests:
   - F test
   - T test
 
-Full descriptions and secure implementations given [here](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/wikis/algorithms) 
+Full descriptions and secure implementations given [here](/doc/wiki/algorithms.md) 
 
-Below we give a table (#67) outlining the variations used for the 1 vertical case, and the options built around 2PC versus MPC PSO.
+Below we give a table outlining the variations used for the 1 vertical case, and the options built around 2PC versus MPC PSO.
 
 Each algorithm has a (*) marking whether the pairwise or non-pairwise implementation is preferable.
 

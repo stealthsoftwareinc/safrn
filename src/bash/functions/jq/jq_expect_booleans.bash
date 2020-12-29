@@ -3,18 +3,25 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-jq_expect_booleans)" != function ]]; then
+if [[ "$(type -t jq_expect_booleans)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 jq_expect_booleans() {
 
   case $# in
     2)
     ;;
     *)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
   jq_expect_types "$1" "$2" boolean
 
-}; readonly -f jq_expect_booleans; fi
+}
+
+readonly -f jq_expect_booleans

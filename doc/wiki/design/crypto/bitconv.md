@@ -4,17 +4,15 @@
 
 ### Introduction
   
-The following protocols are used for PSO, as well as in our ridge regression protocol. This is also described in [#72](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/issues/72).
+The following protocols are used for PSO, as well as in our regression protocol.
   
 The cost of all protocols are described for a computation done by $`m`$ parties with a prime $`p`$ that is $`\ell`$ bits long.
   
-See also the related [comparison protocols](compare).  
+See also the related [comparison protocols](/doc/wiki/design/crypto/compare.md).  
   
 ### Protocols
 
 #### mod 2 to mod p
-
-[This is due to @steve in CARMA]
 
 Begin with XOR shares $`[x_j]`$ of the bits $`x_j`$ of some integer $`x`$ satisfying $`0 \leq x < 2^c < p`$.
 
@@ -60,5 +58,3 @@ Cost: $`(\sum x_i + r >= q) = \textrm{XOR}_{i=1^n}(\textrm{LSB}(x_i))\ \textrm{X
 $`[(\tilde{x}>t)]`$ and $`[(t+\tilde{q}-\tilde{x} > p)]`$ are bit-wise comparisons with one side fixed. In addition we have three ANDs to compute (on bit shares) and five conversions from an XOR sharing to a `mod q` sharing of $`[0]_q`$ or $`[1]_q`$. Each of these operations require a single bit of communication, for a total cost of:
 
 $`6m\ell + o(m\ell)`$ communication with 10 rounds.
-
-[1]: https://www.iacr.org/archive/pkc2007/44500343/44500343.pdf

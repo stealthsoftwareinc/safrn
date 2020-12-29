@@ -1,9 +1,9 @@
 # Peer Config Files
-This peer configuration file accompanies a [study config](/json-schemas/study-config), holding peer connection information, which is liable to change.
+This peer configuration file accompanies a [study config](/doc/wiki/json-schemas/study-config.md), holding peer connection information, which is liable to change.
 
 This JSON file has just one attribute, the ``peers`` array which holds objects with the following attributes.
 
- - ``organizationId`` A [DBUID](/json-schemas/dbuid) indicating which organization this party represents.
+ - ``organizationId`` A [DBUID](/doc/wiki/json-schemas/dbuid.md) indicating which organization this party represents.
    Since there is only one server from each organization participating in a study, this will be used to identify servers.
  - ``domainOrIp`` is the domain name, host name, or IP address of the server. Examples would be ``safrn-participant.stealthsoftwareinc.com`` or ``10.17.12.2``.
  - ``port`` is the TCP port number which on which the server accepts connections.

@@ -4,11 +4,11 @@
 
 ### Introduction
   
-The following protocols are used for PSO, as well as in our ridge regression protocol. This is also described in [#72](https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/issues/72).
+The following protocols are used for PSO, as well as in our regression protocol.
   
 The cost of all protocols are described for a computation done by $`m`$ parties with a prime $`p`$ that is $`\ell`$ bits long.
   
-See also the related [modular conversion protocols](bitconv).  
+See also the related [modular conversion protocols](/doc/wiki/design/crypto/bitconv.md).  
 
 ### Protocols
 

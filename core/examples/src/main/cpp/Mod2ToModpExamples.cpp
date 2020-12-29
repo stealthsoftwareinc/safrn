@@ -206,8 +206,8 @@ std::vector<ModPValue_t> CalculateModPForm(
   std::vector<Bitset_t> b_shares((size_t)partyCount);
 
   for (size_t partyIt = 0; partyIt < partyCount; partyIt++) {
-    b_shares[partyIt] = xor2BitFields(
-        mod2_shares[partyIt], modp_shares.zs[partyIt]);
+    b_shares[partyIt] =
+        xor2BitFields(mod2_shares[partyIt], modp_shares.zs[partyIt]);
   }
 
   for (size_t j = 0; j < c; j++) {
@@ -224,11 +224,9 @@ std::vector<ModPValue_t> CalculateModPForm(
       /* Retrieve selected_y value and
        * accumulate it into selected_sums. */
       if (b_final == 0) {
-        selected_sums[partyIt] +=
-            modp_shares.ys[partyIt][j].first;
+        selected_sums[partyIt] += modp_shares.ys[partyIt][j].first;
       } else {
-        selected_sums[partyIt] +=
-            modp_shares.ys[partyIt][j].second;
+        selected_sums[partyIt] += modp_shares.ys[partyIt][j].second;
       }
     }
   }

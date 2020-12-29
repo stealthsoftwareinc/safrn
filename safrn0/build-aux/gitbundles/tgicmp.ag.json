@@ -1,4 +1,6 @@
 {
+  "handler": "sst_ajh_gitbundle",
+
   "commit": "fbcb7aef98113239f384b80e64e01f793704dd92",
   "urls": [
     "https://gitlab.com/quinngrier/tgicmp.git",

@@ -4,9 +4,13 @@
 
 ## Introduction
 
-This document describes the map-reduce paradigm we use, and the cases where it appears. This arises both in [PSO](../theory#Private-Set-Operations) and in some of the modular conversion and comparison [protocols](bitconv).
+This document describes the map-reduce paradigm we used in our original design. This arises both in [PSO](/doc/wiki/design/theory.md#Private-Set-Operations) and in some of the modular conversion and comparison [protocols](/doc/wiki/design/crypto/bitconv.md).  
+  
+The map-reduce paradigm has been deprecated for the simpler `Batch` fronctocol, which has a vector of children fronctocols, each of which follows the same sequence of actions (handleReceive, handleComplete, etc.) in the course of their execution. However, this document can be read as a description of abstract design principles motivating the engineering. Whenever document refers to a `Reduce`, this has been implemented as code within the calling fronctocol, while references to `Map` are implemented as a call to `Batch` from the calling fronctocol.
 
-The `Map` and `Reduce` fronctocols each act on a sequence of shared data by batching together a collection of sub-fronctocols, `MapOp` and `ReduceOp` respectively. The `Map` or `Reduce` fronctocol generates one `MapOp` or `ReduceOp` object *per element* of the sequence (or sometimes, per $`k`$-tuple of adjacent elements). We do not *require* that `Map` and `Reduce` be coupled together. In some cases we might need `Map` only, or `Map+Reduce+Reduce+Map+Reduce`.
+## Map and Reduce
+
+The `Map` fronctocol each act on a sequence of shared data by batching together a collection of sub-fronctocols, `MapOp` and `ReduceOp` respectively. The `Map` or `Reduce` fronctocol generates one `MapOp` or `ReduceOp` object *per element* of the sequence (or sometimes, per $`k`$-tuple of adjacent elements). We do not *require* that `Map` and `Reduce` be coupled together. In some cases we might need `Map` only, or `Map+Reduce+Reduce+Map+Reduce`.
 
 ### Map
 
@@ -36,7 +40,7 @@ As a simple example, multiplication (or any MPC) can be batched via a single `Ma
 
 #### Batched Unbounded Fan-in Or
 
-See [here](bitconv#Unbounded-Fan-In-Or) for the full unbounded fan-in or protocol. The only communication required is to compute and reveal $`[A] \times [r^{-1}]`$, where $`[A]`$ is some sum of local shares, and $`[r^{-1}]`$ is read from pre-generated randomness.
+See [here](/doc/wiki/design/crypto/compare.md#Unbounded-Fan-In-Or) for the full unbounded fan-in or protocol. The only communication required is to compute and reveal $`[A] \times [r^{-1}]`$, where $`[A]`$ is some sum of local shares, and $`[r^{-1}]`$ is read from pre-generated randomness.
 
 Therefore the `Map` is identical to that in batched multiplication, except the fronctocol $`f`$ now is multiply+reveal.
 
@@ -44,7 +48,7 @@ We now have a `Reduce` step as well, consisting of the additional local scalar m
 
 #### Prefix-Or  
   
-As an example of composing multiple `Map` and `Reduce` fronctocols together, consider the [prefix-or protocol](bitconv#Prefix-Or), which consists of two batched unbounded fan-in ors and two multiplication steps, interleaved with local computations, i.e. addition and scalar multiplication of shares.
+As an example of composing multiple `Map` and `Reduce` fronctocols together, consider the [prefix-or protocol](/doc/wiki/design/crypto/compare.md#Prefix-Or), which consists of two batched unbounded fan-in ors and two multiplication steps, interleaved with local computations, i.e. addition and scalar multiplication of shares.
 
 This looks like:
 
@@ -55,11 +59,9 @@ This looks like:
 3. Run batched unbounded fan-in or to compute $`[v_i] = \textrm{OR}_{k=1}^{i} [w_k]`$ from $`[d_i]`$. Then in an additional `Reduce` step, generate a list with $`\ell`$ copies of each $`[v_i]`$.
 4. Run batched multiplication to compute all products $`[z_i][v_j]`$. Then set $`[s_i] = [y_i] - [z_i]`$ and $`[b_{i,j}] = [z_i]\cdot[v_j] + [s_i]`$ in a `Reduce` step.
 
-*Note: It's unclear how much coding overhead is introduced by chaining together a bunch of distinct `Reduce` steps. We may determine that when the `Reduce` work can be executed by e.g. a simple for loop, we do not need to formally instantiate a `Reduce object. This is a coding-level detail to be determined later.*
-
 #### PSO compare step
 
-The compare step follows the Map-Reduce paradigm. In the two vertical case, as discussed [here](../theory#SQL-join-semantics), we only need to determine how to extract adjacent entries with matching keys from different verticals.
+The compare step follows the Map-Reduce paradigm. In the two vertical case, as discussed [here](/doc/wiki/design/theory.md#SQL-join-semantics), we only need to determine how to extract adjacent entries with matching keys from different verticals.
 
 The result can consist of some function on the payload columns (for now, one column or a product of two columns), or it can consist of a masked row which is equal to $`\bot`$ except on included rows, or both.
 

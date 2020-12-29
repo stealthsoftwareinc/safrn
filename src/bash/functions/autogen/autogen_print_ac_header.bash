@@ -7,12 +7,17 @@
 # autogen_print_ac_header
 #
 
-if [[ "$(type -t \
-autogen_print_ac_header)" != function ]]; then
+if [[ "$(type -t autogen_print_ac_header)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_print_ac_header() {
 
   if (($# != 0)); then
-    barf 'invalid argument count: %d' $#
+    sst_barf 'invalid argument count: %d' $#
   fi
 
   cat <<"EOF"
@@ -27,4 +32,6 @@ dnl
 
 EOF
 
-}; readonly -f autogen_print_ac_header; fi
+}
+
+readonly -f autogen_print_ac_header

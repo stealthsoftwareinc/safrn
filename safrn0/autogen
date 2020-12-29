@@ -13,8 +13,8 @@ autogen_am_var_append EXTRA_DIST \
   install/**/* \
 ;
 
-autogen_downloads build-aux/downloads
-autogen_gitbundles build-aux/gitbundles
+sst_ajh_download build-aux/downloads
+sst_ajh_gitbundle build-aux/gitbundles
 
 autogen_java_jars \
   lib/safrn.jar.ag.json \

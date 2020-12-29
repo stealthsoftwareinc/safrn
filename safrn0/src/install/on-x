@@ -98,25 +98,6 @@ if test -f configure; then
 
   readonly from_w=from-dist
 
-  #
-  # In some cases, the timestamps from a distribution archive will have
-  # been lost, which can cause make to mistakenly try to rebuild things
-  # that the user generally can't rebuild because of missing development
-  # tools. This can happen if the content of the distribution archive is
-  # stored in a Git repository, for example. We can resolve this problem
-  # by always generating new timestamps that guarantee the same behavior
-  # as the original timestamps.
-  #
-  # First touch everything to ensure that nothing is future dated, which
-  # sometimes happens when working with virtual machines. Then touch the
-  # tricky files in the right order.
-  #
-
-  find -exec touch {} \; || exit
-  find -name aclocal.m4 -exec touch {} \; || exit
-  find -name configure -exec touch {} \; || exit
-  find -name \*.in -exec touch {} \; || exit
-
 elif git rev-parse >/dev/null 2>&1; then
 
   readonly from_w=from-repo

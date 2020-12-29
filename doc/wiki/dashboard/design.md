@@ -1,4 +1,5 @@
 # Dashboard Design
+
 The dashboard is a public, or optionally self-hosted, web application for managing MPC Sessions, and generating network and schema configuration information for SAFRN1.
 
 The intention of the Dashboard is for organizations to synchronize their dataset schemas, coordinate MPC Sessions, and generate configuration files for their servers to join MPC sessions.

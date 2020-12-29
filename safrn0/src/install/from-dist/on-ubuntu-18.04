@@ -47,7 +47,7 @@ eval ./configure \
 make build-aux/gitbundles/sst.gitbundle
 git clone build-aux/gitbundles/sst.gitbundle sst
 cd sst
-install/on-ubuntu
+install/on-ubuntu --with-build-groups=default,+java-maven
 cd ..
 
 make install-java-jardeps-targets

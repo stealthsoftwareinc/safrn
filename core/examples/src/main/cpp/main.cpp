@@ -5,10 +5,10 @@
 /* platform-specific includes */
 
 /* c/c++ standard includes */
+#include <cstring>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <cstring>
 
 /* third-party library includes */
 

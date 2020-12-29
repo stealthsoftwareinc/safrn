@@ -12,13 +12,18 @@
 # to autogen.ac.
 #
 
-if [[ "$(type -t \
-autogen_ac_start)" != function ]]; then
+if [[ "$(type -t autogen_ac_start)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_ac_start() {
 
   case ${autogen_ac_start_has_been_called+x} in
     ?*)
-      barf 'autogen_ac_start has already been called'
+      sst_barf 'autogen_ac_start has already been called'
     ;;
   esac
   autogen_ac_start_has_been_called=x
@@ -26,7 +31,7 @@ autogen_ac_start() {
 
   case ${autogen_ac_file+x} in
     ?*)
-      barf 'autogen_ac_file is already set'
+      sst_barf 'autogen_ac_file is already set'
     ;;
   esac
 
@@ -38,10 +43,11 @@ autogen_ac_start() {
       autogen_ac_file=$1
     ;;
     *)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
-  protect_path autogen_ac_file
+  autogen_ac_file=$(sst_dot_slash "$autogen_ac_file" | sst_csf)
+  sst_csf autogen_ac_file
   readonly autogen_ac_file
 
   cat >$autogen_ac_file <<EOF
@@ -58,16 +64,18 @@ dnl
 
 EOF
 
-  trap_append '
+  sst_trap_append '
     case $trap_entry_status in
       0)
         case ${autogen_ac_finish_has_been_called+x} in
           "")
-            barf "you forgot to call autogen_ac_finish"
+            sst_barf "you forgot to call autogen_ac_finish"
           ;;
         esac
       ;;
     esac
   ' EXIT
 
-}; readonly -f autogen_ac_start; fi
+}
+
+readonly -f autogen_ac_start

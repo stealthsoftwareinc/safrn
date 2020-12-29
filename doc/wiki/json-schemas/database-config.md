@@ -13,14 +13,14 @@ This configuration file is for local use by a data owner's server to store conne
    - ``<<string>> localName``
    - ``<<SQLSMALLINT>> localSQLType``
    - ``<<integer>> verticalIndex``
-     > Refers to verticalIndex from [study-config](study-config)
+     > Refers to verticalIndex from [study-config](/doc/wiki/json-schemas/study-config.md)
      > Index is redundant to the order of the items in columnMaps to improve
      > human-readability.
      > This index will be checked against the location in the array, and the configuration 
      > rejected if they do not match.
 
    - ``<<integer>> columnIndex``
-     > Refers to columnIndex from [study-config](study-config)
+     > Refers to columnIndex from [study-config](/doc/wiki/json-schemas/study-config.md)
      > Index is redundant to the order of the items in columnMaps to improve
      > human-readability.
      > This index will be checked against the location in the array, and the configuration

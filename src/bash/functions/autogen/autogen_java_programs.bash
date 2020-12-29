@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-autogen_java_programs)" != function ]]; then
+if [[ "$(type -t autogen_java_programs)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_java_programs() {
 
   local arg
@@ -26,7 +31,7 @@ autogen_java_programs() {
 #    )
 #    case $schema in
 #      "")
-#        barf
+#        sst_barf
 #      ;;
 #    esac
 
@@ -70,4 +75,6 @@ EOF
 
   done
 
-}; readonly -f autogen_java_programs; fi
+}
+
+readonly -f autogen_java_programs

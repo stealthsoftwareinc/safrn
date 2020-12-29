@@ -46,15 +46,11 @@ For example "F1.2.3".
     3. SAFRN1 lexicons must support conversion of enumerated-string values into categorical a categorical set of integer values on the range of $`[0, 1]`$.
        1. All enumerated-string values must be known a priori by all parties and in clear text.
  2. SAFRN1 shall perform the following statistical computations.
-       - _This section is somewhat up in the air, both the algorithms necessary and their requirement precedence. See also the [SAFRN-1 Proposed Features Document](https://docs.google.com/document/d/1Mhnloc27m-Jfuq3rfWFPKgFN-PH8yom3DBKXrK-Ds1w/edit)_.
     1. It must calculate frequency (counting records in a dataset).
-    2. It must calculate the mean, variance, and higher order moments.
-       - _Clarification is required in determining which moments are actually necessary_.
-    3. It should find certain data rankings such as maximum, minimum, or median.
-          - _Clarification is required in determining which ranks are of value_.
-       1. It must not reveal arbitrary ranks.
+    2. It must calculate the mean, variance, and higher order moments, up to fourth order.
     4. It must calculate Linear Regression with multiple regressors.
     6. It should calculate the T-Statistic and F-Test for hypothesis testing.
+    7. It may calculate maximum, minimum, and median.
     8. It may perform Logistic Regression.
     9. It may perform K-Means Clustering.
  3. SAFRN1 must support lexicons divided amongst multiple parties.
@@ -62,19 +58,17 @@ For example "F1.2.3".
        1. SAFRN1 may enforce uniqueness of records by adding additional key values to the query, in cases where it does not meaningfully alter the calculation and successful completion of a calculation necessitates this action.
     2. SAFRN1 must represent n-many vertically partitioned datasets in its public data schema.
     3. SAFRN1 must operate on the intersection (join) of two vertically partitioned datasets.
-          - _We expect that finding the intersection on n-many datasets to be prohibitively expensive, thus it is worth declaring it out of scope_.
-       1. SAFRN1 should have the capability to use more than one column simultaneously as the joining key.
+          - Finding the intersection on n-many datasets is out of scope.
+       1. SAFRN1 may have the capability to use more than one column simultaneously as the joining key.
     3. SAFRN1 must operate on a combination of N and M many horizontally partitioned datasets across the intersection of two vertically-partitioned datasets.
-       - _For clarity, and because I could not word this very well, here is an example of what I mean. Given datasets $`A`$, $`B`$, $`C`$, and $`D`$, jointly compute some function on $`(A \cup B) \cap (C \cup D)`$_.  Steve's Comment: The $`\cap`$ may depend on what the JOIN semantics are, OUTER JOIN would use $`\cup`$.
+       - _For clarity, this means that given datasets $`A`$, $`B`$, $`C`$, and $`D`$, SAFRN1 jointly computes some function on $`(A \cup B) \cap (C \cup D)`$_.
 
 ## Security Requirements (S)
  1. SAFRN1 shall assume that all participants act in an honest-but-curious manner.
-       - _What, if any, is our targeted threshold of collusion?_
-    1. SAFRN1 shall verify the identity of peers before commencing a calculation.
-       - _As a data owner is it enough to trust the analyst and for the analyst to trust other data owners, or should each data owner verify each of their peers_.
+1. SAFRN1 shall be secure against collusion by `n-1` dataowner parties.
+1. SAFRN1 shall verify the identity of peers before commencing a calculation.
  2. The schemas of all datasets shall be known by all parties in the clear.
  3. SAFRN1 shall not reveal participants' private datasets to other participants or observers.
-       - _These sorts of requirements are difficult to understand ahead of design, so I'm leaving them fairly loose_.
     1. SAFRN1 should not leak any meaningful information to any party which could not be inferred from the result.
     2. SAFRN1 should provide the result only to the Analyst.
  4. SAFRN1 should refuse to reveal the result of a query which is artificially or otherwise constrained to a point where it would reveal information directly from a dataset.
@@ -83,7 +77,7 @@ For example "F1.2.3".
     2. SAFRN1 may refuse to reveal the result of a query in which the result does not meet constraints on the ratio of mean:variance.
     3. SAFRN1 shall not reveal its reason for refusing to reveal the result of a particular query.
        _This should also include revelation by means of timing_.
- 5. SAFRN1 should use access control to require an analyst receive permission from all data-owning parties before querying a dataset.
+ 5. SAFRN1 should use access control to require that an analyst receive permission from all data-owning parties before querying a dataset.
  6. SAFRN1 servers shall protect their calculations from eavesdroppers.
 
 ## Performance Expectations (P)
@@ -94,8 +88,8 @@ For example "F1.2.3".
  > For this reason, I will note expectations about SAFRN1's operating environment, instead of concrete requirements.
 
  1. We expect SAFRN1 to be constrained in memory when compared to the size and quantity of datasets on which it computes.
- 2. We (do or do not **??**) expect SAFRN1's performance to be dominated by number of participants.
- 3. We (do or do not **??**) expect SAFRN1's performance to be dominated by number of records.
+ 2. We do not expect SAFRN1's performance to be dominated by number of participants.
+ 3. We do expect SAFRN1's performance to be dominated by number of records.
  4. We do not expect SAFRN1's networking environment to be significantly constrained in latency or bandwidth.
 
 ## Configuration Requirements (C)
@@ -104,9 +98,9 @@ This section details tools to minimize this configuration burden.
 It also introduces a new role in SAFRN administration, the Data Steward.
 The Data Steward is responsible for balancing an organization's often conflicting goals of cooperating with other organizations to analyze partitioned datasets while ensuring the privacy of its own data.
 
- 1. SAFRN1 shall have a configuration dashboard as a public resource.
+ 1. SAFRN1 may have a configuration dashboard as a public resource.
     1. The dashboard shall coordinate MPC Sessions between multiple organizations.
-    2. The dashboard shall enable data stewards to manage a lexicons (1.1).
+    2. The dashboard shall enable data stewards to manage a lexicon (1.1).
     3. The dashboard shall deliver a session's network configurations to data stewards (1.0).
     4. The dashboard should deliver a session's network configurations directly to SAFRN servers (1.1).
        1. SAFRN servers must directly receive approval from a data steward before acting on a configuration delivered from the dashboard.

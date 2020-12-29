@@ -1,4 +1,4 @@
-To be implemented in SAFRN 1.0
+Not to be implemented in SAFRN 1.0
 
 # Ranking
 Ranking is a relationship among elements of a data set. For two elements $`x`$ and $`y`$, either $`x`$ is 'ranked higher than' $`y`$, or $`x`$ is 'ranked lower than' $`y`$, or $`x`$ is 'ranked equal to' $`y`$[1].

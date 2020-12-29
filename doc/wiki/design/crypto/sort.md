@@ -4,7 +4,7 @@
 
 ## Introduction
 
-This document is an extension of the theory design document REF, with full details on the implementation of the four secure sorting protocol variants.
+This document is an extension of the [theory design document](/doc/wiki/design/theory.md), with full details on the implementation of the four secure sorting protocol variants.
 
 There are two paradigms for a secure sort. For shared inputs, we use a SISO sort that consists of a secure shuffle followed by quicksort. For a PISO sort, we can either share the private inputs and use the same SISO sort, or use a PISO secure merge that is more elaborate but asymptotically more efficient.  
 
@@ -25,13 +25,21 @@ The secure block protocol now works as follows:
 
 ## Secure Shuffle    
     
+### Via a Waksman network  
+  
+A waksman network has `2 \log n` rounds of `n/2` swap operations, and can generate an arbitrary permutation on `n` elements, although choosing the swap operations uniformly at random does *not* give a uniformly random permutation.  
+  
+Instead, the randomness dealer generates a uniformly random permutation, derives the swap bits from the permutation (using a recursive algorithm based on the recursive construction of the Waksman network), and then shares the swap bits as XOR shares and over all primes used as moduli for the encrypted list.
+    
+### Via rerandomizable encryption (Deprecated)  
+
 At a high level, a secure shuffle works by encrypting all data under some rerandomizable encryption scheme, shuffling locally, and passing to the next player.  
   
 There are two variants here based on whether the data is shared first (multi-key) or the private key is shared (threshold key). The current implementation plan is to use the multi-key shuffle for 2PC Shuffle, and the threshold key shuffle for MPC shuffle.
 
 We also need some choice of rerandomizable encryption scheme. The current plan is to use lattice-based encryption, specifically the BFVrns scheme in PALISADE.
   
-### Multi-key shuffle  
+#### Multi-key shuffle  
   
 For $`m`$ parties, each with a list of length $`n`$.
 
@@ -44,7 +52,7 @@ For $`m`$ parties, each with a list of length $`n`$.
 - $`P_1`$ sends column $`i`$ to player $`i`$
 - All parties decrypt their column with their secret key and now hold a sharing sharing of the plaintext
 
-### Threshold key shuffle
+#### Threshold key shuffle
 
 For $`m`$ parties, each with a list of length $`n`$.
 
@@ -54,7 +62,7 @@ For $`m`$ parties, each with a list of length $`n`$.
   - $`P_i` shuffles, re-encrypts with the public key, and sends to `P_{i+1}`$.
 - All parties run a multiparty decryption algorithm to convert the encrypted value to shares of the plaintext.
 
-### ElGamal threshold encryption variation
+#### ElGamal threshold encryption variation
 
 **Note: warm-up / deprecated**
 
@@ -100,6 +108,8 @@ In the $`i`$th round, we have a list divided into $`2^{i-1}`$ subintervals. We c
 
 ## Secure Merge
 
+NOTE: Secure merge has not been implemented in SAFRN 1.0.
+
 The secure merge protocol is a great deal more involved, and uses the secure shuffle and SISO secure sort as subprotocols, as well as the additional protocols `sparse compact` and stable compact`.
    
      
@@ -111,7 +121,7 @@ Each party holds privately a list of length $`n`$ consisting of a key and payloa
 2. Divide into blocks of size $`O(\log^2 n)`$. The payload of each block is the entire block, plus an array of $`m`$ flags indicating which party it comes from. The key is the key of the last element of the block.  
 3. Each party shares their blocks with the other parties.
 3. Run `secure sort` on these blocks. Call the output $`A`$.
-4. Flag each block that is preceded by $`\Omega(m \log^4 n)`$ blocks from the other party. These are the "stray blocks" (of *potentially* stray elements). This is done with the [Map-Reduce paradigm](mapreduce). We need $`mn/\log^2 n`$ rounds of batched fan-in AND, one for each possible party source of each block.
+4. Flag each block that is preceded by $`\Omega(m \log^4 n)`$ blocks from the other party. These are the "stray blocks" (of *potentially* stray elements). This is done with the [Map-Reduce paradigm](/doc/wiki/design/crypto/mapreduce.md). We need $`mn/\log^2 n`$ rounds of batched fan-in AND, one for each possible party source of each block.
 5. Create a new sparse array of blocks which holds the flagged blocks in the same positions as before, and zero blocks everywhere else. Set the key to the zero blocks to be $`\infty`$.
 6. Sort the sparse array with `MPC secure sort` on blocks. Extract the leading $`\frac{n}{\log^6 n}`$ blocks, and place the elements into an array $`B`$ with $`\frac{n}{\log^4 n}`$ elements.
 7. Add to $`B`$ the $`\frac{n}{\log^2 n}`$ pivots of $`A`$.

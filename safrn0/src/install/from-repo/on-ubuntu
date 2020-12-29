@@ -1,12 +1,14 @@
-#! /bin/bash -
+#! /bin/sh -
 #
 # For the copyright information for this file, please search up the
 # directory tree for the first COPYING file.
 #
 
-set -e; . src/bash/preludes/standard.bash
+# Load the prelude.
+set -e || exit $?
+. src/bash/preludes/standard.bash
 
-ubuntu_install_packages lsb-core
+sst_ubuntu_install_raw lsb-core
 
 v=$(lsb_release -r | sed 's/^[^0-9]*//')
 case $v in
@@ -17,7 +19,7 @@ case $v in
     v=20.04
   ;;
   *)
-    barf 'Unsupported Ubuntu version: %s' "$v"
+    sst_barf 'Unsupported Ubuntu version: %s' "$v"
   ;;
 esac
 readonly v
@@ -29,7 +31,7 @@ s=src/install/$from_w/$on_x
 readonly s
 
 if [[ ! -f "$s" && ! -h "$s" ]]; then
-  barf 'Unsupported Ubuntu version: %s' "$v"
+  sst_barf 'Unsupported Ubuntu version: %s' "$v"
 fi
 
 "$s" "$@"

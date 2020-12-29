@@ -6,119 +6,142 @@
 gitlab_projects += sst
 sst_server_url = https://gitlab.stealthsoftwareinc.com
 sst_project_id = 2
-sst_api_token = $(stealth_gitlab_api_token)
+$(eval $(call read_var,sst_api_token,stealth_gitlab_read_api_token))
+define sst_downloads
 
-ifndef stealth_gitlab_api_token
-$(eval $(call read_variable,stealth_gitlab_api_token,s))
-endif
+build-aux/autogen_java_program.src
+build-aux/downloads-library/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar.am
+build-aux/downloads-library/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-rt.jar.am
+build-aux/downloads-library/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm.ag.json
+build-aux/downloads-library/mariadb-java-client-1.8.0.jar.ag.json
+build-aux/downloads-library/ojdbc7-12.1.0.1.jar.ag.json
+build-aux/downloads-library/postgresql-42.2.8.jre7.jar.ag.json
+build-aux/downloads-library/texinfo-6.3.tar.xz.ag.json
+build-aux/downloads/git-2.20.1.tar.gz.ag.json
+build-aux/downloads/junit-jupiter-api-5.5.1.jar.ag.json
+build-aux/downloads/junit-jupiter-params-5.5.1.jar.ag.json
+build-aux/downloads/mariadb-java-client-2.5.1.jar.ag.json
+build-aux/downloads/netty-all-4.1.39.Final.jar.ag.json
+build-aux/downloads/netty-all-4.1.9.Final.jar.ag.json
+build-aux/downloads/ojdbc8-12.2.0.1.jar.ag.json
+build-aux/downloads/ojdbc8-18.3.jar.ag.json
+build-aux/downloads/picocli-4.0.2.jar.ag.json
+build-aux/downloads/postgresql-42.2.6.jar.ag.json
+build-aux/gitbundles/tgicmp.ag.json
+build-aux/gitbundles/wficmp.ag.json
+build-aux/prelude.ac
+dev-aux/special-files.gmk
+install/on-centos
+install/on-ubuntu
+src/bash/functions/array/array_contains.bash
+src/bash/functions/autogen/autogen_ac_append.bash
+src/bash/functions/autogen/autogen_ac_finish.bash
+src/bash/functions/autogen/autogen_ac_include.bash
+src/bash/functions/autogen/autogen_ac_start.bash
+src/bash/functions/autogen/autogen_ag_include.bash
+src/bash/functions/autogen/autogen_am_append.bash
+src/bash/functions/autogen/autogen_am_finish.bash
+src/bash/functions/autogen/autogen_am_include.bash
+src/bash/functions/autogen/autogen_am_start.bash
+src/bash/functions/autogen/autogen_am_var_append.bash
+src/bash/functions/autogen/autogen_am_var_append_files.bash
+src/bash/functions/autogen/autogen_c_cpp_tests.bash
+src/bash/functions/autogen/autogen_java_jars.bash
+src/bash/functions/autogen/autogen_java_programs.bash
+src/bash/functions/autogen/autogen_java_tests.bash
+src/bash/functions/autogen/autogen_print_ac_header.bash
+src/bash/functions/autogen/autogen_print_am_header.bash
+src/bash/functions/autogen/autogen_texinfo.bash
+src/bash/functions/cc.bash
+src/bash/functions/config_h_get_string.bash
+src/bash/functions/expect_safe_path.bash
+src/bash/functions/gitlab_ci_docker_push_here.bash
+src/bash/functions/install_local_git.bash
+src/bash/functions/jq/jq_expect_array.bash
+src/bash/functions/jq/jq_expect_array_or_null.bash
+src/bash/functions/jq/jq_expect_arrays.bash
+src/bash/functions/jq/jq_expect_arrays_or_null.bash
+src/bash/functions/jq/jq_expect_boolean.bash
+src/bash/functions/jq/jq_expect_boolean_or_null.bash
+src/bash/functions/jq/jq_expect_booleans.bash
+src/bash/functions/jq/jq_expect_booleans_or_null.bash
+src/bash/functions/jq/jq_expect_null.bash
+src/bash/functions/jq/jq_expect_nulls.bash
+src/bash/functions/jq/jq_expect_nulls_or_null.bash
+src/bash/functions/jq/jq_expect_number.bash
+src/bash/functions/jq/jq_expect_number_or_null.bash
+src/bash/functions/jq/jq_expect_numbers.bash
+src/bash/functions/jq/jq_expect_numbers_or_null.bash
+src/bash/functions/jq/jq_expect_object.bash
+src/bash/functions/jq/jq_expect_object_or_null.bash
+src/bash/functions/jq/jq_expect_objects.bash
+src/bash/functions/jq/jq_expect_objects_or_null.bash
+src/bash/functions/jq/jq_expect_string.bash
+src/bash/functions/jq/jq_expect_string_or_null.bash
+src/bash/functions/jq/jq_expect_strings.bash
+src/bash/functions/jq/jq_expect_strings_or_null.bash
+src/bash/functions/jq/jq_expect_type.bash
+src/bash/functions/jq/jq_expect_type_or_null.bash
+src/bash/functions/jq/jq_expect_types.bash
+src/bash/functions/jq/jq_expect_types_or_null.bash
+src/bash/functions/jq/jq_inline.bash
+src/bash/functions/make_j.bash
+src/bash/functions/opt/opt_parse.bash
+src/bash/functions/pick_max_procs.bash
+src/bash/functions/sst_ajh_asciidoctor_document.bash
+src/bash/functions/sst_ajh_build_tree_program_wrapper.bash
+src/bash/functions/sst_ajh_download.bash
+src/bash/functions/sst_ajh_gitbundle.bash
+src/bash/functions/sst_am_distribute.bash
+src/bash/functions/sst_array_cmp.bash
+src/bash/functions/sst_array_from_zterm.bash
+src/bash/functions/sst_array_to_string.bash
+src/bash/functions/sst_barf.bash
+src/bash/functions/sst_centos_get_distro_version.bash
+src/bash/functions/sst_centos_install_raw.bash
+src/bash/functions/sst_centos_install_utility.bash
+src/bash/functions/sst_csf.bash
+src/bash/functions/sst_dot_slash.bash
+src/bash/functions/sst_echo_eval.bash
+src/bash/functions/sst_environment_slug.bash
+src/bash/functions/sst_expect_ag_json.bash
+src/bash/functions/sst_expect_any_file.bash
+src/bash/functions/sst_expect_argument_count.bash
+src/bash/functions/sst_expect_basic_identifier.bash
+src/bash/functions/sst_expect_extension.bash
+src/bash/functions/sst_expect_source_path.bash
+src/bash/functions/sst_extract_archive.bash
+src/bash/functions/sst_find_dist_archive.bash
+src/bash/functions/sst_find_dist_date.bash
+src/bash/functions/sst_find_dist_version.bash
+src/bash/functions/sst_get_distro.bash
+src/bash/functions/sst_get_distro_version.bash
+src/bash/functions/sst_get_prefix.bash
+src/bash/functions/sst_import_function.bash
+src/bash/functions/sst_install_utility.bash
+src/bash/functions/sst_join.bash
+src/bash/functions/sst_jq_expect.bash
+src/bash/functions/sst_jq_get_boolean_or_null.bash
+src/bash/functions/sst_jq_get_string.bash
+src/bash/functions/sst_jq_get_string_or_null.bash
+src/bash/functions/sst_jq_quote.bash
+src/bash/functions/sst_mkdir_p_only.bash
+src/bash/functions/sst_quote.bash
+src/bash/functions/sst_trap_append.bash
+src/bash/functions/sst_ubuntu_get_distro_version.bash
+src/bash/functions/sst_ubuntu_install_raw.bash
+src/bash/functions/sst_ubuntu_install_utility.bash
+src/bash/functions/sst_underscore_slug.bash
+src/bash/functions/sst_warn.bash
+src/bash/preludes/gitlab-ci.bash
+src/bash/preludes/standard.bash
+src/bash/scripts/gitlab-ci/docker
+src/bash/scripts/gitlab-ci/install-from-dist
+src/bash/scripts/gitlab-ci/prepare-dist-repo
+src/bash/scripts/gitlab-ci/publish-dist-repo
+src/bash/scripts/gitlab-ci/wiki
+src/install/from-repo/on-centos
+src/install/from-repo/on-ubuntu
+src/install/on-x
 
-sst_downloads = \
-  build-aux/autogen_java_program.src \
-  build-aux/downloads-library/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-jce.jar.am \
-  build-aux/downloads-library/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64-rt.jar.am \
-  build-aux/downloads-library/java-1.7.0-openjdk-headless-1.7.0.221-2.6.18.1.el7.x86_64.rpm.ag.json \
-  build-aux/downloads-library/mariadb-java-client-1.8.0.jar.ag.json \
-  build-aux/downloads-library/ojdbc7-12.1.0.1.jar.ag.json \
-  build-aux/downloads-library/postgresql-42.2.8.jre7.jar.ag.json \
-  build-aux/downloads-library/texinfo-6.3.tar.xz.ag.json \
-  build-aux/downloads/git-2.20.1.tar.gz.ag.json \
-  build-aux/downloads/junit-jupiter-api-5.5.1.jar.ag.json \
-  build-aux/downloads/junit-jupiter-params-5.5.1.jar.ag.json \
-  build-aux/downloads/mariadb-java-client-2.5.1.jar.ag.json \
-  build-aux/downloads/netty-all-4.1.39.Final.jar.ag.json \
-  build-aux/downloads/netty-all-4.1.9.Final.jar.ag.json \
-  build-aux/downloads/ojdbc8-12.2.0.1.jar.ag.json \
-  build-aux/downloads/ojdbc8-18.3.jar.ag.json \
-  build-aux/downloads/picocli-4.0.2.jar.ag.json \
-  build-aux/downloads/postgresql-42.2.6.jar.ag.json \
-  build-aux/gitbundles/tgicmp.ag.json \
-  build-aux/gitbundles/wficmp.ag.json \
-  build-aux/prelude.ac \
-  dev-aux/special-files.gmk \
-  install/on-centos \
-  install/on-ubuntu \
-  src/bash/functions/array/array_contains.bash \
-  src/bash/functions/autogen/autogen_ac_append.bash \
-  src/bash/functions/autogen/autogen_ac_finish.bash \
-  src/bash/functions/autogen/autogen_ac_include.bash \
-  src/bash/functions/autogen/autogen_ac_start.bash \
-  src/bash/functions/autogen/autogen_ag_include.bash \
-  src/bash/functions/autogen/autogen_am_append.bash \
-  src/bash/functions/autogen/autogen_am_finish.bash \
-  src/bash/functions/autogen/autogen_am_include.bash \
-  src/bash/functions/autogen/autogen_am_start.bash \
-  src/bash/functions/autogen/autogen_am_var_append.bash \
-  src/bash/functions/autogen/autogen_am_var_append_files.bash \
-  src/bash/functions/autogen/autogen_c_cpp_tests.bash \
-  src/bash/functions/autogen/autogen_downloads.bash \
-  src/bash/functions/autogen/autogen_gitbundles.bash \
-  src/bash/functions/autogen/autogen_java_jars.bash \
-  src/bash/functions/autogen/autogen_java_programs.bash \
-  src/bash/functions/autogen/autogen_java_tests.bash \
-  src/bash/functions/autogen/autogen_print_ac_header.bash \
-  src/bash/functions/autogen/autogen_print_am_header.bash \
-  src/bash/functions/autogen/autogen_texinfo.bash \
-  src/bash/functions/barf.bash \
-  src/bash/functions/cc.bash \
-  src/bash/functions/config_h_get_string.bash \
-  src/bash/functions/expect_argument_count.bash \
-  src/bash/functions/expect_c_identifier.bash \
-  src/bash/functions/expect_safe_path.bash \
-  src/bash/functions/gitlab_ci_docker_push_here.bash \
-  src/bash/functions/install_local_git.bash \
-  src/bash/functions/jq/jq_expect.bash \
-  src/bash/functions/jq/jq_expect_array.bash \
-  src/bash/functions/jq/jq_expect_array_or_null.bash \
-  src/bash/functions/jq/jq_expect_arrays.bash \
-  src/bash/functions/jq/jq_expect_arrays_or_null.bash \
-  src/bash/functions/jq/jq_expect_boolean.bash \
-  src/bash/functions/jq/jq_expect_boolean_or_null.bash \
-  src/bash/functions/jq/jq_expect_booleans.bash \
-  src/bash/functions/jq/jq_expect_booleans_or_null.bash \
-  src/bash/functions/jq/jq_expect_null.bash \
-  src/bash/functions/jq/jq_expect_nulls.bash \
-  src/bash/functions/jq/jq_expect_nulls_or_null.bash \
-  src/bash/functions/jq/jq_expect_number.bash \
-  src/bash/functions/jq/jq_expect_number_or_null.bash \
-  src/bash/functions/jq/jq_expect_numbers.bash \
-  src/bash/functions/jq/jq_expect_numbers_or_null.bash \
-  src/bash/functions/jq/jq_expect_object.bash \
-  src/bash/functions/jq/jq_expect_object_or_null.bash \
-  src/bash/functions/jq/jq_expect_objects.bash \
-  src/bash/functions/jq/jq_expect_objects_or_null.bash \
-  src/bash/functions/jq/jq_expect_string.bash \
-  src/bash/functions/jq/jq_expect_string_or_null.bash \
-  src/bash/functions/jq/jq_expect_strings.bash \
-  src/bash/functions/jq/jq_expect_strings_or_null.bash \
-  src/bash/functions/jq/jq_expect_type.bash \
-  src/bash/functions/jq/jq_expect_type_or_null.bash \
-  src/bash/functions/jq/jq_expect_types.bash \
-  src/bash/functions/jq/jq_expect_types_or_null.bash \
-  src/bash/functions/jq/jq_inline.bash \
-  src/bash/functions/make_j.bash \
-  src/bash/functions/opt/opt_parse.bash \
-  src/bash/functions/pick_max_procs.bash \
-  src/bash/functions/protect_path.bash \
-  src/bash/functions/sst_ajh_build_tree_program_wrapper.bash \
-  src/bash/functions/sst_am_distribute.bash \
-  src/bash/functions/sst_csf.bash \
-  src/bash/functions/sst_expect_ag_json.bash \
-  src/bash/functions/sst_expect_source_path.bash \
-  src/bash/functions/sst_get_prefix.bash \
-  src/bash/functions/sst_join.bash \
-  src/bash/functions/sst_jq_get_string.bash \
-  src/bash/functions/sst_jq_quote.bash \
-  src/bash/functions/sst_mkdir_p_only.bash \
-  src/bash/functions/sst_quote.bash \
-  src/bash/functions/trap_append.bash \
-  src/bash/functions/ubuntu/ubuntu_install_packages.bash \
-  src/bash/functions/warn.bash \
-  src/bash/preludes/gitlab-ci.bash \
-  src/bash/preludes/standard.bash \
-  src/bash/scripts/gitlab-ci/docker \
-  src/bash/scripts/gitlab-ci/install-from-dist \
-  src/bash/scripts/gitlab-ci/wiki \
-  src/install/from-repo/on-centos \
-  src/install/from-repo/on-ubuntu \
-  src/install/on-x \
-$(prevent_a_blank_line)
+endef

@@ -3,15 +3,20 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-jq_expect_types)" != function ]]; then
+if [[ "$(type -t jq_expect_types)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 jq_expect_types() {
 
   case $# in
     3)
     ;;
     *)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
 
@@ -19,12 +24,14 @@ jq_expect_types() {
     array | boolean | null | number | object | string)
     ;;
     *)
-      barf '$3: invalid type: %s' "$3"
+      sst_barf '$3: invalid type: %s' "$3"
     ;;
   esac
 
-  jq_expect "
+  sst_jq_expect "
     $1 | (type == \"array\" and (map(type == \"$3\") | all))
-  " "$2" '%s: %s: expected array of %ss' "$2" "$1" $3
+  " '%s: %s: expected array of %ss' "$2" "$1" $3 <"$2"
 
-}; readonly -f jq_expect_types; fi
+}
+
+readonly -f jq_expect_types

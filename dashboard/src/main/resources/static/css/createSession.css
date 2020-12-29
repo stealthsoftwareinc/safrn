@@ -1,7 +1,0 @@
-main input  {
-    text-align: center;
-}
-
-.hideScrollBar::-webkit-scrollbar {
-    display: none;
-}

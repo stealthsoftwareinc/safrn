@@ -57,8 +57,13 @@
 # Standard error messages are printed if opt_err is unset or empty.
 #
 
-if [[ "$(type -t \
-opt_parse)" != function ]]; then
+if [[ "$(type -t opt_parse)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 opt_parse() {
 
   eval "
@@ -292,4 +297,6 @@ opt_parse() {
   opt_pos=0
   return 0
 
-}; readonly -f opt_parse; fi
+}
+
+readonly -f opt_parse

@@ -150,3 +150,50 @@ safrn1-packaging:
   image: registry.stealthsoftwareinc.com/stealth/builder-images/centos:8
   script: [src/scripts/package.sh]
   artifacts: {paths: [$CI_PROJECT_DIR/archives/*]}
+
+#
+#
+
+public-staging-1:
+  artifacts: {paths: [preview.gitbundle]}
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_TAG =~ /^v/
+  script:
+    - >
+      src/bash/scripts/gitlab-ci/prepare-dist-repo '{
+        "dist_archive": "git-archive",
+        "pull_repo": "git@github.com:stealthsoftwareinc/safrn-public-staging.git",
+        "push_repo": [
+          "git@github.com:stealthsoftwareinc/safrn-public-staging.git"
+        ],
+        "post_update_script": "src/bash/scripts/gitlab-ci/public-staging-post-update-script"
+      }'
+  stage: stage1
+  variables:
+    EMPTY: ''
+    GIT_COMMITTER_EMAIL: safrn@stealthsoftwareinc.com
+    SSH_PASSPHRASE_VAR: EMPTY
+    SSH_SECRET_KEY_VAR: PUBLIC_STAGING_1_SSH_SECRET_KEY
+
+public-staging-publish-1:
+  needs: [public-staging-1]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+    - if: $CI_COMMIT_TAG =~ /^v/
+      when: manual
+      allow_failure: true
+  script:
+    - >
+      src/bash/scripts/gitlab-ci/publish-dist-repo '{
+        "push_repo": [
+          "git@github.com:stealthsoftwareinc/safrn.git"
+        ]
+      }'
+  stage: stage2
+  variables:
+    EMPTY: ''
+    SSH_PASSPHRASE_VAR: EMPTY
+    SSH_SECRET_KEY_VAR: PUBLIC_STAGING_PUBLISH_1_SSH_SECRET_KEY

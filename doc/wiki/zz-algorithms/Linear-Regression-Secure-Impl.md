@@ -3,7 +3,7 @@
 [This paper][1] describes a solution for secure ridge regression,
 based on Shamir secret sharing over finite fields. Here is a link to a
 [code snippet][2]. We adapt the algorithm to the (semihonest) dishonest majority
-setting. See [#71][3] for more details.
+setting.
 
 We describe the details of secure implementation for ridge regression,
 treating OLS as a special case. When we treat OLS, the parameter
@@ -34,11 +34,9 @@ execute through a PSI-SUM over pairwise products.
 Second, we must solve an equation of the form $`Ax=b`$, with $`A`$ a
 $`d\times d`$ and $`b`$ a $`d \times 1`$ column vector. We transform
 our shares over $`\mathbb{Z}_p`$ to shares over $`\mathbb{Z}_q`$, for
-some much larger prime $`q`$. We generate shares of a random matrix
-$`[R]=[L][U]`$ for lower and upper triangular matrices, respectively,
-with $`1`$'s on $`L`$'s diagonal. We compute shares of the determinant
-of $`R^{-1}`$ (mod $`q`$) by multiplying together the diagonal entries
-of $`U`$ and taking the inverse.
+some much larger prime $`q`$. We generate shares of a random non-singular matrix
+$`[R]`$ together with shares of the determinant
+of $`R^{-1}`$ (mod $`q`$) with a randomness dealer.
 
 We then compute $`[RA]=[R][A]`$ and open the result. From here we can
 compute $`[x] = (RA)^{-1} [Rb]`$ and $`[\det A] = \det RA
@@ -85,7 +83,7 @@ Step 5:
 
 $`m`$-party MPC protocol to solve $`Ax=b \mod q`$:
 
-Compute $`[R] = [L][U]`$ together with $`[det R^{-1}]`$
+Obtain $`[R]`$ together with $`[det R^{-1}]`$
 
 Compute $`[RA]=[R][A]`$ and open $`RA`$ (with $`d^3`$ multiplications)
 
@@ -117,4 +115,3 @@ gives relative error of at most $`2^{-\alpha}d`$.
 
 [1]: https://eprint.iacr.org/2019/773
 [2]: https://github.com/lschoe/mpyc/blob/master/demos/ridgeregression.py
-[3]: https://gitlab.stealthsoftwareinc.com/stealth/safrn/-/issues/71

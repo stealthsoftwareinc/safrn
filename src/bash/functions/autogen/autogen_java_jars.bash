@@ -49,8 +49,13 @@
 # are built by this project.
 #
 
-if [[ "$(type -t \
-autogen_java_jars)" != function ]]; then
+if [[ "$(type -t autogen_java_jars)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_java_jars() {
 
   local ag
@@ -83,7 +88,7 @@ autogen_java_jars() {
       *.jar.ag.json)
       ;;
       *)
-        barf 'expected *.jar.ag.json: %s' $ag
+        sst_barf 'expected *.jar.ag.json: %s' $ag
       ;;
     esac
 
@@ -99,7 +104,7 @@ autogen_java_jars() {
       *.jar)
       ;;
       *)
-        barf '%s: .dst: expected *.jar: %s' $ag $dst
+        sst_barf '%s: .dst: expected *.jar: %s' $ag $dst
       ;;
     esac
 
@@ -195,12 +200,12 @@ autogen_java_jars() {
         expect_safe_path "$shadowpath"
         case $sourcepath in
           $shadowpath*)
-            barf '%s: shadowpath must not be an initial substring of sourcepath' $ag
+            sst_barf '%s: shadowpath must not be an initial substring of sourcepath' $ag
           ;;
         esac
         case $shadowpath in
           $sourcepath*)
-            barf '%s: sourcepath must not be an initial substring of shadowpath' $ag
+            sst_barf '%s: sourcepath must not be an initial substring of shadowpath' $ag
           ;;
         esac
       ;;
@@ -356,7 +361,7 @@ EOF
           y2=$(echo $y1 | sed 's/\.in$//')
         ;;
         *)
-          barf 'missing case'
+          sst_barf 'missing case'
         ;;
       esac
 
@@ -395,4 +400,6 @@ EOF
 
   done
 
-}; readonly -f autogen_java_jars; fi
+}
+
+readonly -f autogen_java_jars

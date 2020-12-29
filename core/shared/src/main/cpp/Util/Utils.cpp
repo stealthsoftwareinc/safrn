@@ -28,22 +28,23 @@ std::string json_string(json const & j) {
   return ret;
 }
 
-dbuid_t const DBUID_INVALID = {0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF,
-                               0xFF};
+dbuid_t const DBUID_INVALID = {
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF,
+    0xFF};
 
 void strToDbuid(std::string const & str, dbuid_t & ref) {
   sst::rep::from_hex_exact(

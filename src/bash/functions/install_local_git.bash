@@ -3,8 +3,13 @@
 # directory tree for the first COPYING file.
 #
 
-if [[ "$(type -t \
-install_local_git)" != function ]]; then
+if [[ "$(type -t install_local_git)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 install_local_git() {
   orig_wd="${PWD}"
   make "$1"
@@ -19,4 +24,6 @@ install_local_git() {
 
   PATH="${PWD}/build-aux/local/bin:${PATH}"
   export PATH
-}; readonly -f install_local_git; fi
+}
+
+readonly -f install_local_git

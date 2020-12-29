@@ -1,0 +1,102 @@
+#! /bin/sh -
+#
+# For the copyright information for this file, please search up the
+# directory tree for the first COPYING file.
+#
+# This script bootstraps into Bash. The shebang is only for portability.
+# For more information, see the Bash library > Bootstrapping section of
+# the SST manual.
+#
+
+# Load the prelude.
+case $0 in /*) x=$0 ;; *) x=./$0 ;; esac
+x=`dirname "$x"` || exit $?
+case $x in /) x= ;; esac
+set -e || exit $?
+. "$x"/../../preludes/gitlab-ci.bash
+
+sst_install_utility \
+  git \
+  jq \
+;
+
+sst_expect_argument_count $# 1
+
+if [[ "$1" == '{'* ]]; then
+  args=$tmpdir/args.json
+  cat <<<"$1" >"$args"
+else
+  args=$1
+fi
+readonly args
+
+#
+# Parse .gitbundle from the arguments.
+#
+
+sst_jq_get_string_or_null .gitbundle "$args" gitbundle
+if [[ "$gitbundle" == "" ]]; then
+  gitbundle=preview.gitbundle
+fi
+readonly gitbundle
+
+#
+# Parse .push_repo from the arguments.
+#
+
+unset push_repo
+unset error
+x=$(jq -r '
+  .push_repo
+  | if type == "array" then
+      if length == 0 then
+        "error+=(\": Expected a nonempty string"
+                 + " or a nonempty array of nonempty strings.\")"
+      else
+        .[]
+        | if type != "string" or . == "" then
+            "error+=(\"[]: Expected a nonempty string.\")"
+          else
+            "push_repo+=(" + (. | @sh) + ")"
+          end
+      end
+    elif type != "string" or . == "" then
+      "error+=(\": Expected a nonempty string"
+               + " or a nonempty array of nonempty strings.\")"
+    else
+      "push_repo+=(" + (. | @sh) + ")"
+    end
+' "$args")
+eval "$x"
+readonly push_repo
+if [[ "${error-}" != "" ]]; then
+  sst_barf '%s: .push_repo%s' "$args" "$error"
+fi
+
+#
+#
+
+git clone -- "$gitbundle" "$tmpdir/repo"
+cd "$tmpdir/repo"
+
+#
+# Get the branch name of the gitbundle.
+#
+
+n=$(git rev-list --branches | awk 'END { print NR }')
+if ((n == 0)); then
+  sst_barf '%s: expected exactly one branch' "$gitbundle"
+fi
+branch=$(git show-ref --heads | awk '{ print $2 }')
+readonly branch
+if [[ "$branch" == *$'\n'* ]]; then
+  sst_barf '%s: expected exactly one branch' "$gitbundle"
+fi
+
+#
+# Push the branch and all tags to every push repo.
+#
+
+for url in "${push_repo[@]}"; do
+  git push --tags -- "$url" "$branch:$branch"
+done

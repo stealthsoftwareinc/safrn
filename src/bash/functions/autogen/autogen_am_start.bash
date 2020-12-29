@@ -12,13 +12,18 @@
 # to autogen.am.
 #
 
-if [[ "$(type -t \
-autogen_am_start)" != function ]]; then
+if [[ "$(type -t autogen_am_start)" == function ]]; then
+  return
+fi
+
+sst_import_function \
+;
+
 autogen_am_start() {
 
   case ${autogen_am_start_has_been_called+x} in
     ?*)
-      barf 'autogen_am_start has already been called'
+      sst_barf 'autogen_am_start has already been called'
     ;;
   esac
   autogen_am_start_has_been_called=x
@@ -26,7 +31,7 @@ autogen_am_start() {
 
   case ${autogen_am_file+x} in
     ?*)
-      barf 'autogen_am_file is already set'
+      sst_barf 'autogen_am_file is already set'
     ;;
   esac
 
@@ -38,20 +43,21 @@ autogen_am_start() {
       autogen_am_file=$1
     ;;
     *)
-      barf 'invalid argument count: %d' $#
+      sst_barf 'invalid argument count: %d' $#
     ;;
   esac
-  protect_path autogen_am_file
+  autogen_am_file=$(sst_dot_slash "$autogen_am_file" | sst_csf)
+  sst_csf autogen_am_file
   readonly autogen_am_file
 
   autogen_print_am_header >$autogen_am_file
 
-  trap_append '
+  sst_trap_append '
     case $trap_entry_status in
       0)
         case ${autogen_am_finish_has_been_called+x} in
           "")
-            barf "you forgot to call autogen_am_finish"
+            sst_barf "you forgot to call autogen_am_finish"
           ;;
         esac
       ;;
@@ -60,4 +66,6 @@ autogen_am_start() {
 
   autogen_am_var_append EXTRA_DIST autogen
 
-}; readonly -f autogen_am_start; fi
+}
+
+readonly -f autogen_am_start
