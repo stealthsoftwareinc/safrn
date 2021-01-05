@@ -197,3 +197,17 @@ public-staging-publish-1:
     EMPTY: ''
     SSH_PASSPHRASE_VAR: EMPTY
     SSH_SECRET_KEY_VAR: PUBLIC_STAGING_PUBLISH_1_SSH_SECRET_KEY
+
+public-staging-publish-2:
+  extends: [public-staging-publish-1]
+  script:
+    - >
+      src/bash/scripts/gitlab-ci/publish-dist-repo '{
+        "push_repo": [
+          "git@github.com:stealthsoftwareinc/safrn-public-staging.git"
+        ]
+      }'
+  variables:
+    EMPTY: ''
+    SSH_PASSPHRASE_VAR: EMPTY
+    SSH_SECRET_KEY_VAR: PUBLIC_STAGING_PUBLISH_2_SSH_SECRET_KEY

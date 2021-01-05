@@ -23,3 +23,9 @@ In this repository you will find:
     exceeds feature parity with SAFRN 0, we will remove this.
 - Helper Scripts (``src/``): Directory containing various shell
   scripts used to simplify development and deployment of SAFRN.
+
+This project is a joint work from [Stealth Software
+Technologies](https://www.stealthsoftwareinc.com/) and the University
+of Michigan's [Inter-university Consortium for Political and Social
+Research](https://www.icpsr.umich.edu), and was supported by a grant
+from [Arnold Ventures.](https://www.arnoldventures.org)
